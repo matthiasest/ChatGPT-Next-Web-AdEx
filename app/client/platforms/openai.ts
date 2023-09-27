@@ -80,8 +80,8 @@ export class ChatGPTApi implements LLMApi {
             },
           },
           required: ["location"],
-        } as Function,
-      },
+        },
+      } as Function,
       {
         name: "investigate_person",
         description: "Use this function to extract individuals mentioned by a user, by firstname and lastname, and the related desired action",
