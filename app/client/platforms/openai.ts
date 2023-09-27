@@ -83,8 +83,8 @@ export class ChatGPTApi implements LLMApi {
         } as Function,
       },
       {
-        name: "investigatePerson",
-        description: "Use this function to get details about any person that was mentioned by a user by firstname and lastname.",
+        name: "investigate_person",
+        description: "Use this function to extract individuals mentioned by a user, by firstname and lastname, and the related desired action",
         parameters: {
           type: "object",
           properties: {
@@ -95,6 +95,10 @@ export class ChatGPTApi implements LLMApi {
             lastname: {
               type: "string",
               description: "lastname or abbreviation, excluding the firstname",
+            },
+            action: {
+              type: "string",
+              description: "desired action the user wants to be executed in context of the individual",
             },
           },
           required: ["lastname"],
