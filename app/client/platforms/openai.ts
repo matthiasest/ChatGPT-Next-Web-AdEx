@@ -62,7 +62,7 @@ export class ChatGPTApi implements LLMApi {
       },
     };
 
-    const functionList: Function[] = [
+    const functionList: GPTFunction[] = [
       {
         name: "get_current_weather",
         description: "Get the current weather in a given location",
@@ -81,7 +81,7 @@ export class ChatGPTApi implements LLMApi {
           },
           required: ["location"],
         },
-      } as Function,
+      } as GPTFunction,
       {
         name: "investigate_person",
         description: "Use this function to extract individuals mentioned by a user, by firstname and lastname, and the related desired action",
@@ -103,7 +103,7 @@ export class ChatGPTApi implements LLMApi {
           },
           required: ["lastname"],
         },
-      } as Function,
+      } as GPTFunction,
     ];
 
     const requestPayload = {
