@@ -64,7 +64,7 @@ export class ChatGPTApi implements LLMApi {
 
     const functions: GPTFunction[] = [
       {
-        name: "get_current_weather",
+        name: "get_current_weather_V2",
         description: "Get the current weather in a given location",
         parameters: {
           type: "object",
