@@ -110,7 +110,7 @@ export class ChatGPTApi implements LLMApi {
       messages,
       functions,
       function_call: "auto",
-      stream: options.config.stream,
+      stream: false; //options.config.stream,
       model: modelConfig.model,
       temperature: modelConfig.temperature,
       presence_penalty: modelConfig.presence_penalty,
