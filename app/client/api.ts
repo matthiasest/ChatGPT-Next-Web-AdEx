@@ -14,6 +14,23 @@ export interface RequestMessage {
   content: string;
 }
 
+export interface FunctionParameters {
+  type: string;
+  properties: string;
+  required: string[];
+}
+
+export interface Function {
+  name: string;
+  description: string;
+  parameters: FunctionParameters;
+}
+
+export interface functionCalling {
+  functions: Function[];
+  function_call: string;
+}
+
 export interface LLMConfig {
   model: string;
   temperature?: number;
@@ -25,6 +42,7 @@ export interface LLMConfig {
 
 export interface ChatOptions {
   messages: RequestMessage[];
+  functions: FunctionCalling[];
   config: LLMConfig;
 
   onUpdate?: (message: string, chunk: string) => void;
