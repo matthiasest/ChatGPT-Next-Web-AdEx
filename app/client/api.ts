@@ -21,8 +21,8 @@ export interface FunctionProperty {
   enum?: string[]; // Optional enum field
 }
 
-export interface FunctionParameter {
-  type: string;
+export interface FunctionParameters {
+  type: object;
   properties: { [key: string]: FunctionProperty }; 
   required: string[];
 }
@@ -30,7 +30,7 @@ export interface FunctionParameter {
 export interface Function {
   name: string;
   description: string;
-  parameters: FunctionParameter[]; 
+  parameters: FunctionParameters; 
 }
 
 export interface LLMConfig {
