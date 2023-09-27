@@ -22,7 +22,7 @@ export interface GPTFunctionProperty {
 }
 
 export interface GPTFunctionParameters {
-  type: object;
+  type: string;
   properties: { [key: string]: GPTFunctionProperty }; 
   required: string[];
 }
