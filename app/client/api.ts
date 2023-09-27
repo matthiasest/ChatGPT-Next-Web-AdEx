@@ -33,13 +33,7 @@ export interface Function {
   parameters: FunctionParameter; 
 }
 
-
-export interface FunctionCalling {
-  functions: Function[];
-  function_call: string;
-}
-
-const functionList: FunctionCalling[] = [
+const functionList: Function[] = [
   {
     functions: [
       {
@@ -80,7 +74,6 @@ const functionList: FunctionCalling[] = [
         },
       },
     ],
-    function_call: "auto",
   },
 ];
 
@@ -95,7 +88,8 @@ export interface LLMConfig {
 
 export interface ChatOptions {
   messages: RequestMessage[];
-  functions: FunctionCalling[];
+  functions: Function[];
+  function_call: "auto";
   config: LLMConfig;
 
   onUpdate?: (message: string, chunk: string) => void;
