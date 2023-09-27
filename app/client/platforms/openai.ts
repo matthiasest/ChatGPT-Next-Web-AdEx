@@ -90,16 +90,16 @@ export class ChatGPTApi implements LLMApi {
           properties: {
             firstname: {
               type: "string",
-              description: `firstname or abbreviation firstname (may include middle initials)`,
+              description: "firstname or abbreviation firstname (may include middle initials)",
             },
             lastname: {
               type: "string",
-              description: `lastname or abbreviation, excluding the firstname`,
+              description: "lastname or abbreviation, excluding the firstname",
             },
           },
           required: ["lastname"],
         },
-      },
+      } as Function,
     ];
 
     const requestPayload = {
