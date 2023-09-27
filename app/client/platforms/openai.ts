@@ -6,7 +6,7 @@ import {
 } from "@/app/constant";
 import { useAccessStore, useAppConfig, useChatStore } from "@/app/store";
 
-import { ChatOptions, getHeaders, LLMApi, LLMModel, LLMUsage } from "../api";
+import { ChatOptions, getHeaders, LLMApi, LLMModel, LLMUsage, GPTFunction } from "../api";
 import Locale from "../../locales";
 import {
   EventStreamContentType,
