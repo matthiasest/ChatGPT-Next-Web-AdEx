@@ -62,6 +62,46 @@ export class ChatGPTApi implements LLMApi {
       },
     };
 
+    const functionList: Function[] = [
+      {
+        name: "get_current_weather",
+        description: "Get the current weather in a given location",
+        parameters: {
+          type: "object",
+          properties: {
+            location: {
+              type: "string",
+              description: "The city and state, e.g. San Francisco, CA",
+            },
+            unit: {
+              type: "string",
+              enum: ["celsius", "fahrenheit"],
+              description: "The temperature unit to use",
+            },
+          },
+          required: ["location"],
+        },
+      },
+      {
+        name: "investigatePerson",
+        description: "Use this function to get details about any person that was mentioned by a user by firstname and lastname.",
+        parameters: {
+          type: "object",
+          properties: {
+            firstname: {
+              type: "string",
+              description: `firstname or abbreviation firstname (may include middle initials)`,
+            },
+            lastname: {
+              type: "string",
+              description: `lastname or abbreviation, excluding the firstname`,
+            },
+          },
+          required: ["lastname"],
+        },
+      },
+    ];
+
     const requestPayload = {
       messages,
       options.functions,
