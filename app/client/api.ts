@@ -84,8 +84,8 @@ export interface LLMConfig {
 
 export interface ChatOptions {
   messages: RequestMessage[];
-  functions: Function[];
-  function_call: "auto";
+  functions?: Function[];
+  function_call?: string;
   config: LLMConfig;
 
   onUpdate?: (message: string, chunk: string) => void;
