@@ -15,22 +15,22 @@ export interface RequestMessage {
 }
 
 
-export interface FunctionProperty {
+export interface GPTFunctionProperty {
   type: string;
   description: string;
   enum?: string[]; // Optional enum field
 }
 
-export interface FunctionParameters {
+export interface GPTFunctionParameters {
   type: object;
-  properties: { [key: string]: FunctionProperty }; 
+  properties: { [key: string]: GPTFunctionProperty }; 
   required: string[];
 }
 
-export interface Function {
+export interface GPTFunction {
   name: string;
   description: string;
-  parameters: FunctionParameters; 
+  parameters: GPTFunctionParameters; 
 }
 
 export interface LLMConfig {
@@ -44,7 +44,7 @@ export interface LLMConfig {
 
 export interface ChatOptions {
   messages: RequestMessage[];
-  functions?: Function[];
+  functions?: GPTFunction[];
   function_call?: string;
   config: LLMConfig;
 
