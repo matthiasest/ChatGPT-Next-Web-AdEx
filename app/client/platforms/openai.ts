@@ -80,7 +80,7 @@ export class ChatGPTApi implements LLMApi {
             },
           },
           required: ["location"],
-        },
+        } as Function,
       },
       {
         name: "investigatePerson",
