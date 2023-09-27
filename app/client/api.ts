@@ -30,7 +30,7 @@ export interface FunctionParameter {
 export interface Function {
   name: string;
   description: string;
-  parameters: FunctionParameter; 
+  parameters: FunctionParameter[]; 
 }
 
 export interface LLMConfig {
