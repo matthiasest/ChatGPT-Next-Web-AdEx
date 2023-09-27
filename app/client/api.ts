@@ -14,19 +14,25 @@ export interface RequestMessage {
   content: string;
 }
 
-export interface FunctionParameters {
+export interface FunctionProperty {
+  tbdPropertyName: string;
   type: string;
-  properties: string;
+  description: FunctionProperties;
+}
+
+export interface FunctionParameter {
+  type: string;
+  properties: FunctionProperty[];
   required: string[];
 }
 
 export interface Function {
   name: string;
   description: string;
-  parameters: FunctionParameters;
+  parameters: FunctionParameter[];
 }
 
-export interface functionCalling {
+export interface FunctionCalling {
   functions: Function[];
   function_call: string;
 }
