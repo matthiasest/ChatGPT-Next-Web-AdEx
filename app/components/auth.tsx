@@ -10,6 +10,9 @@ import BotIcon from "../icons/bot.svg";
 import { useEffect } from "react";
 import { getClientConfig } from "../config/client";
 
+
+import { signIn } from "next-auth/react"
+
 export function AuthPage() {
   const navigate = useNavigate();
   const access = useAccessStore();
@@ -62,7 +65,10 @@ export function AuthPage() {
       
       <div className={styles["auth-page"]}>
         {/* New: Azure AD Login Button */}
-        <a href="/api/auth/signin/azure-ad">Login with Azure AD</a>
+        {/* <a href="/api/auth/signin/azure-ad">Login with Azure AD</a> */}
+
+
+  <button onClick={() => signIn("google")}>Sign in with Google</button>
   
         {/* Existing UI components */}
       </div>
