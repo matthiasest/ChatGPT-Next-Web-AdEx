@@ -65,10 +65,10 @@ export function AuthPage() {
       
       <div className={styles["auth-page"]}>
         {/* New: Azure AD Login Button */}
-        {/* <a href="/api/auth/signin/azure-ad">Login with Azure AD</a> */}
+  <a href="/#/api/auth/signin/azure-ad">Login with Azure AD</a>
 
 
-  <button onClick={() => signIn("google")}>Sign in with Google</button>
+  <button onClick={() => signIn("azure-ad")}>Sign in with SSO</button>
   
         {/* Existing UI components */}
       </div>
