@@ -25,9 +25,7 @@ export function AuthPage() {
   }, []);
 
   return (
-
-    {/* Existing UI components 
-
+    
     <div className={styles["auth-page"]}>
       <div className={`no-dark ${styles["auth-logo"]}`}>
         <BotIcon />
@@ -35,6 +33,8 @@ export function AuthPage() {
 
       <div className={styles["auth-title"]}>{Locale.Auth.Title}</div>
       <div className={styles["auth-tips"]}>{Locale.Auth.Tips}</div>
+
+      {/* Existing UI components 
 
       <input
         className={styles["auth-input"]}
@@ -57,13 +57,15 @@ export function AuthPage() {
           goHome();
         }} />
       </div>
-    </div>
-    */}
-    <div className={styles["auth-page"]}>
-      {/* New: Azure AD Login Button */}
-      <a href="/api/auth/signin/azure-ad">Login with Azure AD</a>
-
-      {/* Existing UI components */}
+      
+      */}
+      
+      <div className={styles["auth-page"]}>
+        {/* New: Azure AD Login Button */}
+        <a href="/api/auth/signin/azure-ad">Login with Azure AD</a>
+  
+        {/* Existing UI components */}
+      </div>
     </div>
   );
 }
