@@ -13,7 +13,7 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async signIn(user, account, profile) {
+    async signIn({ user, account, profile }) {
       console.log('NextAuth signIn callback:', user, account, profile);
       return true;
     },
