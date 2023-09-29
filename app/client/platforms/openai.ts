@@ -49,15 +49,18 @@ export class ChatGPTApi implements LLMApi {
   }
 
   async chat(options: ChatOptions) {
-
+    
     let functions: GPTFunction[] = [];
-    const messages = options.messages
-        .filter((v) => {
+    const newMessages = options.messages
+      .filter((v) => {
         if (v.role === 'function') {
-          const sanitizedContent = v.content.replace(/\n\s+/g, "").replace(/\\"/g, '"');
+          let sanitizedContent = v.content.replace(/\n\s+/g, "");
+          sanitizedContent = sanitizedContent.replace(/^'(.*)'$/, "$1"); // Remove leading and trailing single quotes
+          sanitizedContent = sanitizedContent.replace(/\\"/g, "\""); // Replace escaped quotes
+          sanitizedContent = sanitizedContent.replace(/([{,]\s*)([a-zA-Z0-9_$]+):/g, '$1"$2":'); // Enclose property names in double quotes
           try {
             const parsedFunction = JSON.parse(sanitizedContent);
-            functions.push(parsedFunction as unknown as GPTFunction);
+            functions.push(parsedFunction as GPTFunction);
           } catch (e) {
             console.error("Could not parse function content:", e);
           }
@@ -69,6 +72,9 @@ export class ChatGPTApi implements LLMApi {
         role: v.role,
         content: v.content
       }));
+    
+    console.log(newMessages);
+    console.log(functions);
     
     const modelConfig = {
       ...useAppConfig.getState().modelConfig,
