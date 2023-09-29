@@ -54,7 +54,8 @@ export class ChatGPTApi implements LLMApi {
     const messages = options.messages
       .filter((v) => {
         if (v.role === 'function') {
-          functions.push(v.content as unknown as GPTFunction);
+          const sanitizedContent = v.content.replace(/\n\s+/g, "");
+          functions.push(sanitizedContent as unknown as GPTFunction);
           return false;
         }
         return true;
