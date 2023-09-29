@@ -51,16 +51,23 @@ export class ChatGPTApi implements LLMApi {
   async chat(options: ChatOptions) {
     
     let functions: GPTFunction[] = [];
-    const newMessages = options.messages
+    const messages = options.messages
       .filter((v) => {
         if (v.role === 'function') {
-          let sanitizedContent = v.content.replace(/\n\s+/g, "");
-          sanitizedContent = sanitizedContent.replace(/^'(.*)'$/, "$1"); // Remove leading and trailing single quotes
-          sanitizedContent = sanitizedContent.replace(/\\"/g, "\""); // Replace escaped quotes
-          sanitizedContent = sanitizedContent.replace(/([{,]\s*)([a-zA-Z0-9_$]+):/g, '$1"$2":'); // Enclose property names in double quotes
+
+          const formattedInput = v.content.replace(/([{,]\s*)([a-zA-Z0-9_$]+):/g, '$1"$2":');
+
+          // Step 3: Parse string to JSON
+          try {
+            const parsedObject = JSON.parse(formattedInput);
+            console.log(parsedObject);
+          } catch (e) {
+            console.error("Failed to parse JSON", e);
+          }
+
           try {
             const parsedFunction = JSON.parse(sanitizedContent);
-            functions.push(parsedFunction as GPTFunction);
+            functions.push(parsedObject as GPTFunction);
           } catch (e) {
             console.error("Could not parse function content:", e);
           }
