@@ -63,6 +63,41 @@ export class ChatGPTApi implements LLMApi {
         
           console.log("Formatted Input: ", formattedInput);  // Debugging Step 1
 
+          // Log the actual string to be parsed
+console.log('String to be parsed:', formattedInput);
+
+// Log characters around position 337
+console.log('Surrounding problematic position:', formattedInput.substring(327, 347));
+
+try {
+  const parsedObject = JSON.parse(formattedInput.trim());
+
+  // Validate that parsedObject matches GPTFunction interface
+  if (parsedObject && parsedObject.name && parsedObject.description /* add other checks */) {
+    functions.push(parsedObject as GPTFunction);
+  } else {
+    console.error('Parsed object does not match GPTFunction interface');
+  }
+
+} catch (e) {
+  console.error('Failed to parse JSON', e);
+}
+Summary Table
+Step	Description
+Log Actual Input	Log the exact string that is being passed to JSON.parse().
+Check Error Pos	Inspect characters surrounding the problematic position (337) in the string.
+Explicit Parsing	Validate the parsed object manually before adding it to the functions array.
+This will help to clarify where the issue lies and how to proceed in debugging it.
+
+
+
+
+User
+ console.log("v.role === 'function':", v);
+          const formattedInput = v.content.replace(/([{,]\s*)([a-zA-Z0-9_$]+):/g, '$1"$2":');
+        
+          console.log("Formatted Input: ", formattedInput);  // Debugging Step 1
+
           // Step 3: Parse string to JSON
           try {
             const parsedObject = JSON.parse(formattedInput) as GPTFunction;
@@ -71,6 +106,57 @@ export class ChatGPTApi implements LLMApi {
           } catch (e) {
             console.error("Failed to parse JSON", e);
           }
+ChatGPT
+Your code is making an effort to convert the input into proper JSON by adding quotes around the keys, which is a good approach. Also, you're explicitly logging the input to be parsed, which helps in debugging.
+
+However, the error could still originate from various places:
+
+RegExp Format: Your regular expression is supposed to add quotes around the keys, but it might miss some edge cases. Double-check that it works as expected for your input.
+Console Output: Make sure the console output for "Formatted Input" is what you expect. If there are discrepancies, it may indicate where the issue lies.
+Type Casting: You're using TypeScript's type casting (as GPTFunction). Make sure that the parsed object actually fits this type, otherwise, TypeScript might throw errors.
+Modified Code
+Here's a modified version of your code to implement additional debugging steps.
+
+typescript
+Copy code
+console.log("v.role === 'function':", v);
+
+// Step 1: Format Input
+const formattedInput = v.content.replace(/([{,]\s*)([a-zA-Z0-9_$]+):/g, '$1"$2":');
+
+// Debugging Step 1: Log Formatted Input
+console.log("Formatted Input: ", formattedInput);
+
+// Debugging Step 2: Print characters around a known problematic position (if available)
+// This is just an example; replace 337 with actual problematic positions if they exist
+console.log('Surrounding problematic position:', formattedInput.substring(337 - 10, 337 + 10));
+
+          // Step 3: Parse string to JSON
+          try {
+            const parsedObject = JSON.parse(formattedInput);
+            
+            // Debugging Step 3: Validate that parsedObject matches GPTFunction interface
+            if (parsedObject && parsedObject.name && parsedObject.description /* add other checks */) {
+              functions.push(parsedObject as GPTFunction);
+              console.log("Successfully added to functions:", parsedObject);
+            } else {
+              console.error('Parsed object does not match GPTFunction interface');
+            }
+          
+          } catch (e) {
+            console.error("Failed to parse JSON", e);
+          }
+
+          {/*
+          // Step 3: Parse string to JSON
+          try {
+            const parsedObject = JSON.parse(formattedInput) as GPTFunction;
+            functions.push(parsedObject);
+            console.log("Successfully added to functions:", parsedObject);
+          } catch (e) {
+            console.error("Failed to parse JSON", e);
+          }
+          */}
           return false;
         }
         return true;
