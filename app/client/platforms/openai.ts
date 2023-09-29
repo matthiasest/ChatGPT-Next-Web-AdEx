@@ -49,11 +49,16 @@ export class ChatGPTApi implements LLMApi {
   }
 
   async chat(options: ChatOptions) {
-    const messages = options.messages.map((v) => ({
-      role: v.role,
-      content: v.content,
-    }));
 
+    let functions: GPTFunction[] = [];
+    const messages = options.messages.filter((v) => {
+      if (v.role === 'function') {
+        functions.push(v.content as GPTFunction);
+        return false;
+      }
+      return true;
+    });
+    
     const modelConfig = {
       ...useAppConfig.getState().modelConfig,
       ...useChatStore.getState().currentSession().mask.modelConfig,
@@ -62,6 +67,7 @@ export class ChatGPTApi implements LLMApi {
       },
     };
 
+    {/*
     const functions: GPTFunction[] = [
       {
         name: "get_current_weather_V2",
@@ -105,7 +111,8 @@ export class ChatGPTApi implements LLMApi {
         },
       } as GPTFunction,
     ];
-
+    */}
+    
     const requestPayload = {
       messages,
       functions,
