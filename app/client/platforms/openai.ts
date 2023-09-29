@@ -54,7 +54,8 @@ export class ChatGPTApi implements LLMApi {
 
     console.log("options.messages array:", options.messages);
 
-    const messages = options.messages
+    let messages = options.messages;
+    messages = messages
       .filter((v) => {
         if (v.role === 'function') {
           console.log(v);
