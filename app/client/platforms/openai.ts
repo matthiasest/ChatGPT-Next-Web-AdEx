@@ -52,7 +52,7 @@ export class ChatGPTApi implements LLMApi {
     
     let functions: GPTFunction[] = [];
 
-        console.log(messages);
+    console.log(options.messages);
 
     const messages = options.messages
       .filter((v) => {
