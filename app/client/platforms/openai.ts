@@ -52,16 +52,15 @@ export class ChatGPTApi implements LLMApi {
 
     let functions: GPTFunction[] = [];
     const messages = options.messages
-      .filter((v) => {
+        .filter((v) => {
         if (v.role === 'function') {
-          let sanitizedContent = v.content.replace(/\n\s+/g, "");
-      try {
-        const parsedFunction = JSON.parse(sanitizedContent);
-        try {
-          functions.push(parsedFunction as unknown as GPTFunction);
+          const sanitizedContent = v.content.replace(/\n\s+/g, "").replace(/\\"/g, '"');
+          try {
+            const parsedFunction = JSON.parse(sanitizedContent);
+            functions.push(parsedFunction as unknown as GPTFunction);
           } catch (e) {
             console.error("Could not parse function content:", e);
-          }          
+          }
           return false;
         }
         return true;
