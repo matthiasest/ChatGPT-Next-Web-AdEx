@@ -58,18 +58,12 @@ export class ChatGPTApi implements LLMApi {
           const formattedInput = v.content.replace(/([{,]\s*)([a-zA-Z0-9_$]+):/g, '$1"$2":');
 
           // Step 3: Parse string to JSON
+
           try {
             const parsedObject = JSON.parse(formattedInput);
             console.log(parsedObject);
           } catch (e) {
             console.error("Failed to parse JSON", e);
-          }
-
-          try {
-            const parsedFunction = JSON.parse(sanitizedContent);
-            functions.push(parsedObject as GPTFunction);
-          } catch (e) {
-            console.error("Could not parse function content:", e);
           }
           return false;
         }
