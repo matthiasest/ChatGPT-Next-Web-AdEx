@@ -52,7 +52,7 @@ export class ChatGPTApi implements LLMApi {
     
     let functions: GPTFunction[] = [];
 
-    console.log(options.messages);
+    console.log("options.messages array:", options.messages);
 
     const messages = options.messages
       .filter((v) => {
@@ -61,10 +61,10 @@ export class ChatGPTApi implements LLMApi {
           const formattedInput = v.content.replace(/([{,]\s*)([a-zA-Z0-9_$]+):/g, '$1"$2":');
 
           // Step 3: Parse string to JSON
-
           try {
-            const parsedObject = JSON.parse(formattedInput);
-            console.log(parsedObject);
+            const parsedObject = JSON.parse(formattedInput) as GPTFunction;
+            functions.push(parsedObject);
+            console.log("Successfully added to functions:", parsedObject);
           } catch (e) {
             console.error("Failed to parse JSON", e);
           }
@@ -77,8 +77,9 @@ export class ChatGPTApi implements LLMApi {
         content: v.content
       }));
     
-    console.log(messages);
-    console.log(functions);
+    console.log("messages array:", messages);
+
+    console.log("functions array:", functions);
     
     const modelConfig = {
       ...useAppConfig.getState().modelConfig,
