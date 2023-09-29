@@ -51,10 +51,13 @@ export class ChatGPTApi implements LLMApi {
   async chat(options: ChatOptions) {
     
     let functions: GPTFunction[] = [];
+
+        console.log(messages);
+
     const messages = options.messages
       .filter((v) => {
         if (v.role === 'function') {
-
+          console.log(v);
           const formattedInput = v.content.replace(/([{,]\s*)([a-zA-Z0-9_$]+):/g, '$1"$2":');
 
           // Step 3: Parse string to JSON
@@ -74,7 +77,7 @@ export class ChatGPTApi implements LLMApi {
         content: v.content
       }));
     
-    console.log(newMessages);
+    console.log(messages);
     console.log(functions);
     
     const modelConfig = {
