@@ -55,8 +55,13 @@ export class ChatGPTApi implements LLMApi {
       .filter((v) => {
         if (v.role === 'function') {
           let sanitizedContent = v.content.replace(/\n\s+/g, "");
-          sanitizedContent = sanitizedContent.slice(1, -1); // Entfernt die umschließenden einfachen Anführungszeichen
-          functions.push(sanitizedContent as unknown as GPTFunction);
+      try {
+        const parsedFunction = JSON.parse(sanitizedContent);
+        try {
+          functions.push(parsedFunction as unknown as GPTFunction);
+          } catch (e) {
+            console.error("Could not parse function content:", e);
+          }          
           return false;
         }
         return true;
