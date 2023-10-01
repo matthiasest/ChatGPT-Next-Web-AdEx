@@ -49,8 +49,8 @@ export class ChatGPTApi implements LLMApi {
   }
 
 
-//  let functions: GPTFunction[] = [];
-  
+
+  {/*
   // Simulated UI input received as a string
   const receivedString = `{
     name: "get_current_weather_V4",
@@ -71,6 +71,7 @@ export class ChatGPTApi implements LLMApi {
       required: ["location"]
     }
   }`;
+  */}  
   
   
   async chat(options: ChatOptions) {
