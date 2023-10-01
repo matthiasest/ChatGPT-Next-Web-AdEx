@@ -61,7 +61,7 @@ export class ChatGPTApi implements LLMApi {
       .filter((v) => {
         if (v.role === 'function') {
           console.log("v.role === 'function':", v);
-          const formattedInput = v.content.replace(/([{,]\s*)([a-zA-Z0-9_$]+):/g, '$1"$2":');
+          let formattedInput = v.content.replace(/([{,]\s*)([a-zA-Z0-9_$]+):/g, '$1"$2":');
 
           const regex = /\,(?=\s*?[\}\]])/g;
           
