@@ -47,31 +47,6 @@ export class ChatGPTApi implements LLMApi {
   extractMessage(res: any) {
     return res.choices?.at(0)?.message?.content ?? "";
   }
-
-
-
-  {/*
-  // Simulated UI input received as a string
-  const receivedString = `{
-    name: "get_current_weather_V4",
-    description: "Get the current weather in a given location",
-    parameters: {
-      type: "object",
-      properties: {
-        location: {
-          type: "string",
-          description: "The city and state, e.g. San Francisco, CA"
-        },
-        unit: {
-          type: "string",
-          enum: ["celsius", "fahrenheit"],
-          description: "The temperature unit to use"
-        }
-      },
-      required: ["location"]
-    }
-  }`;
-  */}  
   
   
   async chat(options: ChatOptions) {
