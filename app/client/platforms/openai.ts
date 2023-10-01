@@ -48,11 +48,7 @@ export class ChatGPTApi implements LLMApi {
     return res.choices?.at(0)?.message?.content ?? "";
   }
 
-  function validateGPTFunction(obj: any): obj is GPTFunction {
-    // Add your validation logic here
-    return obj.hasOwnProperty('name') && obj.hasOwnProperty('description') && obj.hasOwnProperty('parameters');
-  }
-  
+
 //  let functions: GPTFunction[] = [];
   
   // Simulated UI input received as a string
@@ -99,7 +95,7 @@ export class ChatGPTApi implements LLMApi {
           
           const parsedObject = JSON.parse(validJsonString);
           
-          if (validateGPTFunction(parsedObject)) {
+          if (parsedObject.hasOwnProperty('name') && parsedObject.hasOwnProperty('description') && parsedObject.hasOwnProperty('parameters')) {
             functions.push(parsedObject);
           } else {
             console.error("Invalid GPTFunction object", parsedObject);
