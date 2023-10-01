@@ -48,6 +48,35 @@ export class ChatGPTApi implements LLMApi {
     return res.choices?.at(0)?.message?.content ?? "";
   }
 
+  function validateGPTFunction(obj: any): obj is GPTFunction {
+    // Add your validation logic here
+    return obj.hasOwnProperty('name') && obj.hasOwnProperty('description') && obj.hasOwnProperty('parameters');
+  }
+  
+//  let functions: GPTFunction[] = [];
+  
+  // Simulated UI input received as a string
+  const receivedString = `{
+    name: "get_current_weather_V4",
+    description: "Get the current weather in a given location",
+    parameters: {
+      type: "object",
+      properties: {
+        location: {
+          type: "string",
+          description: "The city and state, e.g. San Francisco, CA"
+        },
+        unit: {
+          type: "string",
+          enum: ["celsius", "fahrenheit"],
+          description: "The temperature unit to use"
+        }
+      },
+      required: ["location"]
+    }
+  }`;
+  
+  
   async chat(options: ChatOptions) {
     
     let functions: GPTFunction[] = [];
@@ -64,17 +93,30 @@ export class ChatGPTApi implements LLMApi {
         
           console.log("Formatted Input: ", formattedInput);  // Debugging Step 1
 
+                  
+          // Convert the string to a valid JSON string
+          const validJsonString = v.content.replace(/(\w+):/g, '"$1":');
+          
+          const parsedObject = JSON.parse(validJsonString);
+          
+          if (validateGPTFunction(parsedObject)) {
+            functions.push(parsedObject);
+          } else {
+            console.error("Invalid GPTFunction object", parsedObject);
+          }
+
+
           // Log the actual string to be parsed
 console.log('String to be parsed:', formattedInput);
 
 // Log characters around position 337
 console.log('Surrounding problematic position:', formattedInput.substring(327, 347));
 
+          {/*
           try {
             const parsedObject = JSON.parse(formattedInput.trim());
           
-            // Validate that parsedObject matches GPTFunction interface
-            if (parsedObject && parsedObject.name && parsedObject.description /* add other checks */) {
+            if (parsedObject && parsedObject.name && parsedObject.description ) {
               functions.push(parsedObject as GPTFunction);
             } else {
               console.error('Parsed object does not match GPTFunction interface');
@@ -83,6 +125,7 @@ console.log('Surrounding problematic position:', formattedInput.substring(327, 3
           } catch (e) {
             console.error('Failed to parse JSON', e);
           }
+          */}
 
           console.log("v.role === 'function':", v);
           return false;
