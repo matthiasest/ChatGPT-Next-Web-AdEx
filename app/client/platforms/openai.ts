@@ -165,6 +165,8 @@ export class ChatGPTApi implements LLMApi {
               return finish();
             }
 
+            console.error("[Response] not text/plain: ", res);
+            
             if (
               !res.ok ||
               !res.headers
