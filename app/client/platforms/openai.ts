@@ -67,7 +67,7 @@ export class ChatGPTApi implements LLMApi {
           
           formattedInput = formattedInput.replace(regex, '');
         
-          console.log("Formatted Input: ", formattedInput);  // Debugging Step 1
+// console.log("Formatted Input: ", formattedInput);  // Debugging Step 1
 
           const validJsonString = formattedInput.replace(/(\w+):/g, '"$1":');
           
@@ -106,9 +106,6 @@ export class ChatGPTApi implements LLMApi {
     
     const requestPayload = {
       messages,
-      functions,
-      function_call: "auto",
-      stream: false, //options.config.stream,
       model: modelConfig.model,
       temperature: modelConfig.temperature,
       presence_penalty: modelConfig.presence_penalty,
@@ -116,6 +113,15 @@ export class ChatGPTApi implements LLMApi {
       top_p: modelConfig.top_p,
     };
 
+    if (Array.isArray(functions) && functions.length > 0) {
+      requestPayload.functions = functions;
+      requestPayload.function_call = "auto";
+      requestPayload.stream: false,
+    } else {
+      requestPayload.stream: options.config.stream,
+    }
+  
+    
     console.log("[Request] openai payload: ", requestPayload);
 
     const shouldStream = !!options.config.stream;
@@ -163,12 +169,12 @@ export class ChatGPTApi implements LLMApi {
             if (contentType?.startsWith("text/plain")) {
               responseText = await res.clone().text();
 
-              console.error("[Response] text/plain: ", res);
+console.error("[Response] text/plain: ", res);
 
               return finish();
             }
 
-            console.error("[Response] not text/plain: ", res);
+console.error("[Response] not text/plain: ", res);
             
             if (
               !res.ok ||
