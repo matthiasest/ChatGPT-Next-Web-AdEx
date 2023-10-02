@@ -213,6 +213,8 @@ console.error("[Response] not text/plain: ", res);
 
               responseText = responseTexts.join("\n\n");
 
+  console.error("[responseText = responseTexts.join]: ", responseTexts);
+
               return finish();
             }
           },
