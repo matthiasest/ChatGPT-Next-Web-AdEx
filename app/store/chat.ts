@@ -329,6 +329,8 @@ export const useChatStore = createPersistStore(
         // make request
         api.llm.chat({
           messages: sendMessages,
+
+console.log("make request - api.llm.chat", sendMessages);          
           config: { ...modelConfig, stream: true },
           onUpdate(message) {
             botMessage.streaming = true;
@@ -342,6 +344,9 @@ export const useChatStore = createPersistStore(
           onFinish(message) {
             botMessage.streaming = false;
             if (message) {
+
+console.log("onFinish(message)", message);          
+              
               botMessage.content = message;
               get().onNewMessage(botMessage);
             }
