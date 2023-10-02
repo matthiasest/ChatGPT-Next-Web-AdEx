@@ -199,6 +199,9 @@ export class ChatGPTApi implements LLMApi {
           },
           onmessage(msg) {
             if (msg.data === "[DONE]" || finished) {
+
+console.error("msg.data === "[DONE]" || finished: ", msg);
+              
               return finish();
             }
             const text = msg.data;
@@ -217,9 +220,15 @@ console.error("[Request] onmessage(msg): ", json);
             }
           },
           onclose() {
+
+console.error("[Request] onclose: ", msg);
+            
             finish();
           },
           onerror(e) {
+
+console.error("[Request] onclose: ", e);
+
             options.onError?.(e);
             throw e;
           },
