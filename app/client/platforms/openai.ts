@@ -213,15 +213,14 @@ console.error("[Response] not text/plain: ", res);
 
               responseText = responseTexts.join("\n\n");
 
-
-            const responseTextJSON = JSON.parse(responseTexts.join(''));
-            if (responseTextJSON.hasOwnProperty('choices')) {
-//                functionToCall.push(xxx);
+              {/*
+              const responseTextJSON = JSON.parse(responseTexts.join(''));
+              if (responseTextJSON.hasOwnProperty('choices')) {
                   console.log("[responseTextJSON]: ", responseTextJSON);
               } else {
                 console.error("Invalid responseTextJSON object", responseTexts);
               }
-          
+              */}          
               
               return finish();
             }
