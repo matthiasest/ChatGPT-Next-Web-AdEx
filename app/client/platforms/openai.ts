@@ -69,9 +69,7 @@ export class ChatGPTApi implements LLMApi {
         
           console.log("Formatted Input: ", formattedInput);  // Debugging Step 1
 
-                  
-          // Convert the string to a valid JSON string
-          const validJsonString = v.content.replace(/(\w+):/g, '"$1":');
+          const validJsonString = formattedInput.replace(/(\w+):/g, '"$1":');
           
           const parsedObject = JSON.parse(validJsonString);
           
@@ -81,29 +79,6 @@ export class ChatGPTApi implements LLMApi {
             console.error("Invalid GPTFunction object", parsedObject);
           }
 
-
-          // Log the actual string to be parsed
-console.log('String to be parsed:', formattedInput);
-
-// Log characters around position 337
-console.log('Surrounding problematic position:', formattedInput.substring(327, 347));
-
-          {/*
-          try {
-            const parsedObject = JSON.parse(formattedInput.trim());
-          
-            if (parsedObject && parsedObject.name && parsedObject.description ) {
-              functions.push(parsedObject as GPTFunction);
-            } else {
-              console.error('Parsed object does not match GPTFunction interface');
-            }
-          
-          } catch (e) {
-            console.error('Failed to parse JSON', e);
-          }
-          */}
-
-          console.log("v.role === 'function':", v);
           return false;
         }
         return true;
@@ -112,6 +87,9 @@ console.log('Surrounding problematic position:', formattedInput.substring(327, 3
         role: v.role,
         content: v.content
       }));
+
+
+    
     
     console.log("messages array:", messages);
 
@@ -125,51 +103,6 @@ console.log('Surrounding problematic position:', formattedInput.substring(327, 3
       },
     };
 
-    {/*
-    const functions: GPTFunction[] = [
-      {
-        name: "get_current_weather_V2",
-        description: "Get the current weather in a given location",
-        parameters: {
-          type: "object",
-          properties: {
-            location: {
-              type: "string",
-              description: "The city and state, e.g. San Francisco, CA",
-            },
-            unit: {
-              type: "string",
-              enum: ["celsius", "fahrenheit"],
-              description: "The temperature unit to use",
-            },
-          },
-          required: ["location"],
-        },
-      } as GPTFunction,
-      {
-        name: "investigate_person",
-        description: "Use this function to extract individuals mentioned by a user, by firstname and lastname, and the related desired action",
-        parameters: {
-          type: "object",
-          properties: {
-            firstname: {
-              type: "string",
-              description: "firstname or abbreviation firstname (may include middle initials)",
-            },
-            lastname: {
-              type: "string",
-              description: "lastname or abbreviation, excluding the firstname",
-            },
-            action: {
-              type: "string",
-              description: "desired action the user wants to be executed in context of the individual",
-            },
-          },
-          required: ["lastname"],
-        },
-      } as GPTFunction,
-    ];
-    */}
     
     const requestPayload = {
       messages,
