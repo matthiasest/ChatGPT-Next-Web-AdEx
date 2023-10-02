@@ -200,7 +200,7 @@ export class ChatGPTApi implements LLMApi {
           onmessage(msg) {
             if (msg.data === "[DONE]" || finished) {
 
-console.error("msg.data === "[DONE]" || finished: ", msg);
+console.error("msg.data === : ", msg);
               
               return finish();
             }
