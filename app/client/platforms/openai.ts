@@ -116,9 +116,9 @@ export class ChatGPTApi implements LLMApi {
     if (Array.isArray(functions) && functions.length > 0) {
       requestPayload.functions = functions;
       requestPayload.function_call = "auto";
-      requestPayload.stream: false,
+      requestPayload.stream: false;
     } else {
-      requestPayload.stream: options.config.stream,
+      requestPayload.stream: options.config.stream;
     }
   
     
