@@ -199,6 +199,9 @@ export class ChatGPTApi implements LLMApi {
             const text = msg.data;
             try {
               const json = JSON.parse(text);
+
+console.error("[Request] onmessage(msg): ", json);
+              
               const delta = json.choices[0].delta.content;
               if (delta) {
                 responseText += delta;
@@ -222,6 +225,9 @@ export class ChatGPTApi implements LLMApi {
         clearTimeout(requestTimeoutId);
 
         const resJson = await res.json();
+
+console.error("[Request] else: ", resJson);
+        
         const message = this.extractMessage(resJson);
         options.onFinish(message);
       }
