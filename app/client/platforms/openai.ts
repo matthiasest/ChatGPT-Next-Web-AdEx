@@ -115,7 +115,7 @@ export class ChatGPTApi implements LLMApi {
       stream?: boolean;
     }
 
-    const requestPayload = {
+    const requestPayload: PayloadConfig = {
       messages,
       model: modelConfig.model,
       temperature: modelConfig.temperature,
@@ -160,6 +160,8 @@ export class ChatGPTApi implements LLMApi {
 
         const finish = () => {
           if (!finished) {
+
+    console.log("responseText:", responseText);            
             options.onFinish(responseText);
             finished = true;
           }
@@ -260,6 +262,7 @@ console.error("[Request] onclose: ", e);
 console.error("[Request] else: ", resJson);
         
         const message = this.extractMessage(resJson);
+console.error("[Request] message: ", resJson);
         options.onFinish(message);
       }
     } catch (e) {
