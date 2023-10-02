@@ -103,7 +103,18 @@ export class ChatGPTApi implements LLMApi {
       },
     };
 
-    
+    interface PayloadConfig {
+      messages: any; // Replace with the actual type
+      model: string;
+      temperature: number;
+      presence_penalty: number;
+      frequency_penalty: number;
+      top_p: number;
+      functions?: GPTFunction[]; 
+      function_call?: string;
+      stream?: boolean;
+    }
+
     const requestPayload = {
       messages,
       model: modelConfig.model,
