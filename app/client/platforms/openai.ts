@@ -221,7 +221,7 @@ console.error("[Request] onmessage(msg): ", json);
           },
           onclose() {
 
-console.error("[Request] onclose: ", msg);
+console.error("[Request] onclose: ");
             
             finish();
           },
