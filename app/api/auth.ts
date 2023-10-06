@@ -48,7 +48,7 @@ export function auth(req: NextRequest) {
     };
   }
 
-console.log("durchlaufen");
+//console.log("durchlaufen");
   
   // if user does not provide an api key, inject system api key
   if (!token) {
