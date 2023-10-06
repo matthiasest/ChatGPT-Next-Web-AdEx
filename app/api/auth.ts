@@ -24,6 +24,8 @@ function parseApiKey(bearToken: string) {
   };
 }
 
+console.log("durchlaufen");
+
 export function auth(req: NextRequest) {
   const authToken = req.headers.get("Authorization") ?? "";
 
