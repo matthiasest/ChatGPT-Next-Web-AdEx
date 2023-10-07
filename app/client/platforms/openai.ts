@@ -24,6 +24,8 @@ export interface OpenAIListModelResponse {
   }>;
 }
 
+
+
 export class ChatGPTApi implements LLMApi {
   private disableListModels = true;
 
@@ -61,7 +63,15 @@ export class ChatGPTApi implements LLMApi {
       .filter((v) => {
         if (v.role === 'function') {
           console.log("v.role === 'function':", v);
-          let formattedInput = v.content.replace(/([{,]\s*)([a-zA-Z0-9_$]+):/g, '$1"$2":');
+
+          const jsonMatch = v.content.match(/```json([\s\S]*?)```/);
+          let formattedInput = v.content;
+          
+          if (jsonMatch && jsonMatch.length > 1) {
+            formattedInput = jsonMatch[1].trim();
+          }
+
+          formattedInput = formattedInput.replace(/([{,]\s*)([a-zA-Z0-9_$]+):/g, '$1"$2":');
 
           const regex = /\,(?=\s*?[\}\]])/g;
           
