@@ -172,7 +172,7 @@ console.log("     setGptFunctionObj: ",    { ...json });
       {mermaidCode.length > 0 && (
         <Mermaid code={mermaidCode} key={mermaidCode} />
       )}
-      {jsonObj && jsonObj.choices && jsonObj.choices[0].message.function_call && (
+      {(jsonObj as GPTChatCompletion).choices && jsonObj && jsonObj.choices && jsonObj.choices[0].message.function_call && (
         <div style={{ border: "1px solid blue", padding: "1em", marginBottom: "1em" }}>
           <h2>Function Call: {jsonObj.choices[0].message.function_call.name}</h2>
           <div>
@@ -185,20 +185,7 @@ console.log("     setGptFunctionObj: ",    { ...json });
           </div>
         </div>
       )}
-      {jsonObj && jsonObj.parameters && jsonObj.parameters.properties && (
-        <div style={{ border: "1px solid blue", padding: "1em", marginBottom: "1em" }}>
-          <h2>Function Call: {jsonObj.choices[0].message.function_call.name}</h2>
-          <div>
-            <h3>Arguments:</h3>
-            {Object.entries(JSON.parse(jsonObj.choices[0].message.function_call.arguments)).map(([key, value]) => (
-              <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }} key={key}>
-                {key}: {value}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-      {jsonObj && 'name' in jsonObj && (
+      {(jsonObj as GPTFunction).name && jsonObj && 'name' in jsonObj && (
         <div style={{ background: "yellow", padding: "1em", marginBottom: "1em" }}>
           <h2>Function: {jsonObj.name}</h2>
           <p>Description: {jsonObj.description}</p>
