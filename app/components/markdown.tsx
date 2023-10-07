@@ -14,6 +14,26 @@ import React from "react";
 import { useDebouncedCallback, useThrottledCallback } from "use-debounce";
 import { showImageModal } from "./ui-lib";
 
+
+
+export interface GPTFunctionProperty {
+  type: string;
+  description: string;
+  enum?: string[]; // Optional enum field
+}
+
+export interface GPTFunctionParameters {
+  type: string;
+  properties: { [key: string]: GPTFunctionProperty }; 
+  required: string[];
+}
+
+export interface GPTFunction {
+  name: string;
+  description: string;
+  parameters: GPTFunctionParameters; 
+}
+
 export function Mermaid(props: { code: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [hasError, setHasError] = useState(false);
