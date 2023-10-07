@@ -131,28 +131,31 @@ export function PreCode(props: { children: any }) {
     if (jsonDom) {
       try {
 
-console.log("     if (jsonDom): ",    jsonDom);
+//console.log("     if (jsonDom): ",    jsonDom);
         
         const json = JSON.parse((jsonDom as HTMLElement).innerText);
 
 console.log("     json: ",    json);
 
-
         if (json.choices) {
           setGptChatCompletionObj({ ...json });
-console.log("     setGptChatCompletionObj: ",    gptChatCompletionObj);
-          
+          setJsonObj({ ...json });
+console.log("     setGptChatCompletionObj: ",    { ...json });
         } else {
           setGptFunctionObj({ ...json });
-console.log("     setGptFunctionObj: ",    gptFunctionObj);
-          
+          setJsonObj({ ...json });
+console.log("     setGptFunctionObj: ",    { ...json });
         }
       } catch (error) {
         console.error("Invalid JSON");
       }
     }
   };
-  
+
+  useEffect(() => {
+    console.log("jsonObj has changed: ", jsonObj);
+  }, [jsonObj]);
+
   useEffect(() => {
     setTimeout(() => {
       renderMermaid();
