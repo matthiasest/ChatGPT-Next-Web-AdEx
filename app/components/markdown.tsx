@@ -130,31 +130,33 @@ export function PreCode(props: { children: any }) {
   }, 600);
 
   const renderJSON = () => {
-    if (!ref.current) return;
-    const jsonDom = ref.current.querySelector("code.language-json");
-    if (jsonDom) {
-      try {
-
-//console.log("     if (jsonDom): ",    jsonDom);
+      if (!ref.current) return;
+      const jsonDom = ref.current.querySelector("code.language-json");
+    
+      if (jsonDom) {
+        try {
+          const json = JSON.parse((jsonDom as HTMLElement).innerText);
+        } catch (error) {
+          console.error("Invalid JSON: ", (jsonDom as HTMLElement).innerText);
+          const json = JSON.parse(JSON.stringify((jsonDom as HTMLElement).innerText)); 
+        }
         
-    //const functionDefinitionJson = JSON.stringify((jsonDom as HTMLElement).innerText, null, 2);   
-
-    const json = JSON.parse((jsonDom as HTMLElement).innerText);
-
-console.log("     json: ",    json);
+  console.log("     json: ",    json);
 
         if (json.choices) {
           setGptChatCompletionObj({ ...json });
           setJsonObj({ ...json });
           const chatCompletionObj = jsonObj as GPTChatCompletion;
-console.log("     setGptChatCompletionObj: ",    { ...json }, gptChatCompletionObj);
-
+  console.log("     setGptChatCompletionObj: ",    { ...json }, gptChatCompletionObj);
           setIsContentVisible(false);
+          
         } else {
           setGptFunctionObj({ ...json });
           setJsonObj({ ...json });
           const functionObj = jsonObj as GPTFunction;    
-console.log("     setGptFunctionObj: ",    { ...json }, gptFunctionObj);
+  console.log("     setGptFunctionObj: ",    { ...json }, gptFunctionObj);
+          setIsContentVisible(false);
+
         }
         
       } catch (error) {
