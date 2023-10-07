@@ -107,6 +107,69 @@ export interface GPTChatCompletion {
   };
 }
 
+
+interface RenderFunctionObjProps {
+  functionObj: GPTFunction;
+}
+
+const RenderFunctionObj: React.FC<RenderFunctionObjProps> = ({ functionObj }) => {
+  console.log("     functionObj: ",    functionObj);
+
+  
+  // Your rendering logic for GPTFunction
+  return (
+      {functionObj && 'name' in functionObj && (
+        <div style={{ background: "yellow", padding: "1em", marginBottom: "1em" }}>
+          <h2>Function: {functionObj.name}</h2>
+          <p>Description: {functionObj.description}</p>
+          <div style={{ background: "orange", padding: "1em", marginBottom: "1em" }}>
+            <h3>Parameters:</h3>
+            {Object.entries(functionObj.parameters.properties).map(([key, value]) => (
+              <div style={{ background: "silver", padding: "1em", marginBottom: "1em" }} key={key}>
+                <strong>{key}</strong> ({value.type}) 
+                <p>Description: {value.description}</p>
+                {value.enum && (
+                  <div style={{ background: "lightblue", padding: "1em", marginBottom: "1em" }}>
+                    Enum: {value.enum.join(", ")}
+                  </div>
+                )}
+              </div>
+            ))}
+            <div>
+              <strong>Required:</strong> {functionObj.parameters.required.join(", ")}
+            </div>
+          </div>
+        </div>
+      )}
+  );
+};
+
+interface RenderChatCompletionProps {
+  chatCompletionObj: GPTChatCompletion;
+}
+
+const RenderChatCompletion: React.FC<RenderChatCompletionProps> = ({ chatCompletionObj }) => {
+  console.log("     chatCompletionObj: ",    chatCompletionObj);
+
+  // Your rendering logic for GPTChatCompletion
+  return (
+      {chatCompletionObj && 'name' in chatCompletionObj && chatCompletionObj.choices && chatCompletionObj.choices[0].message.function_call && (
+        <div style={{ border: "1px solid blue", padding: "1em", marginBottom: "1em" }}>
+          <h2>Function Call: {chatCompletionObj.choices[0].message.function_call.name}</h2>
+          <div>
+            <h3>Arguments:</h3>
+            {Object.entries(JSON.parse(chatCompletionObj.choices[0].message.function_call.arguments as string)).map(([key, value]) => (
+                <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }} key={key}>
+                  {key}: {typeof value === 'string' || typeof value === 'number' ? value : 'Unknown value type'}
+                </div>
+            ))}
+
+          </div>
+        </div>
+      )}
+  );
+};
+
 export function PreCode(props: { children: any }) {
   const ref = useRef<HTMLPreElement>(null);
   const refText = ref.current?.innerText;
@@ -141,11 +204,13 @@ console.log("     json: ",    json);
           setGptChatCompletionObj({ ...json });
           setJsonObj({ ...json });
         const chatCompletionObj = jsonObj as GPTChatCompletion;
+        renderChatCompletion(chatCompletionObj);
 console.log("     setGptChatCompletionObj: ",    { ...json });
         } else {
           setGptFunctionObj({ ...json });
           setJsonObj({ ...json });
         const functionObj = jsonObj as GPTFunction;    
+        renderFunctionObj(functionObj);          
 console.log("     setGptFunctionObj: ",    { ...json });
         }
         
@@ -180,44 +245,6 @@ console.log("     setGptFunctionObj: ",    { ...json });
       {mermaidCode.length > 0 && (
         <Mermaid code={mermaidCode} key={mermaidCode} />
       )}
-      {chatCompletionObj && 'name' in chatCompletionObj && chatCompletionObj.choices && chatCompletionObj.choices[0].message.function_call && (
-        <div style={{ border: "1px solid blue", padding: "1em", marginBottom: "1em" }}>
-          <h2>Function Call: {chatCompletionObj.choices[0].message.function_call.name}</h2>
-          <div>
-            <h3>Arguments:</h3>
-            {Object.entries(JSON.parse(chatCompletionObj.choices[0].message.function_call.arguments as string)).map(([key, value]) => (
-                <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }} key={key}>
-                  {key}: {typeof value === 'string' || typeof value === 'number' ? value : 'Unknown value type'}
-                </div>
-            ))}
-
-          </div>
-        </div>
-      )}
-      {functionObj && 'name' in functionObj && (
-        <div style={{ background: "yellow", padding: "1em", marginBottom: "1em" }}>
-          <h2>Function: {functionObj.name}</h2>
-          <p>Description: {functionObj.description}</p>
-          <div style={{ background: "orange", padding: "1em", marginBottom: "1em" }}>
-            <h3>Parameters:</h3>
-            {Object.entries(functionObj.parameters.properties).map(([key, value]) => (
-              <div style={{ background: "silver", padding: "1em", marginBottom: "1em" }} key={key}>
-                <strong>{key}</strong> ({value.type}) 
-                <p>Description: {value.description}</p>
-                {value.enum && (
-                  <div style={{ background: "lightblue", padding: "1em", marginBottom: "1em" }}>
-                    Enum: {value.enum.join(", ")}
-                  </div>
-                )}
-              </div>
-            ))}
-            <div>
-              <strong>Required:</strong> {functionObj.parameters.required.join(", ")}
-            </div>
-          </div>
-        </div>
-      )}
-
 
 
       <pre ref={ref}>
