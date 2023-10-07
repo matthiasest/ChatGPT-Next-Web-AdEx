@@ -133,17 +133,19 @@ export function PreCode(props: { children: any }) {
     if (!ref.current) return;
     const jsonDom = ref.current.querySelector("code.language-json");
   
+    let innerJson = (jsonDom as HTMLElement).innerText.replace(/[\r\n]+/g, '');
+    let json;
+
+    try {
+        json = JSON.parse(innerJson);
+    } catch (error) {
+      console.error("Invalid JSON 1: ", innerJson);
+      json = JSON.parse(JSON.stringify(innerJson)); 
+    }
+
     if (jsonDom) {
       try {
-        let innerJson = (jsonDom as HTMLElement).innerText.replace(/[\r\n]+/g, '');
-        let json;
 
-        try {
-            json = JSON.parse(innerJson);
-        } catch (error) {
-          console.error("Invalid JSON: ", innerJson);
-          json = JSON.parse(JSON.stringify(innerJson)); 
-        }
         
   console.log("     json: ",    json);
 
