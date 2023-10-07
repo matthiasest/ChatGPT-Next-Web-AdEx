@@ -202,8 +202,8 @@ console.log("     setGptFunctionObj: ",    { ...json }, gptFunctionObj);
                   fontWeight: "lighter",
                   fontStyle: "italic"
                 }}>
-                  {key}
-                </span>: 
+                  {key}:
+                </span> 
                   <span style={{ textAlign: "right" }}>
                     {typeof value === 'string' || typeof value === 'number' ? value : 'Unknown value type'}
                   </span>  
@@ -266,6 +266,7 @@ function _MarkDownContent(props: { content: string }) {
   );
 }
 
+
 export const MarkdownContent = React.memo(_MarkDownContent);
 
 export function Markdown(
@@ -277,24 +278,35 @@ export function Markdown(
     defaultShow?: boolean;
   } & React.DOMAttributes<HTMLDivElement>,
 ) {
+  const [isContentVisible, setIsContentVisible] = useState(props.defaultShow ?? true);
   const mdRef = useRef<HTMLDivElement>(null);
 
+  const toggleContent = () => {
+    setIsContentVisible(!isContentVisible);
+  };
+
   return (
-    <div
-      className="markdown-body"
-      style={{
-        fontSize: `${props.fontSize ?? 14}px`,
-      }}
-      ref={mdRef}
-      onContextMenu={props.onContextMenu}
-      onDoubleClickCapture={props.onDoubleClickCapture}
-      dir="auto"
-    >
-      {props.loading ? (
-        <LoadingIcon />
-      ) : (
-        <MarkdownContent content={props.content} />
-      )}
+    <div>
+      <button onClick={toggleContent}>
+        {isContentVisible ? 'Hide Content' : 'Show Content'}
+      </button>
+      <div
+        className={`markdown-body ${isContentVisible ? '' : 'hidden'}`}
+        style={{
+          fontSize: `${props.fontSize ?? 14}px`,
+          display: isContentVisible ? 'block' : 'none',
+        }}
+        ref={mdRef}
+        onContextMenu={props.onContextMenu}
+        onDoubleClickCapture={props.onDoubleClickCapture}
+        dir="auto"
+      >
+        {props.loading ? (
+          <LoadingIcon />
+        ) : (
+          <MarkdownContent content={props.content} />
+        )}
+      </div>
     </div>
   );
 }
