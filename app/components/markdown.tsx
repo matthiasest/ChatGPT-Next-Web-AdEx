@@ -205,7 +205,7 @@ console.log("     setGptFunctionObj: ",    { ...json });
               </div>
             ))}
             <div>
-              <strong>Required:</strong> {jsonObj.parameters.required.join(", ")}
+              <strong>Required:</strong> {functionObj.parameters.required.join(", ")}
             </div>
           </div>
         </div>
