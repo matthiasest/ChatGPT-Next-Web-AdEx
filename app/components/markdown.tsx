@@ -83,7 +83,9 @@ export function Mermaid(props: { code: string }) {
 
 export interface GPTFunctionCall {
   name: string;
-  arguments: string;
+  arguments: {
+    [key: string]: any;
+  };
 }
 
 export interface GPTChatCompletion {
@@ -170,23 +172,57 @@ console.log("     setGptFunctionObj: ",    { ...json });
       {mermaidCode.length > 0 && (
         <Mermaid code={mermaidCode} key={mermaidCode} />
       )}
-     {jsonObj && (
+      {jsonObj && jsonObj.choices && jsonObj.choices[0].message.function_call && (
         <div style={{ border: "1px solid blue", padding: "1em", marginBottom: "1em" }}>
-          {'name' in jsonObj && <h2>Function Call to: {jsonObj.name}</h2>}
-          {'description' in jsonObj && <p>Description: {jsonObj.description}</p>}
-          {'parameters' in jsonObj && Object.entries(jsonObj.parameters.properties).map(([name, prop]) => (
-            <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }} key={name}>
-              <h3>{name}</h3>
-              <p>{prop.description}</p>
-              {prop.enum && (
-                <div style={{ border: "1px solid gray", padding: "1em", marginBottom: "1em" }}>
-                  {prop.enum.join(", ")}
-                </div>
-              )}
-            </div>
-          ))}
+          <h2>Function Call: {jsonObj.choices[0].message.function_call.name}</h2>
+          <div>
+            <h3>Arguments:</h3>
+            {Object.entries(JSON.parse(jsonObj.choices[0].message.function_call.arguments)).map(([key, value]) => (
+              <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }} key={key}>
+                {key}: {value}
+              </div>
+            ))}
+          </div>
         </div>
       )}
+      {jsonObj && jsonObj.parameters && jsonObj.parameters.properties && (
+        <div style={{ border: "1px solid blue", padding: "1em", marginBottom: "1em" }}>
+          <h2>Function Call: {jsonObj.choices[0].message.function_call.name}</h2>
+          <div>
+            <h3>Arguments:</h3>
+            {Object.entries(JSON.parse(jsonObj.choices[0].message.function_call.arguments)).map(([key, value]) => (
+              <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }} key={key}>
+                {key}: {value}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {jsonObj && 'name' in jsonObj && (
+        <div style={{ background: "yellow", padding: "1em", marginBottom: "1em" }}>
+          <h2>Function: {jsonObj.name}</h2>
+          <p>Description: {jsonObj.description}</p>
+          <div style={{ background: "orange", padding: "1em", marginBottom: "1em" }}>
+            <h3>Parameters:</h3>
+            {Object.entries(jsonObj.parameters.properties).map(([key, value]) => (
+              <div style={{ background: "silver", padding: "1em", marginBottom: "1em" }} key={key}>
+                <strong>{key}</strong> ({value.type}) 
+                <p>Description: {value.description}</p>
+                {value.enum && (
+                  <div style={{ background: "lightblue", padding: "1em", marginBottom: "1em" }}>
+                    Enum: {value.enum.join(", ")}
+                  </div>
+                )}
+              </div>
+            ))}
+            <div>
+              <strong>Required:</strong> {jsonObj.parameters.required.join(", ")}
+            </div>
+          </div>
+        </div>
+      )}
+
+
 
       <pre ref={ref}>
         <span
