@@ -156,11 +156,11 @@ const RenderChatCompletion: React.FC<RenderChatCompletionProps> = ({ chatComplet
   // Your rendering logic for GPTChatCompletion
   return (
     <>
+      {  console.log("     chatCompletionObj.choices[0].message.function_call.name: ",    chatCompletionObj.choices[0].message.function_call.name); }
       {chatCompletionObj && 'name' in chatCompletionObj && chatCompletionObj.choices && chatCompletionObj.choices[0].message.function_call && (
         <div style={{ border: "1px solid blue", padding: "1em", marginBottom: "1em" }}>
           <h2>Function Call: {chatCompletionObj.choices[0].message.function_call.name}</h2>
           <div>
-            {  console.log("     chatCompletionObj.choices[0].message.function_call.name: ",    chatCompletionObj.choices[0].message.function_call.name); }
             <h3>Arguments:</h3>
             {Object.entries(JSON.parse(chatCompletionObj.choices[0].message.function_call.arguments as string)).map(([key, value]) => (
                 <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }} key={key}>
