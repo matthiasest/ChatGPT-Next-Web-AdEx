@@ -218,7 +218,7 @@ console.log("     setGptFunctionObj: ",    { ...json });
         }
         
       } catch (error) {
-        console.error("Invalid JSON");
+        console.error("Invalid JSON: ", (jsonDom as HTMLElement).innerText);
       }
     }
   };
@@ -245,20 +245,6 @@ console.log("     setGptFunctionObj: ",    { ...json });
           <p>Description: {gptFunctionObj.description}</p>
           <div style={{ background: "orange", padding: "1em", marginBottom: "1em" }}>
             <h3>Parameters:</h3>
-            {Object.entries(gptFunctionObj.parameters.properties).map(([key, value]) => (
-              <div style={{ background: "silver", padding: "1em", marginBottom: "1em" }} key={key}>
-                <strong>{key}</strong> ({value.type}) 
-                <p>Description: {value.description}</p>
-                {value.enum && (
-                  <div style={{ background: "lightblue", padding: "1em", marginBottom: "1em" }}>
-                    Enum: {value.enum.join(", ")}
-                  </div>
-                )}
-              </div>
-            ))}
-            <div>
-              <strong>Required:</strong> {gptFunctionObj.parameters.required.join(", ")}
-            </div>
           </div>
         </div>
       )}
