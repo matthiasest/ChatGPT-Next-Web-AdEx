@@ -130,7 +130,14 @@ export function PreCode(props: { children: any }) {
     const jsonDom = ref.current.querySelector("code.language-json");
     if (jsonDom) {
       try {
+
+console.log("     if (jsonDom): ",    jsonDom);
+        
         const json = JSON.parse((jsonDom as HTMLElement).innerText);
+
+console.log("     json: ",    json);
+
+
         if (json.choices) {
           setGptChatCompletionObj(json);
         } else {
