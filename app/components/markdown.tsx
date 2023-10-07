@@ -196,6 +196,14 @@ console.log("     setGptFunctionObj: ",    { ...json }, gptFunctionObj);
                   display: "grid",
                   gridTemplateColumns: "1fr 1fr"
                 }} key={key}>
+                <span style={{ 
+                  textAlign: "left",
+                  color: "grey",
+                  fontWeight: "lighter",
+                  fontStyle: "italic"
+                }}>
+                  {key}
+                </span>: 
                   <span style={{ textAlign: "right" }}>
                     {typeof value === 'string' || typeof value === 'number' ? value : 'Unknown value type'}
                   </span>  
