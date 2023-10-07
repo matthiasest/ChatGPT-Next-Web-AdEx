@@ -180,7 +180,7 @@ console.log("     setGptFunctionObj: ",    { ...json });
           <h2>Function Call: {chatCompletionObj.choices[0].message.function_call.name}</h2>
           <div>
             <h3>Arguments:</h3>
-            {Object.entries(JSON.parse(chatCompletionObj.choices[0].message.function_call.arguments)).map(([key, value]) => (
+            {Object.entries(JSON.parse(chatCompletionObj.choices[0].message.function_call.arguments as string)).map(([key, value]) => (
               <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }} key={key}>
                 {key}: {value}
               </div>
