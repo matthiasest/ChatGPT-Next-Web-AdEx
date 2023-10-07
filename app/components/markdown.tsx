@@ -135,11 +135,14 @@ export function PreCode(props: { children: any }) {
   
     if (jsonDom) {
       try {
+        let innerJson = (jsonDom as HTMLElement).innerText;
+        let json;
+
         try {
-            const json = JSON.parse((jsonDom as HTMLElement).innerText);
+            json = JSON.parse(innerJson);
         } catch (error) {
-          console.error("Invalid JSON: ", (jsonDom as HTMLElement).innerText);
-          const json = JSON.parse(JSON.stringify((jsonDom as HTMLElement).innerText)); 
+          console.error("Invalid JSON: ", innerJson);
+          json = JSON.parse(JSON.stringify(innerJson)); 
         }
         
   console.log("     json: ",    json);
