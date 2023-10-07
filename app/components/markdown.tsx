@@ -139,7 +139,7 @@ export function PreCode(props: { children: any }) {
     let json;
 
     try {
-        json = JSON.parse(innerJson);
+        json = JSON.parse(eval('(' + innerJson + ')'));
     } catch (error) {
       console.error("Invalid JSON 1: ", innerJson);
       json = JSON.parse(JSON.stringify(innerJson)); 
