@@ -83,9 +83,7 @@ export function Mermaid(props: { code: string }) {
 
 export interface GPTFunctionCall {
   name: string;
-  arguments: {
-    [key: string]: any;
-  };
+  arguments: string;
 }
 
 export interface GPTChatCompletion {
