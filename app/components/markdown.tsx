@@ -189,8 +189,16 @@ console.log("     setGptFunctionObj: ",    { ...json }, gptFunctionObj);
           <div>
             <h3>Arguments:</h3>
                 {Object.entries(JSON.parse(jsonObj.choices[0].message.function_call.arguments as string)).map(([key, value]) => (
-                <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }} key={key}>
-                  <span>{key}</span>: <span>{typeof value === 'string' || typeof value === 'number' ? value : 'Unknown value type'}</span>
+                <div style={{ 
+                  border: "1px solid green", 
+                  padding: "1em", 
+                  marginBottom: "1em",
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr"
+                }} key={key}>
+                  <span style={{ textAlign: "right" }}>
+                    {typeof value === 'string' || typeof value === 'number' ? value : 'Unknown value type'}
+                  </span>  
                 </div>
             ))}
           </div>
