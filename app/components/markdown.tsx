@@ -208,14 +208,12 @@ console.log("     json: ",    json);
         if (json.choices) {
           setGptChatCompletionObj({ ...json });
           setJsonObj({ ...json });
-        const chatCompletionObj = jsonObj as GPTChatCompletion;
-        renderChatCompletion(chatCompletionObj);
+          const chatCompletionObj = jsonObj as GPTChatCompletion;
 console.log("     setGptChatCompletionObj: ",    { ...json });
         } else {
           setGptFunctionObj({ ...json });
           setJsonObj({ ...json });
-        const functionObj = jsonObj as GPTFunction;    
-        renderFunctionObj(functionObj);          
+          const functionObj = jsonObj as GPTFunction;    
 console.log("     setGptFunctionObj: ",    { ...json });
         }
         
@@ -237,14 +235,15 @@ console.log("     setGptFunctionObj: ",    { ...json });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refText]);
 
-  
+
   return (
     <>
       {console.log("Rendering with:", mermaidCode, jsonObj)}
+      {gptChatCompletionObj && <RenderChatCompletion chatCompletionObj={gptChatCompletionObj} />}
+      {gptFunctionObj && <RenderFunctionObj functionObj={gptFunctionObj} />}
       {mermaidCode.length > 0 && (
         <Mermaid code={mermaidCode} key={mermaidCode} />
       )}
-
 
       <pre ref={ref}>
         <span
