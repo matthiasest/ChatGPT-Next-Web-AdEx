@@ -111,7 +111,7 @@ export function PreCode(props: { children: any }) {
   const ref = useRef<HTMLPreElement>(null);
   const refText = ref.current?.innerText;
   const [mermaidCode, setMermaidCode] = useState("");
-  const [jsonObj, setJsonObj] = useState<GPTFunction | null>(null);
+  const [jsonObj, setJsonObj] = useState<GPTFunction | GPTChatCompletion | null>(null);
 
   const renderMermaid = useDebouncedCallback(() => {
     if (!ref.current) return;
