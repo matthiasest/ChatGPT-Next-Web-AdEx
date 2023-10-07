@@ -186,7 +186,11 @@ console.log("     setGptFunctionObj: ",    { ...json }, gptFunctionObj);
           <h2>Function Call: {jsonObj.choices[0].message.function_call.name}</h2>
           <div>
             <h3>Arguments:</h3>
-
+                {Object.entries(JSON.parse(gptChatCompletionObj.choices[0].message.function_call.arguments as string)).map(([key, value]) => (
+                <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }} key={key}>
+                  {key}: {typeof value === 'string' || typeof value === 'number' ? value : 'Unknown value type'}
+                </div>
+            ))}
           </div>
         </div>
       )}
