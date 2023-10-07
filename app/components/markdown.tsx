@@ -239,7 +239,6 @@ console.log("     setGptFunctionObj: ",    { ...json });
   return (
     <>
       {console.log("Rendering with:", mermaidCode, jsonObj)}
-      {gptChatCompletionObj && <RenderChatCompletion chatCompletionObj={gptChatCompletionObj} />}
       {gptFunctionObj && 'name' in gptFunctionObj && (
         <div style={{ background: "yellow", padding: "1em", marginBottom: "1em" }}>
           <h2>Function: {gptFunctionObj.name}</h2>
