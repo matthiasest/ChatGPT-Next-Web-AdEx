@@ -139,12 +139,12 @@ console.log("     json: ",    json);
 
 
         if (json.choices) {
-          setGptChatCompletionObj(json);
-console.log("     setGptChatCompletionObj: ",    json);
+          setGptChatCompletionObj({ ...json });
+console.log("     setGptChatCompletionObj: ",    gptChatCompletionObj);
           
         } else {
-          setGptFunctionObj(json);
-console.log("     setGptFunctionObj: ",    json);
+          setGptFunctionObj({ ...json });
+console.log("     setGptFunctionObj: ",    gptFunctionObj);
           
         }
       } catch (error) {
@@ -163,6 +163,7 @@ console.log("     setGptFunctionObj: ",    json);
 
   return (
     <>
+      {console.log("Rendering with:", mermaidCode, jsonObj)}
       {mermaidCode.length > 0 && (
         <Mermaid code={mermaidCode} key={mermaidCode} />
       )}
