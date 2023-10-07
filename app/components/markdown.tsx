@@ -126,34 +126,28 @@ export function PreCode(props: { children: any }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refText]);
 
-
-
   return (
     <>
       {mermaidCode.length > 0 && (
         <Mermaid code={mermaidCode} key={mermaidCode} />
       )}
-      {jsonObj && 'choices' in jsonObj ? (
-        jsonObj.choices.map((choice, index) => (
-          choice.message.function_call && (
-            <div key={index} style={{ border: "1px solid red", padding: "1em", marginBottom: "1em" }}>
-              <h2>Request for 'function call' to: {choice.message.function_call.name}</h2>
-              {Object.entries(JSON.parse(choice.message.function_call.arguments)).map(([argName, argValue]) => (
-                <div key={argName} style={{ border: "1px solid yellow", padding: "1em", marginBottom: "1em" }}>
-                  <div style={{ border: "1px solid white", padding: "1em", marginBottom: "1em" }}>
-                    {argName}
-                  </div>
-                  <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }}>
-                    {String(argValue)}
-                  </div>
+      {jsonObj && (
+        <div style={{ border: "1px solid blue", padding: "1em", marginBottom: "1em" }}>
+          <h2>Function Call to: {jsonObj.name}</h2>
+          <p>Description: {jsonObj.description}</p>
+          {Object.entries(jsonObj.parameters.properties).map(([name, prop]) => (
+            <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }} key={name}>
+              <h3>{name}</h3>
+              <p>{prop.description}</p>
+              {prop.enum && (
+                <div style={{ border: "1px solid gray", padding: "1em", marginBottom: "1em" }}>
+                  {prop.enum.join(", ")}
                 </div>
-              ))}
+              )}
             </div>
-          )
-        ))
-      ) : jsonObj && 'parameters' in jsonObj ? (
-        // ... (keep the existing rendering code for GPTFunction)
-      ) : null}
+          ))}
+        </div>
+      )}
       <pre ref={ref}>
         <span
           className="copy-code-button"
