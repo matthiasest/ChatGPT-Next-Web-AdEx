@@ -166,18 +166,21 @@ console.log("     setGptFunctionObj: ",    { ...json });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refText]);
 
+  const chatCompletionObj = jsonObj as GPTChatCompletion;
+  const functionObj = jsonObj as GPTFunction;    
+  
   return (
     <>
       {console.log("Rendering with:", mermaidCode, jsonObj)}
       {mermaidCode.length > 0 && (
         <Mermaid code={mermaidCode} key={mermaidCode} />
       )}
-      {(jsonObj as GPTChatCompletion).choices && jsonObj && jsonObj.choices && jsonObj.choices[0].message.function_call && (
+      {chatCompletionObj && 'name' in chatCompletionObj && chatCompletionObj.choices && chatCompletionObj.choices[0].message.function_call && (
         <div style={{ border: "1px solid blue", padding: "1em", marginBottom: "1em" }}>
-          <h2>Function Call: {jsonObj.choices[0].message.function_call.name}</h2>
+          <h2>Function Call: {chatCompletionObj.choices[0].message.function_call.name}</h2>
           <div>
             <h3>Arguments:</h3>
-            {Object.entries(JSON.parse(jsonObj.choices[0].message.function_call.arguments)).map(([key, value]) => (
+            {Object.entries(JSON.parse(chatCompletionObj.choices[0].message.function_call.arguments)).map(([key, value]) => (
               <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }} key={key}>
                 {key}: {value}
               </div>
@@ -185,13 +188,13 @@ console.log("     setGptFunctionObj: ",    { ...json });
           </div>
         </div>
       )}
-      {(jsonObj as GPTFunction).name && jsonObj && 'name' in jsonObj && (
+      {functionObj && 'name' in functionObj && (
         <div style={{ background: "yellow", padding: "1em", marginBottom: "1em" }}>
-          <h2>Function: {jsonObj.name}</h2>
-          <p>Description: {jsonObj.description}</p>
+          <h2>Function: {functionObj.name}</h2>
+          <p>Description: {functionObj.description}</p>
           <div style={{ background: "orange", padding: "1em", marginBottom: "1em" }}>
             <h3>Parameters:</h3>
-            {Object.entries(jsonObj.parameters.properties).map(([key, value]) => (
+            {Object.entries(functionObj.parameters.properties).map(([key, value]) => (
               <div style={{ background: "silver", padding: "1em", marginBottom: "1em" }} key={key}>
                 <strong>{key}</strong> ({value.type}) 
                 <p>Description: {value.description}</p>
