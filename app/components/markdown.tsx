@@ -170,6 +170,10 @@ console.log("     setGptFunctionObj: ",    { ...json });
   
   return (
     <>
+      {
+        const chatCompletionObj = jsonObj as GPTChatCompletion;
+        const functionObj = jsonObj as GPTFunction;
+      }
       {console.log("Rendering with:", mermaidCode, jsonObj)}
       {console.log("functionObj with:", functionObj)}
       {console.log("chatCompletionObj with:", chatCompletionObj)}
