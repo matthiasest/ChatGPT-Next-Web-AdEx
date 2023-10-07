@@ -60,10 +60,38 @@ export function Mermaid(props: { code: string }) {
   );
 }
 
+
+export interface GPTFunctionCall {
+  name: string;
+  arguments: string;
+}
+
+export interface GPTChatCompletion {
+  id: string;
+  object: string;
+  created: number;
+  model: string;
+  choices: Array<{
+    index: number;
+    message: {
+      role: string;
+      content: string | null;
+      function_call?: GPTFunctionCall;
+    };
+    finish_reason: string;
+  }>;
+  usage: {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
+  };
+}
+
 export function PreCode(props: { children: any }) {
   const ref = useRef<HTMLPreElement>(null);
   const refText = ref.current?.innerText;
   const [mermaidCode, setMermaidCode] = useState("");
+  const [jsonObj, setJsonObj] = useState<GPTFunction | null>(null);
 
   const renderMermaid = useDebouncedCallback(() => {
     if (!ref.current) return;
@@ -73,16 +101,59 @@ export function PreCode(props: { children: any }) {
     }
   }, 600);
 
+  const renderJSON = () => {
+    if (!ref.current) return;
+    const jsonDom = ref.current.querySelector("code.language-json");
+    if (jsonDom) {
+      try {
+        const json = JSON.parse((jsonDom as HTMLElement).innerText);
+        if (json.choices) {
+          setJsonObj(json as GPTChatCompletion);
+        } else {
+          setJsonObj(json as GPTFunction);
+        }
+      } catch (error) {
+        console.error("Invalid JSON");
+      }
+    }
+  };
+  
   useEffect(() => {
-    setTimeout(renderMermaid, 1);
+    setTimeout(() => {
+      renderMermaid();
+      renderJSON();
+    }, 1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refText]);
+
+
 
   return (
     <>
       {mermaidCode.length > 0 && (
         <Mermaid code={mermaidCode} key={mermaidCode} />
       )}
+      {jsonObj && 'choices' in jsonObj ? (
+        jsonObj.choices.map((choice, index) => (
+          choice.message.function_call && (
+            <div key={index} style={{ border: "1px solid red", padding: "1em", marginBottom: "1em" }}>
+              <h2>Request for 'function call' to: {choice.message.function_call.name}</h2>
+              {Object.entries(JSON.parse(choice.message.function_call.arguments)).map(([argName, argValue]) => (
+                <div key={argName} style={{ border: "1px solid yellow", padding: "1em", marginBottom: "1em" }}>
+                  <div style={{ border: "1px solid white", padding: "1em", marginBottom: "1em" }}>
+                    {argName}
+                  </div>
+                  <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }}>
+                    {String(argValue)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )
+        ))
+      ) : jsonObj && 'parameters' in jsonObj ? (
+        // ... (keep the existing rendering code for GPTFunction)
+      ) : null}
       <pre ref={ref}>
         <span
           className="copy-code-button"
@@ -98,6 +169,9 @@ export function PreCode(props: { children: any }) {
     </>
   );
 }
+
+
+
 
 function _MarkDownContent(props: { content: string }) {
   return (
