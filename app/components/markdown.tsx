@@ -109,6 +109,9 @@ export interface GPTChatCompletion {
 
 
 export function PreCode(props: { children: any }) {
+
+  const [isContentVisible, setIsContentVisible] = useState(true);
+
   const ref = useRef<HTMLPreElement>(null);
   const refText = ref.current?.innerText;
   const [mermaidCode, setMermaidCode] = useState("");
@@ -157,6 +160,11 @@ console.log("     setGptFunctionObj: ",    { ...json }, gptFunctionObj);
       }
     }
   };
+
+  const toggleContentVisibility = () => {
+    setIsContentVisible(!isContentVisible);
+  };
+  
 
   useEffect(() => {
     console.log("jsonObj has changed: ", jsonObj);
@@ -217,16 +225,19 @@ console.log("     setGptFunctionObj: ",    { ...json }, gptFunctionObj);
         <Mermaid code={mermaidCode} key={mermaidCode} />
       )}
 
-      <pre ref={ref}>
-        <span
-          className="copy-code-button"
-          onClick={() => {
-            if (ref.current) {
-              const code = ref.current.innerText;
-              copyToClipboard(code);
-            }
-          }}
-        ></span>
+      <span
+        className="copy-code-button"
+        onClick={() => {
+          if (ref.current) {
+            const code = ref.current.innerText;
+            copyToClipboard(code);
+          }
+        }}
+      ></span>
+      <button onClick={toggleContentVisibility}>
+        {isContentVisible ? 'Hide Code' : 'Show Code'}
+      </button>
+      <pre ref={ref} style={{ display: isContentVisible ? 'block' : 'none' }}>
         {props.children}
       </pre>
     </>
