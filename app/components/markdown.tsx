@@ -148,6 +148,8 @@ console.log("     json: ",    json);
           setJsonObj({ ...json });
           const chatCompletionObj = jsonObj as GPTChatCompletion;
 console.log("     setGptChatCompletionObj: ",    { ...json }, gptChatCompletionObj);
+
+          setIsContentVisible(false);
         } else {
           setGptFunctionObj({ ...json });
           setJsonObj({ ...json });
@@ -298,9 +300,11 @@ export function Markdown(
 
   return (
     <div>
+      {/*
       <button onClick={toggleContent}>
         {isContentVisible ? 'Hide Content' : 'Show Content'}
       </button>
+      
       <div
         className={`markdown-body ${isContentVisible ? '' : 'hidden'}`}
         style={{
