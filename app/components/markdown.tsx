@@ -118,6 +118,7 @@ const RenderFunctionObj: React.FC<RenderFunctionObjProps> = ({ functionObj }) =>
   
   // Your rendering logic for GPTFunction
   return (
+    <>
       {functionObj && 'name' in functionObj && (
         <div style={{ background: "yellow", padding: "1em", marginBottom: "1em" }}>
           <h2>Function: {functionObj.name}</h2>
@@ -141,9 +142,9 @@ const RenderFunctionObj: React.FC<RenderFunctionObjProps> = ({ functionObj }) =>
           </div>
         </div>
       )}
+    </>
   );
 };
-
 interface RenderChatCompletionProps {
   chatCompletionObj: GPTChatCompletion;
 }
@@ -153,6 +154,7 @@ const RenderChatCompletion: React.FC<RenderChatCompletionProps> = ({ chatComplet
 
   // Your rendering logic for GPTChatCompletion
   return (
+    <>
       {chatCompletionObj && 'name' in chatCompletionObj && chatCompletionObj.choices && chatCompletionObj.choices[0].message.function_call && (
         <div style={{ border: "1px solid blue", padding: "1em", marginBottom: "1em" }}>
           <h2>Function Call: {chatCompletionObj.choices[0].message.function_call.name}</h2>
@@ -167,8 +169,10 @@ const RenderChatCompletion: React.FC<RenderChatCompletionProps> = ({ chatComplet
           </div>
         </div>
       )}
+    </>
   );
 };
+
 
 export function PreCode(props: { children: any }) {
   const ref = useRef<HTMLPreElement>(null);
