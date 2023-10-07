@@ -112,7 +112,11 @@ export function PreCode(props: { children: any }) {
   const refText = ref.current?.innerText;
   const [mermaidCode, setMermaidCode] = useState("");
   const [jsonObj, setJsonObj] = useState<GPTFunction | GPTChatCompletion | null>(null);
+ 
+  const [gptFunctionObj, setGptFunctionObj] = useState<GPTFunction | null>(null);
+  const [gptChatCompletionObj, setGptChatCompletionObj] = useState<GPTChatCompletion | null>(null);
 
+  
   const renderMermaid = useDebouncedCallback(() => {
     if (!ref.current) return;
     const mermaidDom = ref.current.querySelector("code.language-mermaid");
@@ -132,7 +136,6 @@ export function PreCode(props: { children: any }) {
         } else {
           setGptFunctionObj(json);
         }
-        
       } catch (error) {
         console.error("Invalid JSON");
       }
