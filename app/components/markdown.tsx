@@ -128,10 +128,11 @@ export function PreCode(props: { children: any }) {
       try {
         const json = JSON.parse((jsonDom as HTMLElement).innerText);
         if (json.choices) {
-          setJsonObj(json as GPTChatCompletion);
+          setGptChatCompletionObj(json);
         } else {
-          setJsonObj(json as GPTFunction);
+          setGptFunctionObj(json);
         }
+        
       } catch (error) {
         console.error("Invalid JSON");
       }
@@ -151,11 +152,11 @@ export function PreCode(props: { children: any }) {
       {mermaidCode.length > 0 && (
         <Mermaid code={mermaidCode} key={mermaidCode} />
       )}
-      {jsonObj && (
+     {jsonObj && (
         <div style={{ border: "1px solid blue", padding: "1em", marginBottom: "1em" }}>
-          <h2>Function Call to: {jsonObj.name}</h2>
-          <p>Description: {jsonObj.description}</p>
-          {Object.entries(jsonObj.parameters.properties).map(([name, prop]) => (
+          {'name' in jsonObj && <h2>Function Call to: {jsonObj.name}</h2>}
+          {'description' in jsonObj && <p>Description: {jsonObj.description}</p>}
+          {'parameters' in jsonObj && Object.entries(jsonObj.parameters.properties).map(([name, prop]) => (
             <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }} key={name}>
               <h3>{name}</h3>
               <p>{prop.description}</p>
@@ -168,6 +169,7 @@ export function PreCode(props: { children: any }) {
           ))}
         </div>
       )}
+
       <pre ref={ref}>
         <span
           className="copy-code-button"
