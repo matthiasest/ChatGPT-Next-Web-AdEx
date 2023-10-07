@@ -181,9 +181,9 @@ console.log("     setGptFunctionObj: ",    { ...json }, gptFunctionObj);
           </div>
         </div>
       )}
-      {gptChatCompletionObj && 'name' in gptChatCompletionObj && gptChatCompletionObj.choices && gptChatCompletionObj.choices[0].message.function_call && (
+      {jsonObj && 'choices' in jsonObj && jsonObj.choices && jsonObj.choices[0] && jsonObj.choices[0].message && jsonObj.choices[0].message.function_call && jsonObj.choices[0].message.function_call.name && (
         <div style={{ border: "1px solid blue", padding: "1em", marginBottom: "1em" }}>
-          <h2>Function Call: {gptChatCompletionObj.choices[0].message.function_call.name}</h2>
+          <h2>Function Call: {jsonObj.choices[0].message.function_call.name}</h2>
           <div>
             <h3>Arguments:</h3>
 
