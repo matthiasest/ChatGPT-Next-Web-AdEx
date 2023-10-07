@@ -1,6 +1,3 @@
-Skip to content
-
-
 import ReactMarkdown from "react-markdown";
 import "katex/dist/katex.min.css";
 import RemarkMath from "remark-math";
@@ -184,12 +181,16 @@ console.log("     setGptFunctionObj: ",    { ...json }, gptFunctionObj);
           </div>
         </div>
       )}
-      {jsonObj && 'choices' in jsonObj && jsonObj.choices && jsonObj.choices[0] && jsonObj.choices[0].message && jsonObj.choices[0].message.function_call && jsonObj.choices[0].message.function_call.name && (
+      {jsonObj && 'choices' in jsonObj && jsonObj.choices && jsonObj.choices[0] && jsonObj.choices[0].message && jsonObj.choices[0].message.function_call && jsonObj.choices[0].message.function_call.name && jsonObj.choices[0].message.function_call.arguments && (
         <div style={{ border: "1px solid blue", padding: "1em", marginBottom: "1em" }}>
           <h2>Function Call: {jsonObj.choices[0].message.function_call.name}</h2>
           <div>
             <h3>Arguments:</h3>
-
+                {Object.entries(JSON.parse(jsonObj.choices[0].message.function_call.arguments as string)).map(([key, value]) => (
+                <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }} key={key}>
+                  {key}: {typeof value === 'string' || typeof value === 'number' ? value : 'Unknown value type'}
+                </div>
+            ))}
           </div>
         </div>
       )}
