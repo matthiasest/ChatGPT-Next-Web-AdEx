@@ -131,10 +131,11 @@ export function PreCode(props: { children: any }) {
     const jsonDom = ref.current.querySelector("code.language-json");
     if (jsonDom) {
       try {
+        const functionDefinitionJson = JSON.stringify((jsonDom as HTMLElement).innerText, null, 2);
 
 //console.log("     if (jsonDom): ",    jsonDom);
         
-        const json = JSON.parse((jsonDom as HTMLElement).innerText);
+        const json = JSON.parse(functionDefinitionJson);
 
 console.log("     json: ",    json);
 
@@ -182,15 +183,26 @@ console.log("     setGptFunctionObj: ",    { ...json }, gptFunctionObj);
         </div>
       )}
       {jsonObj && 'choices' in jsonObj && jsonObj.choices && jsonObj.choices[0] && jsonObj.choices[0].message && jsonObj.choices[0].message.function_call && jsonObj.choices[0].message.function_call.name && jsonObj.choices[0].message.function_call.arguments && (
-        <div style={{ border: "1px solid blue", padding: "1em", marginBottom: "1em" }}>
-          <h2>Function Call: {jsonObj.choices[0].message.function_call.name}</h2>
+        <div style={{ background-color: "orange", padding: "1em", marginBottom: "1em" }}>
           <div>
-            <h3>Arguments:</h3>
+            <h3>Function Call: {jsonObj.choices[0].message.function_call.name}</h3>
+           <h3>Arguments:</h3>
+            <table style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }}>
+              <thead>
+                <tr>
+                  <th>Key</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
                 {Object.entries(JSON.parse(jsonObj.choices[0].message.function_call.arguments as string)).map(([key, value]) => (
-                <div style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }} key={key}>
-                  {key}: {typeof value === 'string' || typeof value === 'number' ? value : 'Unknown value type'}
-                </div>
-            ))}
+                  <tr key={key}>
+                    <td>{key}</td>
+                    <td>{typeof value === 'string' || typeof value === 'number' ? value : 'Unknown value type'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       )}
