@@ -183,31 +183,6 @@ console.log("     setGptFunctionObj: ",    { ...json }, gptFunctionObj);
           </div>
         </div>
       )}
-      {jsonObj && 'choices' in jsonObj && jsonObj.choices && jsonObj.choices[0] && jsonObj.choices[0].message && jsonObj.choices[0].message.function_call && jsonObj.choices[0].message.function_call.name && jsonObj.choices[0].message.function_call.arguments && 
-        (
-        <div style={{ background-color: "orange", padding: "1em", marginBottom: "1em" }}>
-          <div>
-            <h3>Function Call: {jsonObj.choices[0].message.function_call.name}</h3>
-            <h3>Arguments:</h3>
-            <table style={{ border: "1px solid green", padding: "1em", marginBottom: "1em" }}>
-              <thead>
-                <tr>
-                  <th>Key</th>
-                  <th>Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.entries(JSON.parse(jsonObj.choices[0].message.function_call.arguments as string)).map(([key, value]) => (
-                  <tr key={key}>
-                    <td>{key}</td>
-                    <td>{typeof value === 'string' || typeof value === 'number' ? value : 'Unknown value type'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
 
       {mermaidCode.length > 0 && (
         <Mermaid code={mermaidCode} key={mermaidCode} />
