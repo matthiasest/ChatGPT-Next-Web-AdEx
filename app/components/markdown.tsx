@@ -140,8 +140,12 @@ console.log("     json: ",    json);
 
         if (json.choices) {
           setGptChatCompletionObj(json);
+console.log("     setGptChatCompletionObj: ",    json);
+          
         } else {
           setGptFunctionObj(json);
+console.log("     setGptFunctionObj: ",    json);
+          
         }
       } catch (error) {
         console.error("Invalid JSON");
