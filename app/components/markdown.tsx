@@ -130,12 +130,13 @@ export function PreCode(props: { children: any }) {
   }, 600);
 
   const renderJSON = () => {
-      if (!ref.current) return;
-      const jsonDom = ref.current.querySelector("code.language-json");
-    
-      if (jsonDom) {
+    if (!ref.current) return;
+    const jsonDom = ref.current.querySelector("code.language-json");
+  
+    if (jsonDom) {
+      try {
         try {
-          const json = JSON.parse((jsonDom as HTMLElement).innerText);
+            const json = JSON.parse((jsonDom as HTMLElement).innerText);
         } catch (error) {
           console.error("Invalid JSON: ", (jsonDom as HTMLElement).innerText);
           const json = JSON.parse(JSON.stringify((jsonDom as HTMLElement).innerText)); 
@@ -149,7 +150,7 @@ export function PreCode(props: { children: any }) {
           const chatCompletionObj = jsonObj as GPTChatCompletion;
   console.log("     setGptChatCompletionObj: ",    { ...json }, gptChatCompletionObj);
           setIsContentVisible(false);
-          
+
         } else {
           setGptFunctionObj({ ...json });
           setJsonObj({ ...json });
