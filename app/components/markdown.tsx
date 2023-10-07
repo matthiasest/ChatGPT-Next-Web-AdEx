@@ -134,7 +134,8 @@ export function PreCode(props: { children: any }) {
 
 //console.log("     if (jsonDom): ",    jsonDom);
         
-        const json = JSON.parse((jsonDom as HTMLElement).innerText);
+    const functionDefinitionJson = JSON.stringify((jsonDom as HTMLElement).innerText, null, 2);        
+    const json = JSON.parse(functionDefinitionJson);
 
 console.log("     json: ",    json);
 
