@@ -135,7 +135,7 @@ export function PreCode(props: { children: any }) {
   
     if (jsonDom) {
       try {
-        let innerJson = (jsonDom as HTMLElement).innerText;
+        let innerJson = (jsonDom as HTMLElement).innerText.replace(/[\r\n]+/g, '');
         let json;
 
         try {
@@ -189,7 +189,41 @@ export function PreCode(props: { children: any }) {
 
   return (
     <>
-      {console.log("Rendering with:", mermaidCode, jsonObj)}
+      {console.log("Rendering with:", mermaidCode, jsonObj, gptFunctionObj)}
+      {gptFunctionObj && 'name' in gptFunctionObj && (
+        <div style={{ background: "yellow", padding: "1em", marginBottom: "1em" }}>
+          <h2>Function: {gptFunctionObj.name}</h2>
+          <p>Description: {gptFunctionObj.description}</p>
+          <div style={{ background: "orange", padding: "1em", marginBottom: "1em" }}>
+            <h3>Parameters:</h3>
+            {gptFunctionObj.parameters && gptFunctionObj.parameters.properties && (
+              <div>
+                {Object.entries(gptFunctionObj.parameters.properties).map(([key, value]) => (
+                  <div style={{ 
+                    border: "1px solid green", 
+                    padding: "1em", 
+                    marginBottom: "1em",
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr"
+                  }} key={key}>
+                  <span style={{ 
+                    textAlign: "left",
+                    color: "grey",
+                    fontWeight: "lighter",
+                    fontStyle: "italic"
+                  }}>
+                    {key}:
+                  </span>
+                  <span style={{ textAlign: "right" }}>
+                    {value.description}
+                  </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       {gptFunctionObj && 'name' in gptFunctionObj && (
         <div style={{ background: "yellow", padding: "1em", marginBottom: "1em" }}>
           <h2>Function: {gptFunctionObj.name}</h2>
