@@ -1,3 +1,6 @@
+Skip to content
+
+
 import ReactMarkdown from "react-markdown";
 import "katex/dist/katex.min.css";
 import RemarkMath from "remark-math";
@@ -131,11 +134,10 @@ export function PreCode(props: { children: any }) {
     const jsonDom = ref.current.querySelector("code.language-json");
     if (jsonDom) {
       try {
-        const functionDefinitionJson = JSON.stringify((jsonDom as HTMLElement).innerText, null, 2);
 
 //console.log("     if (jsonDom): ",    jsonDom);
         
-        const json = JSON.parse(functionDefinitionJson);
+        const json = JSON.parse((jsonDom as HTMLElement).innerText);
 
 console.log("     json: ",    json);
 
@@ -171,15 +173,23 @@ console.log("     setGptFunctionObj: ",    { ...json }, gptFunctionObj);
 
 
   return (
-      <>
-      {console.log("Rendering with:", mermaidCode, jsonObj);}
-      {gptFunctionObj && 'name' in gptFunctionObj && 
-        (
-        <div style={{ backgroundColor: "yellow", padding: "1em", marginBottom: "1em" }}>
+    <>
+      {console.log("Rendering with:", mermaidCode, jsonObj)}
+      {gptFunctionObj && 'name' in gptFunctionObj && (
+        <div style={{ background: "yellow", padding: "1em", marginBottom: "1em" }}>
           <h2>Function: {gptFunctionObj.name}</h2>
           <p>Description: {gptFunctionObj.description}</p>
-          <div style={{ backgroundColor: "orange", padding: "1em", marginBottom: "1em" }}>
+          <div style={{ background: "orange", padding: "1em", marginBottom: "1em" }}>
             <h3>Parameters:</h3>
+          </div>
+        </div>
+      )}
+      {jsonObj && 'choices' in jsonObj && jsonObj.choices && jsonObj.choices[0] && jsonObj.choices[0].message && jsonObj.choices[0].message.function_call && jsonObj.choices[0].message.function_call.name && (
+        <div style={{ border: "1px solid blue", padding: "1em", marginBottom: "1em" }}>
+          <h2>Function Call: {jsonObj.choices[0].message.function_call.name}</h2>
+          <div>
+            <h3>Arguments:</h3>
+
           </div>
         </div>
       )}
