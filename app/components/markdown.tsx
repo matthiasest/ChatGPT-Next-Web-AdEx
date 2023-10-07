@@ -304,7 +304,7 @@ export function Markdown(
       <button onClick={toggleContent}>
         {isContentVisible ? 'Hide Content' : 'Show Content'}
       </button>
-      
+      */}
       <div
         className={`markdown-body ${isContentVisible ? '' : 'hidden'}`}
         style={{
