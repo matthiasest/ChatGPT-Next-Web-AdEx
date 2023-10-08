@@ -196,10 +196,10 @@ export function PreCode(props: { children: any }) {
     <>
       {console.log("Rendering with:", mermaidCode, jsonObj)}
       {jsonObj && 'name' in jsonObj && (
-        <div style={{ background: "yellow", padding: "1em", marginBottom: "1em" }}>
+        <div style={{ border: "1px solid yellow", padding: "1em", marginBottom: "1em" }}>
           <h2>Function: {jsonObj.name}</h2>
           <p>Description: {jsonObj.description}</p>
-          <div style={{ background: "orange", padding: "1em", marginBottom: "1em" }}>
+          <div style={{ border: "1px solid orange", padding: "1em", marginBottom: "1em" }}>
             <h3>Parameters:</h3>
             {jsonObj.parameters && jsonObj.parameters.properties && (
               <div>
@@ -336,11 +336,9 @@ export function Markdown(
 
   return (
     <div>
-      {/*
       <button onClick={toggleContent}>
         {isContentVisible ? 'Hide Content' : 'Show Content'}
       </button>
-      */}
       <div
         className={`markdown-body ${isContentVisible ? '' : 'hidden'}`}
         style={{
