@@ -156,15 +156,15 @@ export function PreCode(props: { children: any }) {
 //          setGptChatCompletionObj({ ...json });
           setJsonObj({ ...json });
 //          const chatCompletionObj = jsonObj as GPTChatCompletion;
-  console.log("     setGptChatCompletionObj: ",    { ...json });
-          setIsCodeVisible(true);
+//  console.log("     setGptChatCompletionObj: ",    { ...json });
+          setIsCodeVisible(false);
 
         } else {
 //          setGptFunctionObj({ ...json });
           setJsonObj({ ...json });
 //          const functionObj = jsonObj as GPTFunction;    
-  console.log("     setGptFunctionObj: ",    { ...json });
-          setIsCodeVisible(true);
+//  console.log("     setGptFunctionObj: ",    { ...json });
+          setIsCodeVisible(false);
 
         }
         
