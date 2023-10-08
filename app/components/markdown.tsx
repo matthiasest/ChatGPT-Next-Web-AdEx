@@ -110,7 +110,7 @@ export interface GPTChatCompletion {
 
 export function PreCode(props: { children: any }) {
 
-  const [isContentVisible, setIsContentVisible] = useState(true);
+  const [isCodeVisible, setIsCodeVisible] = useState(true);
 
   const ref = useRef<HTMLPreElement>(null);
   const refText = ref.current?.innerText;
@@ -157,14 +157,14 @@ export function PreCode(props: { children: any }) {
           setJsonObj({ ...json });
 //          const chatCompletionObj = jsonObj as GPTChatCompletion;
   console.log("     setGptChatCompletionObj: ",    { ...json });
-          setIsContentVisible(true);
+          setIsCodeVisible(true);
 
         } else {
 //          setGptFunctionObj({ ...json });
           setJsonObj({ ...json });
 //          const functionObj = jsonObj as GPTFunction;    
   console.log("     setGptFunctionObj: ",    { ...json });
-          setIsContentVisible(true);
+          setIsCodeVisible(true);
 
         }
         
@@ -174,8 +174,8 @@ export function PreCode(props: { children: any }) {
     }
   };
 
-  const toggleContentVisibility = () => {
-    setIsContentVisible(!isContentVisible);
+  const toggleCodeVisibility = () => {
+    setIsCodeVisible(!isCodeVisible);
   };
   
 
@@ -272,10 +272,10 @@ export function PreCode(props: { children: any }) {
           }
         }}
       ></span>
-      <button onClick={toggleContentVisibility}>
-        {isContentVisible ? 'Hide Code' : 'Show Code'}
+      <button onClick={toggleCodeVisibility}>
+        {isCodeVisible ? 'Hide Code' : 'Show Code'}
       </button>
-      <pre ref={ref} style={{ display: isContentVisible ? 'block' : 'none' }}>
+      <pre ref={ref} style={{ display: isCodeVisible ? 'block' : 'none' }}>
         {props.children}
       </pre>
     </>
