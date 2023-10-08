@@ -157,7 +157,7 @@ export function PreCode(props: { children: any }) {
           setJsonObj({ ...json });
 //          const chatCompletionObj = jsonObj as GPTChatCompletion;
   console.log("     setGptChatCompletionObj: ",    { ...json });
-          setIsContentVisible(false);
+          setIsContentVisible(true);
 
         } else {
 //          setGptFunctionObj({ ...json });
