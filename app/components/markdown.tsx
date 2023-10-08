@@ -135,6 +135,8 @@ export function PreCode(props: { children: any }) {
   
     let innerJson = (jsonDom as HTMLElement).innerText.replace(/[\r\n]+/g, '');
 
+    innerJson = innerJson.replace(/([{,]\s*)([a-zA-Z0-9_$]+):/g, '$1"$2":');
+
     let json;
 
     try {
