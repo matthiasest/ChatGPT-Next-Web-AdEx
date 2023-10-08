@@ -118,7 +118,7 @@ export function PreCode(props: { children: any }) {
   const [jsonObj, setJsonObj] = useState<GPTFunction | GPTChatCompletion | null>(null);
  
   const [gptFunctionObj, setGptFunctionObj] = useState<GPTFunction | null>(null);
-  const [gptChatCompletionObj, setGptChatCompletionObj] = useState<GPTChatCompletion | null>(null);
+//  const [gptChatCompletionObj, setGptChatCompletionObj] = useState<GPTChatCompletion | null>(null);
 
   
   const renderMermaid = useDebouncedCallback(() => {
@@ -153,18 +153,18 @@ export function PreCode(props: { children: any }) {
   console.log("     json: ",    json);
 
         if (json.choices) {
-          setGptChatCompletionObj({ ...json });
+//          setGptChatCompletionObj({ ...json });
           setJsonObj({ ...json });
-          const chatCompletionObj = jsonObj as GPTChatCompletion;
-  console.log("     setGptChatCompletionObj: ",    { ...json }, gptChatCompletionObj);
+//          const chatCompletionObj = jsonObj as GPTChatCompletion;
+  console.log("     setGptChatCompletionObj: ",    { ...json });
           setIsContentVisible(false);
 
         } else {
-          setGptFunctionObj({ ...json });
+//          setGptFunctionObj({ ...json });
           setJsonObj({ ...json });
-          const functionObj = jsonObj as GPTFunction;    
-  console.log("     setGptFunctionObj: ",    { ...json }, gptFunctionObj);
-          setIsContentVisible(false);
+//          const functionObj = jsonObj as GPTFunction;    
+  console.log("     setGptFunctionObj: ",    { ...json });
+          setIsContentVisible(true);
 
         }
         
