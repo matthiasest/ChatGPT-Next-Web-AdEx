@@ -194,16 +194,16 @@ export function PreCode(props: { children: any }) {
 
   return (
     <>
-      {console.log("Rendering with:", mermaidCode, jsonObj, gptFunctionObj)}
-      {gptFunctionObj && 'name' in gptFunctionObj && (
+      {console.log("Rendering with:", mermaidCode, jsonObj)}
+      {jsonObj && 'name' in jsonObj && (
         <div style={{ background: "yellow", padding: "1em", marginBottom: "1em" }}>
-          <h2>Function: {gptFunctionObj.name}</h2>
-          <p>Description: {gptFunctionObj.description}</p>
+          <h2>Function: {jsonObj.name}</h2>
+          <p>Description: {jsonObj.description}</p>
           <div style={{ background: "orange", padding: "1em", marginBottom: "1em" }}>
             <h3>Parameters:</h3>
-            {gptFunctionObj.parameters && gptFunctionObj.parameters.properties && (
+            {jsonObj.parameters && jsonObj.parameters.properties && (
               <div>
-                {Object.entries(gptFunctionObj.parameters.properties).map(([key, value]) => (
+                {Object.entries(jsonObj.parameters.properties).map(([key, value]) => (
                   <div style={{ 
                     border: "1px solid green", 
                     padding: "1em", 
@@ -226,15 +226,6 @@ export function PreCode(props: { children: any }) {
                 ))}
               </div>
             )}
-          </div>
-        </div>
-      )}
-      {gptFunctionObj && 'name' in gptFunctionObj && (
-        <div style={{ background: "yellow", padding: "1em", marginBottom: "1em" }}>
-          <h2>Function: {gptFunctionObj.name}</h2>
-          <p>Description: {gptFunctionObj.description}</p>
-          <div style={{ background: "orange", padding: "1em", marginBottom: "1em" }}>
-            <h3>Parameters:</h3>
           </div>
         </div>
       )}
