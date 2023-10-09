@@ -14,6 +14,8 @@ export interface RequestMessage {
   content: string;
 }
 
+console.log("log platforms/api.ts");
+
 export interface LLMConfig {
   model: string;
   temperature?: number;
