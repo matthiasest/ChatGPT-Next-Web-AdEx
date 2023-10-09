@@ -144,6 +144,7 @@ function Screen() {
         }`
       }
     >
+      console.log("home.tsx");
       {isAuth ? (
         <>
           <AuthPage />
