@@ -69,8 +69,6 @@ export class ChatGPTApi implements LLMApi {
           const regex_code = /^```json\n|```$/g;
           formattedInput = formattedInput.replace(regex_code, '');
 
-          const jsonMatch = v.content.match(/```json([\s\S]*?)```/).trim();;
-          
           formattedInput = formattedInput.replace(/([{,]\s*)([a-zA-Z0-9_$]+):/g, '$1"$2":');
 
           const regex = /\,(?=\s*?[\}\]])/g;
