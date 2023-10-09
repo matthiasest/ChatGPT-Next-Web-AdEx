@@ -1,5 +1,7 @@
 import { BuildConfig, getBuildConfig } from "./build";
 
+console.log("config/client.ts");
+
 export function getClientConfig() {
   if (typeof document !== "undefined") {
     // client side
