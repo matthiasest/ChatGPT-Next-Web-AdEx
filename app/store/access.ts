@@ -20,6 +20,8 @@ const DEFAULT_ACCESS_STATE = {
   openaiUrl: DEFAULT_OPENAI_URL,
 };
 
+console.log("log store/access.ts");
+
 export const useAccessStore = createPersistStore(
   { ...DEFAULT_ACCESS_STATE },
 
