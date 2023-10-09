@@ -2,6 +2,8 @@
 export const ChatControllerPool = {
   controllers: {} as Record<string, AbortController>,
 
+  console.log("log platforms/controller.ts");
+
   addController(
     sessionId: string,
     messageId: string,
