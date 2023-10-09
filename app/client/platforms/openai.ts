@@ -15,6 +15,9 @@ import {
 import { prettyObject } from "@/app/utils/format";
 import { getClientConfig } from "@/app/config/client";
 
+
+console.log("log platforms/openai.ts");
+
 export interface OpenAIListModelResponse {
   object: string;
   data: Array<{
