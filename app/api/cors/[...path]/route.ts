@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
-console.log("cors/route 1");
+
 
 async function handle(
   req: NextRequest,
   { params }: { params: { path: string[] } },
 ) {
+  console.log("cors/route NextRequest");
   if (req.method === "OPTIONS") {
     return NextResponse.json({ body: "OK" }, { status: 200 });
   }
