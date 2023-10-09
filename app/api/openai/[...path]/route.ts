@@ -45,6 +45,8 @@ async function handle(
     );
   }
 
+console.log("log1");
+  
   const authResult = auth(req);
   if (authResult.error) {
     return NextResponse.json(authResult, {
