@@ -14,7 +14,6 @@ export default async function App() {
     <>
       <Home />
       {serverConfig?.isVercel && <Analytics />}
-      {console.log("[page.tsx] 2");}
     </>
   );
 }
