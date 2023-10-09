@@ -64,13 +64,13 @@ export class ChatGPTApi implements LLMApi {
         if (v.role === 'function') {
           console.log("v.role === 'function':", v);
 
-          const jsonMatch = v.content.match(/```json([\s\S]*?)```/);
           let formattedInput = v.content;
-          
-          if (jsonMatch && jsonMatch.length > 1) {
-            formattedInput = jsonMatch[1].trim();
-          }
 
+          const regex_code = /^```json\n|```$/g;
+          formattedInput = formattedInput.replace(regex_code, '');
+
+          const jsonMatch = v.content.match(/```json([\s\S]*?)```/).trim();;
+          
           formattedInput = formattedInput.replace(/([{,]\s*)([a-zA-Z0-9_$]+):/g, '$1"$2":');
 
           const regex = /\,(?=\s*?[\}\]])/g;
