@@ -28,6 +28,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  console.log("[layout.tsx] in rendering");
+
   return (
     <html lang="en">
       <head>
@@ -38,6 +40,5 @@ export default function RootLayout({
       </head>
       <body>{children}</body>
     </html>
-    {console.log("[layout.tsx] in rendering");}
   );
 }
