@@ -28,6 +28,8 @@ export type ChatMessage = RequestMessage & {
   model?: ModelType;
 };
 
+console.log("log store/chat.ts");
+
 export function createMessage(override: Partial<ChatMessage>): ChatMessage {
   return {
     id: nanoid(),
