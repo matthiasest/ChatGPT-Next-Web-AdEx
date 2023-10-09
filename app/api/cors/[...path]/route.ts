@@ -26,6 +26,8 @@ async function handle(
     duplex: "half",
   };
 
+  console.log("log cors/route.ts");
+
   const fetchResult = await fetch(targetUrl, fetchOptions);
 
   console.log("[Any Proxy]", targetUrl, {
