@@ -17,6 +17,8 @@ declare global {
   }
 }
 
+console.log("config/server.ts");
+
 const ACCESS_CODES = (function getAccessCodes(): Set<string> {
   const code = process.env.CODE;
 
