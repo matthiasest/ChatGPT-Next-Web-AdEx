@@ -2,6 +2,9 @@
 
 require("../polyfill");
 
+
+console.log("home.tsx 1");
+
 import { useState, useEffect } from "react";
 
 import styles from "./home.module.scss";
