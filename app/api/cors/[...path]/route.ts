@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+console.log("cors/route 1");
+
 async function handle(
   req: NextRequest,
   { params }: { params: { path: string[] } },
