@@ -2,9 +2,6 @@
 
 require("../polyfill");
 
-
-console.log("home.tsx 1");
-
 import { useState, useEffect } from "react";
 
 import styles from "./home.module.scss";
@@ -147,9 +144,7 @@ function Screen() {
         }`
       }
     >
-      
-        console.log("home.tsx 2:", isAuth);
-         ? (
+      {isAuth ? (
         <>
           <AuthPage />
         </>
