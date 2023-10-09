@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 
 import { getServerSideConfig } from "../../config/server";
 
+
+console.log("config/route 1");
+
 const serverConfig = getServerSideConfig();
 
 // Danger! Do not hard code any secret value here!
