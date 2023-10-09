@@ -20,8 +20,6 @@ export const ChatControllerPool = {
     controller?.abort();
   },
 
-  console.log("platforms/controller.ts");
-
   stopAll() {
     Object.values(this.controllers).forEach((v) => v.abort());
   },
