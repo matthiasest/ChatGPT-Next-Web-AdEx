@@ -2,7 +2,7 @@
 export const ChatControllerPool = {
   controllers: {} as Record<string, AbortController>,
 
-  console.log("platforms/controller.ts");
+  
 
   addController(
     sessionId: string,
@@ -19,6 +19,8 @@ export const ChatControllerPool = {
     const controller = this.controllers[key];
     controller?.abort();
   },
+
+  console.log("platforms/controller.ts");
 
   stopAll() {
     Object.values(this.controllers).forEach((v) => v.abort());
