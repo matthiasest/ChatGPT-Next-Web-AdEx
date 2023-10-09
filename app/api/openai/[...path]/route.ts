@@ -45,7 +45,7 @@ async function handle(
     );
   }
 
-console.log("log1");
+console.log("log openai/route.ts");
   
   const authResult = auth(req);
   if (authResult.error) {
