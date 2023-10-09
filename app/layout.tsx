@@ -38,5 +38,6 @@ export default function RootLayout({
       </head>
       <body>{children}</body>
     </html>
+    {console.log("[layout.tsx] in rendering");}
   );
 }
