@@ -58,6 +58,7 @@ export class ChatGPTApi implements LLMApi {
     console.log("options.messages array:", options.messages);
 
     let messages = options.messages.slice();
+    let stopFunctionCalling = false;
     
     messages = messages
       .filter((v) => {
@@ -101,9 +102,7 @@ export class ChatGPTApi implements LLMApi {
     if (messages.length > 0) {
       const lastMessage = messages[messages.length - 1];
       if (lastMessage.content.includes("FUNCTION_CALLING:STOP")) {
-        const stopFunctionCalling = true; 
-      }else{
-        const stopFunctionCalling = false; 
+        stopFunctionCalling = true; 
       }
     }
     
