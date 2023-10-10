@@ -97,7 +97,15 @@ export class ChatGPTApi implements LLMApi {
       }));
 
 
-    
+    // Check if the last message contains "FUNCTION_CALLING:STOP"
+    if (messages.length > 0) {
+      const lastMessage = messages[messages.length - 1];
+      if (lastMessage.content.includes("FUNCTION_CALLING:STOP")) {
+        const stopFunctionCalling = true; 
+      }else{
+        const stopFunctionCalling = false; 
+      }
+    }
     
     console.log("messages array:", messages);
 
@@ -132,7 +140,7 @@ export class ChatGPTApi implements LLMApi {
       top_p: modelConfig.top_p,
     };
 
-    if (Array.isArray(functions) && functions.length > 0) {
+    if (Array.isArray(functions) && functions.length > 0 && stopFunctionCalling) {
       requestPayload.functions = functions;
       requestPayload.function_call = "auto";
       requestPayload.stream = false;
