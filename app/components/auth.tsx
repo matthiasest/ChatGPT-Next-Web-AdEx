@@ -20,6 +20,8 @@ export function AuthPage() {
   const goHome = () => navigate(Path.Home);
   const resetAccessCode = () => access.updateCode(""); // Reset access code to empty string
 
+  console.log("auth.tsx");
+  
   useEffect(() => {
     if (getClientConfig()?.isApp) {
       navigate(Path.Settings);
