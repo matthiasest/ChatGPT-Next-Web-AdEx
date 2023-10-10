@@ -1,3 +1,5 @@
+ console.log("controller.ts");
+
 // To store message streaming controller
 export const ChatControllerPool = {
   controllers: {} as Record<string, AbortController>,
