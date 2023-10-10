@@ -139,7 +139,7 @@ export class ChatGPTApi implements LLMApi {
       top_p: modelConfig.top_p,
     };
 
-    if (Array.isArray(functions) && functions.length > 0 && stopFunctionCalling) {
+    if (Array.isArray(functions) && functions.length > 0 && !stopFunctionCalling) {
       requestPayload.functions = functions;
       requestPayload.function_call = "auto";
       requestPayload.stream = false;
