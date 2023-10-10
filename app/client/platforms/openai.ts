@@ -101,7 +101,7 @@ export class ChatGPTApi implements LLMApi {
     // Check if the last message contains "FUNCTION_CALLING:STOP"
     if (messages.length > 0) {
       const lastMessage = messages[messages.length - 1];
-      if (lastMessage.content.includes("FUNCTION_CALLING:STOP") && lastMessage.content.role!="system") {
+      if (lastMessage.content.includes("FUNCTION_CALLING:STOP") && lastMessage.role!="system") {
         stopFunctionCalling = true; 
       }
     }
