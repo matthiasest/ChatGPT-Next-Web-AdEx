@@ -51,6 +51,7 @@ export class ChatGPTApi implements LLMApi {
   }
   
   
+
   async chat(options: ChatOptions) {
     
     let functions: GPTFunction[] = [];
@@ -386,4 +387,6 @@ console.error("[Request] message: ", resJson);
     }));
   }
 }
+
+console.log("Hello");
 export { OpenaiPath };
