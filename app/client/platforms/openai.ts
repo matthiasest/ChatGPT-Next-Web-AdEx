@@ -388,5 +388,4 @@ console.error("[Request] message: ", resJson);
   }
 }
 
-console.log("Hello");
 export { OpenaiPath };
