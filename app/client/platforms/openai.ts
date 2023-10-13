@@ -65,7 +65,7 @@ export class ChatGPTApi implements LLMApi {
     today_str = format(today, 'yyyy-MM-dd');
 
     async function search_stock_info(ticker_symbol: string, date: string) {
-      const url = `https://api.polygon.io/v1/open-close/${ticker_symbol}/${date}?adjusted=true&apiKey=${UBI7o9AjARfm7XuMLOcqbsjmfaqmIu8f}`;
+      const url = `https://api.polygon.io/v1/open-close/${ticker_symbol}/${date}?adjusted=true&apiKey=${useAccessStore.getState().polygonApiKey}`;
       try {
           const response = await axios.get(url);
           return JSON.stringify(response.data);
