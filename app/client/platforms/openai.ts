@@ -15,6 +15,9 @@ import {
 import { prettyObject } from "@/app/utils/format";
 import { getClientConfig } from "@/app/config/client";
 
+import axios from 'axios';
+import { format } from 'date-fns';
+
 export interface OpenAIListModelResponse {
   object: string;
   data: Array<{
@@ -56,6 +59,23 @@ export class ChatGPTApi implements LLMApi {
     
     let functions: GPTFunction[] = [];
 
+    let today_str: string;
+
+    const today = new Date();
+    today_str = format(today, 'yyyy-MM-dd');
+
+    async function search_stock_info(ticker_symbol: string, date: string) {
+      const url = `https://api.polygon.io/v1/open-close/${ticker_symbol}/${date}?adjusted=true&apiKey=${UBI7o9AjARfm7XuMLOcqbsjmfaqmIu8f}`;
+      try {
+          const response = await axios.get(url);
+          return JSON.stringify(response.data);
+      } catch (error) {
+          console.error(`Ein Fehler ist aufgetreten: ${error}`);
+          return null;
+        }
+    }
+  
+
     console.log("options.messages array:", options.messages);
 
     let messages = options.messages.slice();
@@ -77,7 +97,7 @@ export class ChatGPTApi implements LLMApi {
           
           formattedInput = formattedInput.replace(regex, '');
         
-// console.log("Formatted Input: ", formattedInput);  // Debugging Step 1
+          // console.log("Formatted Input: ", formattedInput);  // Debugging Step 1
 
           const validJsonString = formattedInput.replace(/(\w+):/g, '"$1":');
           
@@ -177,7 +197,7 @@ export class ChatGPTApi implements LLMApi {
         const finish = () => {
           if (!finished) {
 
-    console.log("responseText:", responseText);            
+            console.log("responseText:", responseText);            
             options.onFinish(responseText);
             finished = true;
           }
@@ -198,12 +218,12 @@ export class ChatGPTApi implements LLMApi {
             if (contentType?.startsWith("text/plain")) {
               responseText = await res.clone().text();
 
-console.error("[Response] text/plain: ", res);
+              console.error("[Response] text/plain: ", res);
 
               return finish();
             }
 
-console.error("[Response] not text/plain: ", res);
+              console.error("[Response] not text/plain: ", res);
             
             if (
               !res.ok ||
@@ -244,7 +264,7 @@ console.error("[Response] not text/plain: ", res);
           onmessage(msg) {
             if (msg.data === "[DONE]" || finished) {
 
-console.error("msg.data === : ", msg);
+              console.error("msg.data === : ", msg);
               
               return finish();
             }
@@ -252,7 +272,7 @@ console.error("msg.data === : ", msg);
             try {
               const json = JSON.parse(text);
 
-console.error("[Request] onmessage(msg): ", json);
+              console.error("[Request] onmessage(msg): ", json);
               
               const delta = json.choices[0].delta.content;
               if (delta) {
@@ -265,13 +285,13 @@ console.error("[Request] onmessage(msg): ", json);
           },
           onclose() {
 
-console.error("[Request] onclose: ");
+            console.error("[Request] onclose: ");
             
             finish();
           },
           onerror(e) {
 
-console.error("[Request] onclose: ", e);
+            console.error("[Request] onclose: ", e);
 
             options.onError?.(e);
             throw e;
@@ -284,10 +304,10 @@ console.error("[Request] onclose: ", e);
 
         const resJson = await res.json();
 
-console.error("[Request] else: ", resJson);
+        console.error("[Request] else: ", resJson);
         
         const message = this.extractMessage(resJson);
-console.error("[Request] message: ", resJson);
+        console.error("[Request] message: ", resJson);
         options.onFinish(message);
       }
     } catch (e) {
