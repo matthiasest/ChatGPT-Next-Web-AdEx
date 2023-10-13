@@ -18,6 +18,8 @@ import { getClientConfig } from "@/app/config/client";
 import axios from 'axios';
 import { format } from 'date-fns';
 
+
+
 export interface OpenAIListModelResponse {
   object: string;
   data: Array<{
@@ -65,7 +67,7 @@ export class ChatGPTApi implements LLMApi {
     today_str = format(today, 'yyyy-MM-dd');
 
     async function search_stock_info(ticker_symbol: string, date: string) {
-      const url = `https://api.polygon.io/v1/open-close/${ticker_symbol}/${date}?adjusted=true&apiKey=${useAccessStore.getState().polygonApiKey}`;
+      const url = `https://api.polygon.io/v1/open-close/${ticker_symbol}/${date}?adjusted=true&apiKey=${process.env.polygonApiKey}`;
       try {
           const response = await axios.get(url);
           return JSON.stringify(response.data);
@@ -405,6 +407,14 @@ export class ChatGPTApi implements LLMApi {
       name: m.id,
       available: true,
     }));
+  }
+}
+
+declare global {
+  namespace NodeJS {
+    export interface ProcessEnv {
+      polygonApiKey: string
+    }
   }
 }
 
