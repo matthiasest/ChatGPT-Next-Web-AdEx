@@ -200,6 +200,9 @@ export class ChatGPTApi implements LLMApi {
       
 
       if (shouldStream) {
+
+        console.log("shouldStream: ", shouldStream);
+
         let responseText = "";
         let finished = false;
 
