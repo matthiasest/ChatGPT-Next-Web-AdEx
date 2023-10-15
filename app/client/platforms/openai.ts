@@ -66,8 +66,8 @@ export class ChatGPTApi implements LLMApi {
     const today = new Date();
     today_str = format(today, 'yyyy-MM-dd');
 
-    async function search_stock_info(ticker_symbol: string, date: string) {
-      const url = `https://api.polygon.io/v1/open-close/${ticker_symbol}/${date}?adjusted=true&apiKey=${process.env.polygonApiKey}`;
+    async function search_stock_info(ticker_symbol: string) {
+      const url = `https://api.polygon.io/v1/open-close/${ticker_symbol}?adjusted=true&apiKey=${process.env.polygonApiKey}`;
       try {
           const response = await axios.get(url);
           return JSON.stringify(response.data);
@@ -173,9 +173,12 @@ export class ChatGPTApi implements LLMApi {
     
     console.log("[Request] openai payload: ", requestPayload);
 
+    
+
     const shouldStream = !!options.config.stream;
     const controller = new AbortController();
     options.onController?.(controller);
+    
 
     try {
       const chatPath = this.path(OpenaiPath.ChatPath);
@@ -186,11 +189,15 @@ export class ChatGPTApi implements LLMApi {
         headers: getHeaders(),
       };
 
+      
+
       // make a fetch request
       const requestTimeoutId = setTimeout(
         () => controller.abort(),
         REQUEST_TIMEOUT_MS,
       );
+
+      
 
       if (shouldStream) {
         let responseText = "";
@@ -300,7 +307,13 @@ export class ChatGPTApi implements LLMApi {
           },
           openWhenHidden: true,
         });
-      } else {
+      } 
+      
+      else {
+
+        // Track Executed Functions to Prevent Unnecessary Invocations
+        let executedFunctions = {};
+
         const res = await fetch(chatPath, chatPayload);
         clearTimeout(requestTimeoutId);
 
@@ -310,12 +323,77 @@ export class ChatGPTApi implements LLMApi {
         
         const message = this.extractMessage(resJson);
         console.error("[Request] message: ", resJson);
+
+         // Loop to process the conversation until it finishes.
+        while (
+          resJson.choices[0].message.function_call &&
+          resJson.choices[0].finish_reason !== "stop"
+        ){
+          let message = resJson.choices[0].message;
+          const function_name = message.function_call.name;
+
+          // 17. Breaks the loop if function has already been executed.
+          if (executedFunctions[function_name]) {
+          break;  
+          }
+
+          // 18. Calls the appropriate function based on the name.
+          let function_response = "";
+          switch (function_name) {
+            case "get_stock_info":
+              let stockArgs = JSON.parse(message.function_call.arguments);
+              function_response = await search_stock_info(stockArgs.ticker_symbol);
+              break;
+            
+            default:
+                throw new Error(`Unsupported function: ${function_name}`);
+            }
+          
+          // 19. Updates the executedFunctions object to prevent unnecessary function calls.
+          executedFunctions[function_name] = true;
+
+          // 20. Appends the function response to the messages list.
+          requestPayload.prompt += `\n${function_response}`;
+
+          // 21. Makes another API request with the updated messages list.
+          console.log(`Sending request to OpenAI with ${function_name} response...`);
+          const res = await fetch(chatPath, chatPayload);
+          clearTimeout(requestTimeoutId);
+
+          const resJson = await res.json();
+
+          console.error("[Request] else: ", resJson);
+        
+          const message = this.extractMessage(resJson);
+          console.error("[Request] message: ", resJson);
+        }
+
+        // 22. Makes the final API request after the conversation is finished.
+        const res = await fetch(chatPath, chatPayload);
+        clearTimeout(requestTimeoutId);
+
+        const resJson = await res.json();
+
+        console.error("[Request] else: ", resJson);
+        
+        const message = this.extractMessage(resJson);
+        console.error("[Request] message: ", resJson);
+
+        // 23. Returns the final response data.
+        return message;
         options.onFinish(message);
+       
       }
+        
+
     } catch (e) {
       console.log("[Request] failed to make a chat request", e);
       options.onError?.(e as Error);
     }
+
+    
+    console.log(responseText);
+
   }
   async usage() {
     const formatDate = (d: Date) =>
