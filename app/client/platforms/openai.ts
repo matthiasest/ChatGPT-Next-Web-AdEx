@@ -357,26 +357,26 @@ export class ChatGPTApi implements LLMApi {
 
           // 21. Makes another API request with the updated messages list.
           console.log(`Sending request to OpenAI with ${function_name} response...`);
-          const res = await fetch(chatPath, chatPayload);
+          res = await fetch(chatPath, chatPayload);
           clearTimeout(requestTimeoutId);
 
-          const resJson = await res.json();
+          resJson = await res.json();
 
           console.error("[Request] else: ", resJson);
         
-          const message = this.extractMessage(resJson);
+          message = this.extractMessage(resJson);
           console.error("[Request] message: ", resJson);
         }
 
         // 22. Makes the final API request after the conversation is finished.
-        const res = await fetch(chatPath, chatPayload);
+        res = await fetch(chatPath, chatPayload);
         clearTimeout(requestTimeoutId);
 
-        const resJson = await res.json();
+        resJson = await res.json();
 
         console.error("[Request] else: ", resJson);
         
-        const message = this.extractMessage(resJson);
+        message = this.extractMessage(resJson);
         console.error("[Request] message: ", resJson);
 
         // 23. Returns the final response data.
