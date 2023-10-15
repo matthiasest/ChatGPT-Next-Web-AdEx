@@ -314,14 +314,14 @@ export class ChatGPTApi implements LLMApi {
         // Track Executed Functions to Prevent Unnecessary Invocations
         let executedFunctions = {};
 
-        const res = await fetch(chatPath, chatPayload);
+        let res = await fetch(chatPath, chatPayload);
         clearTimeout(requestTimeoutId);
 
-        const resJson = await res.json();
+        let resJson = await res.json();
 
         console.error("[Request] else: ", resJson);
         
-        const message = this.extractMessage(resJson);
+        let message = this.extractMessage(resJson);
         console.error("[Request] message: ", resJson);
 
          // Loop to process the conversation until it finishes.
@@ -350,9 +350,10 @@ export class ChatGPTApi implements LLMApi {
             }
           
           // 19. Updates the executedFunctions object to prevent unnecessary function calls.
-          executedFunctions[function_name] = true;
+           executedFunctions[function_name] = true;
 
           // 20. Appends the function response to the messages list.
+
           requestPayload.prompt += `\n${function_response}`;
 
           // 21. Makes another API request with the updated messages list.
@@ -391,8 +392,6 @@ export class ChatGPTApi implements LLMApi {
       options.onError?.(e as Error);
     }
 
-    
-    console.log(responseText);
 
   }
   async usage() {
