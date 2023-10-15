@@ -329,7 +329,7 @@ export class ChatGPTApi implements LLMApi {
           resJson.choices[0].message.function_call &&
           resJson.choices[0].finish_reason !== "stop"
         ){
-          let message = resJson.choices[0].message;
+          // 16. Extracts the function call from the response.
           const function_name = message.function_call.name;
 
           // 17. Breaks the loop if function has already been executed.
