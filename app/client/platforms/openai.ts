@@ -312,7 +312,7 @@ export class ChatGPTApi implements LLMApi {
       else {
 
         // Track Executed Functions to Prevent Unnecessary Invocations
-        let executedFunctions = {};
+        let executedFunctions : {[key: string]: boolean} = {};
 
         let res = await fetch(chatPath, chatPayload);
         clearTimeout(requestTimeoutId);
@@ -338,11 +338,12 @@ export class ChatGPTApi implements LLMApi {
           }
 
           // 18. Calls the appropriate function based on the name.
-          let function_response = "";
+          let function_response : string;
           switch (function_name) {
             case "get_stock_info":
               let stockArgs = JSON.parse(message.function_call.arguments);
-              function_response = await search_stock_info(stockArgs.ticker_symbol);
+              const stockInfo = await search_stock_info(stockArgs.ticker_symbol);
+              function_response = stockInfo ? stockInfo : '';
               break;
             
             default:
@@ -350,11 +351,10 @@ export class ChatGPTApi implements LLMApi {
             }
           
           // 19. Updates the executedFunctions object to prevent unnecessary function calls.
-           executedFunctions[function_name] = true;
+          executedFunctions[function_name] = true;
 
           // 20. Appends the function response to the messages list.
-
-          requestPayload.prompt += `\n${function_response}`;
+          (chatPayload as any).prompt += `\n${function_response}`;
 
           // 21. Makes another API request with the updated messages list.
           console.log(`Sending request to OpenAI with ${function_name} response...`);
