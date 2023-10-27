@@ -282,6 +282,8 @@ export const useChatStore = createPersistStore(
         return session;
       },
 
+      
+
       onNewMessage(message: ChatMessage) {
         get().updateCurrentSession((session) => {
           session.messages = session.messages.concat();
@@ -289,6 +291,17 @@ export const useChatStore = createPersistStore(
         });
         get().updateStat(message);
         get().summarizeSession();
+        get().getfunctionCalling(message);
+      },
+
+      getfunctionCalling(message: ChatMessage) {
+        const session = get().currentSession();
+        const modelConfig = session.mask.modelConfig;
+
+        
+        console.log("getfunctionCalling", message.content);
+
+        
       },
 
       async onUserInput(content: string) {
