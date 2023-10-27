@@ -293,7 +293,7 @@ export const useChatStore = createPersistStore(
       },
 
       getfunctionCalling(message: ChatMessage) {
-        console.log("message", message);
+        console.log("getfunctioncalling");
       },
 
       async onUserInput(content: string) {
