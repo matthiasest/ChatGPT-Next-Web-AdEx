@@ -298,7 +298,9 @@ export const useChatStore = createPersistStore(
         const session = get().currentSession();
         const modelConfig = session.mask.modelConfig;
 
-        
+        if(message.content.includes("function_call")) {
+          console.log("if war erfolgreich");
+        }
         console.log("getfunctionCalling", message.content);
 
         
