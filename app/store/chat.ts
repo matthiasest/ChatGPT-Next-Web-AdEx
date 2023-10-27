@@ -289,6 +289,11 @@ export const useChatStore = createPersistStore(
         });
         get().updateStat(message);
         get().summarizeSession();
+        get().getfunctionCalling(message);
+      },
+
+      getfunctionCalling(message: ChatMessage) {
+        console.log("message", message);
       },
 
       async onUserInput(content: string) {
