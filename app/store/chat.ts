@@ -299,11 +299,22 @@ export const useChatStore = createPersistStore(
         const modelConfig = session.mask.modelConfig;
 
         if(message.content.includes("function_call")) {
-          console.log("if war erfolgreich");
+          let content = JSON.parse(message.content);
+          let functionName = content.function_call.name;
+          let functionArguments = JSON.parse(content.function_call.arguments);
+          console.log("Function Name: ", functionName);
+          console.log("Function Arguments: ", functionArguments);
+
+          if(functionName === "search_stock_info") {
+              search_stock_info(functionArguments.stock);
+          }
+
         }
         console.log("getfunctionCalling", message.content);
 
-        
+        function search_stock_info(stock: string) {
+          console.log("search_stock_info aufgerufen", stock);
+        }
       },
 
       async onUserInput(content: string) {
