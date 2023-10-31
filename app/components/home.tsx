@@ -144,6 +144,7 @@ function Screen() {
         }`
       }
     >
+      {console.log("Screen: isAuth - ",isAuth)}
       {isAuth ? (
         <>
           <AuthPage />
