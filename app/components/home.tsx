@@ -135,6 +135,8 @@ function Screen() {
     loadAsyncGoogleFont();
   }, []);
 
+  console.log("Screen: isAuth - ", isAuth);
+
   return (
     <div
       className={
