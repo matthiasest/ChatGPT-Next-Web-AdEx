@@ -76,7 +76,7 @@ export class ChatGPTApi implements LLMApi {
           
           formattedInput = formattedInput.replace(regex, '');
         
-// console.log("Formatted Input: ", formattedInput);  // Debugging Step 1
+          // console.log("Formatted Input: ", formattedInput);  // Debugging Step 1
 
           const validJsonString = formattedInput.replace(/(\w+):/g, '"$1":');
           
