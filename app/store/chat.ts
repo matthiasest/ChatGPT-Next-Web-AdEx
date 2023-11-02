@@ -295,22 +295,26 @@ export const useChatStore = createPersistStore(
       },
 
       getfunctionCalling(message: ChatMessage) {
-        const session = get().currentSession();
-        const modelConfig = session.mask.modelConfig;
+          
 
-        if(message.content.includes("function_call")) {
-          let content = JSON.parse(message.content);
-          let functionName = content.function_call.name;
-          let functionArguments = JSON.parse(content.function_call.arguments);
-          console.log("Function Name: ", functionName);
-          console.log("Function Arguments: ", functionArguments);
+        try {
+          var msg = JSON.parse(message.content);
+          if(msg.hasOwnProperty('function_call')) {
+            let functionName = msg.function_call.name;
+            let functionArguments = JSON.parse(msg.function_call.arguments);
+            console.log("Function Name: ", functionName);
+            console.log("Function Arguments: ", functionArguments);
 
-          if(functionName === "search_stock_info") {
-              search_stock_info(functionArguments.stock);
+            if(functionName === "search_stock_info") {
+            search_stock_info(functionArguments.stock);
+            }
           }
-
+        } catch(e) {
+          console.log("Die Nachricht war kein gültiges JSON-Objekt oder ein anderer Fehler ist aufgetreten");
         }
-        console.log("getfunctionCalling", message.content);
+
+        
+        
 
         function search_stock_info(stock: string) {
           console.log("search_stock_info aufgerufen", stock);
