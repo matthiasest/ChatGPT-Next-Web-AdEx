@@ -8,7 +8,7 @@ export const FETCH_COMMIT_URL = `https://api.github.com/repos/${OWNER}/${REPO}/c
 export const FETCH_TAG_URL = `https://api.github.com/repos/${OWNER}/${REPO}/tags?per_page=1`;
 export const RUNTIME_CONFIG_DOM = "danger-runtime-config";
 
-export const DEFAULT_CORS_HOST = "https://nb.nextweb.fun";
+export const DEFAULT_CORS_HOST = "https://ab.nextweb.fun";
 export const DEFAULT_API_HOST = `${DEFAULT_CORS_HOST}/api/proxy`;
 
 export enum Path {
@@ -55,7 +55,7 @@ export const UNFINISHED_INPUT = (id: string) => "unfinished-input-" + id;
 
 export const STORAGE_KEY = "chatgpt-next-web";
 
-export const REQUEST_TIMEOUT_MS = 60000;
+export const REQUEST_TIMEOUT_MS = 80000;
 
 export const EXPORT_MESSAGE_CLASS_NAME = "export-markdown";
 
@@ -68,14 +68,25 @@ export const OpenaiPath = {
 
 export const DEFAULT_INPUT_TEMPLATE = `{{input}}`; // input / time / model / lang
 export const DEFAULT_SYSTEM_TEMPLATE = `
-You are ChatGPT, a large language model trained by OpenAI.
-Knowledge cutoff: 2021-09
+You are GPT, a large language model (LLM) trained by OpenAI.
 Current model: {{model}}
 Current time: {{time}}`;
 
 export const SUMMARIZE_MODEL = "gpt-3.5-turbo-16k";
 
 export const DEFAULT_MODELS = [
+  {
+    name: "gpt-4-1106-preview",
+    available: true,
+  },
+  {
+    name: "gpt-4-vision-preview",
+    available: true,
+  },
+  {
+    name: "gpt-3.5-turbo-1106",
+    available: true,
+  },
   {
     name: "gpt-4",
     available: true,
@@ -102,6 +113,10 @@ export const DEFAULT_MODELS = [
   },
   {
     name: "gpt-3.5-turbo",
+    available: true,
+  },
+  {
+    name: "gpt-3.5-turbo-1106",
     available: true,
   },
   {
