@@ -50,9 +50,9 @@ export class ChatGPTApi implements LLMApi {
 
   async chat(options: ChatOptions) {
     const messages = options.messages.map((v) => ({
-      role: "user",
+      role: v.role,
         content: [
-          { type: "text", text: "What’s in this image?" },
+          { type: "text", text: v.content },
           {
             type: "image_url",
             image_url:
