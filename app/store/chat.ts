@@ -291,12 +291,8 @@ export const useChatStore = createPersistStore(
         });
         get().updateStat(message);
         get().summarizeSession();
-        get().getfunctionCalling(message);
       },
 
-      getfunctionCalling(message: ChatMessage) {
-        console.log("getfunctioncalling");
-      },
 
       async onUserInput(content: string) {
         const session = get().currentSession();
