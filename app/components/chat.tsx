@@ -53,6 +53,26 @@ function DropFiles() {
   );
 }
 
+function DropFiles() {
+  // Use an empty array of MyFile as the initial state
+  const [files, setFiles] = React.useState<MyFile[]>([]);
+  
+  // Specify the type for incommingFiles parameter
+  const updateFiles = (incommingFiles: any[]) => {
+    setFiles(incommingFiles);
+  };
+  
+
+  return (
+    <Dropzone onChange={updateFiles} value={files}>
+      {files.map((file, index) => (
+        <FileMosaic key={file.name} {...file} preview />
+      ))}
+    </Dropzone>
+  );
+}
+
+
 import {
   ChatMessage,
   SubmitKey,
