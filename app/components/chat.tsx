@@ -61,14 +61,15 @@ function DropFiles() {
     incomingFiles.forEach(file => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        // The result attribute contains the data as a base64 encoded string
-        const base64String = e.target.result;
-  
-        // Update the state with the new file and its base64 string
-        setFilesWithBase64(prevFiles => [...prevFiles, { file, base64: base64String }]);
-  
-        // Log the base64String if needed
-        console.log(base64String);
+        if (e.target) { // Check that e.target is not null
+          const base64String = e.target.result;
+          setFilesWithBase64(prevFiles => [...prevFiles, { file, base64: base64String }]);
+      
+          // Log the base64String if needed
+          console.log(base64String);
+        } else {
+          console.error('FileReader event target was null');
+        }
       };
       reader.onerror = (error) => {
         console.error('Error reading file:', error);
