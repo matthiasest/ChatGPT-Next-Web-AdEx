@@ -7,7 +7,8 @@ import React, {
   useCallback,
   Fragment,
 } from "react";
-import { useDropzone } from 'react-dropzone';
+import { FileInputButton, FileMosaic } from "@files-ui/react";
+
 
 import SendWhiteIcon from "../icons/send-white.svg";
 import BrainIcon from "../icons/brain.svg";
@@ -94,75 +95,6 @@ import { getClientConfig } from "../config/client";
 const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
 });
-
-
-// Ihre ExtendedFile Schnittstelle
-interface ExtendedFile {
-  preview: string;
-  name: string;
-  size: number;
-  type: string;
-}
-
-const Basic: React.FC = () => {
-  const [files, setFiles] = useState<ExtendedFile[]>([]);
-
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop: (acceptedFiles: File[]) => {
-      console.log('Accepted files:', acceptedFiles); // Fügen Sie diese Zeile hinzu, um die Dateien zu überprüfen
-      const extendedFiles: ExtendedFile[] = acceptedFiles.map(file => {
-        let previewUrl = '';
-        try {
-          previewUrl = URL.createObjectURL(file);
-        } catch (error) {
-          console.error('Error creating object URL:', error);
-        }
-        return {
-          preview: previewUrl,
-          name: file.name,
-          size: file.size,
-          type: file.type
-        };
-      });
-      
-
-      setFiles(prevFiles => [...prevFiles, ...extendedFiles]);
-    },
-    accept: {
-      'image/jpeg': [],
-      'image/png': []
-    }
-  });
-
-  // Erstellen Sie eine Ansicht der Dateiliste basierend auf dem lokalen Zustand
-  const fileList = files.map((file, index) => (
-    <li key={file.name}>
-      {file.name} - {file.size} bytes
-    </li>
-  ));
-
-  // Bereinigen Sie die preview URLs, wenn die Komponente nicht mehr eingehängt ist
-  useEffect(() => {
-    return () => {
-      files.forEach(file => URL.revokeObjectURL(file.preview));
-    };
-  }, [files]);
-
-  return (
-    <section className="container">
-      <div {...getRootProps({ className: 'dropzone' })}>
-        <input {...getInputProps()} />
-        <p>click or drop images here</p>
-      </div>
-      <aside>
-        <h4>Files</h4>
-        <ul>{fileList}</ul>
-      </aside>
-    </section>
-  );
-}
-
-export default Basic;
 
 
 export function SessionConfigModel(props: { onClose: () => void }) {
@@ -1341,7 +1273,14 @@ function _Chat() {
               fontSize: config.fontSize,
             }}
           />
-          <Basic />
+          <>
+   {value ? (
+     <FileMosaic {...value} onDelete={removeFile} info preview/>
+   ) : (
+     <FileInputButton onChange={updateFile} accept="image/*"/>
+   )}
+   <FileMosaic {...sampleFileProps} info/>
+</>
           <IconButton
             icon={<SendWhiteIcon />}
             text={Locale.Chat.Send}
