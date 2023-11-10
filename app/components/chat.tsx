@@ -7,6 +7,7 @@ import React, {
   useCallback,
   Fragment,
 } from "react";
+import { useDropzone } from 'react-dropzone';
 
 import SendWhiteIcon from "../icons/send-white.svg";
 import BrainIcon from "../icons/brain.svg";
@@ -92,6 +93,7 @@ import { getClientConfig } from "../config/client";
 const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
 });
+
 
 export function SessionConfigModel(props: { onClose: () => void }) {
   const chatStore = useChatStore();
@@ -647,6 +649,34 @@ function _Chat() {
     },
   );
 
+  const [droppedFiles, setDroppedFiles] = useState([]);
+
+  // Set up the dropzone hook
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: 'image/*',
+    onDrop: acceptedFiles => {
+      // Handle the dropped files
+      setDroppedFiles(acceptedFiles.map(file => Object.assign(file, {
+        preview: URL.createObjectURL(file)
+      })));
+      // You may want to do something with the files here, like uploading
+    }
+  });
+
+  const handlePaste = (e) => {
+    const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+    for (const item of items) {
+      if (item.kind === 'file') {
+        const blob = item.getAsFile();
+        const file = new File([blob], "pasted-image.png", { type: blob.type });
+        setDroppedFiles([...droppedFiles, Object.assign(file, {
+          preview: URL.createObjectURL(file)
+        })]);
+        // You may want to do something with the file here, like uploading
+      }
+    }
+  };
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(measure, [userInput]);
 
@@ -722,6 +752,8 @@ function _Chat() {
   const onUserStop = (messageId: string) => {
     ChatControllerPool.stop(session.id, messageId);
   };
+
+  
 
   useEffect(() => {
     chatStore.updateCurrentSession((session) => {
