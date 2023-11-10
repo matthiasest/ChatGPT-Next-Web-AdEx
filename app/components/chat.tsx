@@ -38,6 +38,14 @@ import BottomIcon from "../icons/bottom.svg";
 import StopIcon from "../icons/pause.svg";
 import RobotIcon from "../icons/robot.svg";
 
+interface FileWithBase64 {
+  file: File;
+  base64: string | ArrayBuffer | null;
+}
+
+const [filesWithBase64, setFilesWithBase64] = React.useState<FileWithBase64[]>([]);
+
+
 interface MyFile {
   name: string; // and any other properties that are on your file objects
   // ... other properties like size, type, etc.
@@ -47,14 +55,38 @@ function DropFiles() {
   // Use an empty array of MyFile as the initial state
   const [files, setFiles] = React.useState<MyFile[]>([]);
   
-  // Specify the type for incommingFiles parameter
-  const updateFiles = (incommingFiles: any[]) => {
-    setFiles(incommingFiles);
+  const updateFiles = (incomingFiles: File[]) => {
+    // Initialize an array to hold the base64 strings
+    const filesBase64Array: FileWithBase64[] = [];
+  
+    incomingFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        // The result attribute contains the data as a base64 encoded string
+        const base64String = e.target.result;
+  
+        // Update the state with the new file and its base64 string
+        setFilesWithBase64(prevFiles => [...prevFiles, { file, base64: base64String }]);
+  
+        // Log the base64String if needed
+        console.log(base64String);
+      };
+      reader.onerror = (error) => {
+        console.error('Error reading file:', error);
+      };
+      reader.readAsDataURL(file); // Read the file as Data URL (base64)
+    });
+  
+    // Update the state that tracks the uploaded files
+    setFiles(incomingFiles);
   };
   
 
+
   return (
-    <Dropzone onChange={updateFiles} value={files}>
+    <Dropzone style={{ width: "100px"; height: "50px" }}
+    label={"📷"}
+    onChange={updateFiles} value={files} maxFiles={2} accept="image/*">
       {files.map((file, index) => (
         <FileMosaic key={file.name} {...file} preview />
       ))}
