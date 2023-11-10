@@ -7,6 +7,7 @@ import React, {
   useCallback,
   Fragment,
 } from "react";
+import { useDropzone } from 'react-dropzone';
 
 import SendWhiteIcon from "../icons/send-white.svg";
 import BrainIcon from "../icons/brain.svg";
@@ -93,6 +94,20 @@ import { getClientConfig } from "../config/client";
 const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
 });
+
+const ImageDropzone = ({ onDrop }) => {
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: 'image/*', // Accept images only
+  });
+
+  return (
+    <div {...getRootProps()} className="dropzone">
+      <input {...getInputProps()} />
+      <p>Drag 'n' drop some images here, or click to select images</p>
+    </div>
+  );
+};
 
 export function SessionConfigModel(props: { onClose: () => void }) {
   const chatStore = useChatStore();
@@ -1015,6 +1030,11 @@ function _Chat() {
   // edit / insert message modal
   const [isEditingMessage, setIsEditingMessage] = useState(false);
 
+  // Inside your main chat component
+  const handleDrop = useCallback(acceptedFiles => {
+    // Handle the files, e.g., by converting them to base64 or uploading to a server
+  }, []);
+
   // remember unfinished input
   useEffect(() => {
     // try to load from local storage
@@ -1270,6 +1290,11 @@ function _Chat() {
               fontSize: config.fontSize,
             }}
           />
+          <Fragment>
+            {/* Other chat components */}
+            <ImageDropzone onDrop={handleDrop} />
+            {/* Other chat components */}
+          </Fragment>
           <IconButton
             icon={<SendWhiteIcon />}
             text={Locale.Chat.Send}
