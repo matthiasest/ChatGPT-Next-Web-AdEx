@@ -37,10 +37,6 @@ import AutoIcon from "../icons/auto.svg";
 import BottomIcon from "../icons/bottom.svg";
 import StopIcon from "../icons/pause.svg";
 import RobotIcon from "../icons/robot.svg";
-
-
-
-
 function DropFiles() {
   const [files, setFiles] = React.useState([]);
   const updateFiles = (incommingFiles) => {
@@ -48,8 +44,10 @@ function DropFiles() {
   };
   return (
     <Dropzone onChange={updateFiles} value={files}>
-      {files.map((file) => (
-        <FileMosaic {...file} preview />
+      {files.map((file, index) => ( // Added `index` as a second argument to map
+        // Use the file's name or another unique property as the key
+        // If file.name is not guaranteed to be unique, you might need to generate a unique ID when you process the files
+        <FileMosaic key={`${file.name}-${index}`} {...file} preview />
       ))}
     </Dropzone>
   );
