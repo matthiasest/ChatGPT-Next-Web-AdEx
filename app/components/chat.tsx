@@ -38,6 +38,10 @@ import BottomIcon from "../icons/bottom.svg";
 import StopIcon from "../icons/pause.svg";
 import RobotIcon from "../icons/robot.svg";
 
+interface MyFile {
+  name: string; // and any other properties that are on your file objects
+  // ... other properties like size, type, etc.
+}
 
 function DropFiles() {
   // Use an empty array of MyFile as the initial state
