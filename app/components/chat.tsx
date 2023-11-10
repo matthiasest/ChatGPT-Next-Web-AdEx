@@ -94,8 +94,7 @@ import { getClientConfig } from "../config/client";
 const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
 });
-import React, { useState, useEffect } from 'react';
-import { useDropzone } from 'react-dropzone';
+
 
 // Ihre ExtendedFile Schnittstelle
 interface ExtendedFile {
