@@ -98,7 +98,7 @@ const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
 
 // Ihre ExtendedFile Schnittstelle
 interface ExtendedFile {
-//  preview: string;
+  preview: string;
   name: string;
   size: number;
   type: string;
