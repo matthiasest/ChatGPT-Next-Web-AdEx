@@ -84,7 +84,7 @@ function DropFiles() {
 
 
   return (
-    <Dropzone style={{ width: "100px"; height: "50px" }}
+    <Dropzone style={{ width: "100px", height: "50px" }}
     label={"📷"}
     onChange={updateFiles} value={files} maxFiles={2} accept="image/*">
       {files.map((file, index) => (
