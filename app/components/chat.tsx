@@ -95,31 +95,56 @@ const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
 });
 
-function Basic(props: {}) {
-  const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
-  
-  interface ExtendedFile extends File {
-    path?: string;
-  }
-  const files = acceptedFiles.map((file: ExtendedFile) => (
-    <li key={file.name}>
-      {file.path ? file.path : file.name} - {file.size} bytes
+import React, { useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+
+interface ExtendedFile extends File {
+  path: string;
+  preview?: string;
+}
+
+const Basic: React.FC = () => {
+  const [files, setFiles] = useState<ExtendedFile[]>([]);
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop: (acceptedFiles: File[]) => {
+      const extendedFiles: ExtendedFile[] = acceptedFiles.map(file => Object.assign(file, {
+        preview: URL.createObjectURL(file),
+        path: (file as ExtendedFile).path || file.name // Use file path or name as fallback
+      }));
+
+      setFiles(prevFiles => [...prevFiles, ...extendedFiles]);
+    },
+    accept: 'image/*', // Optional: Accept images only
+  });
+
+  // Clean up the previews when the component is unmounted
+  React.useEffect(() => {
+    return () => files.forEach(file => URL.revokeObjectURL(file.preview || ''));
+  }, [files]);
+
+  const fileList = files.map((file, index) => (
+    <li key={file.path || file.name}>
+      {file.path} - {file.size} bytes
     </li>
   ));
 
   return (
     <section className="container">
-      <div {...getRootProps({className: 'dropzone'})}>
+      <div {...getRootProps({ className: 'dropzone' })}>
         <input {...getInputProps()} />
         <p>Drag n drop some files here, or click to select files</p>
       </div>
       <aside>
         <h4>Files</h4>
-        <ul>{files}</ul>
+        <ul>{fileList}</ul>
       </aside>
     </section>
   );
 }
+
+export default Basic;
+
 
 export function SessionConfigModel(props: { onClose: () => void }) {
   const chatStore = useChatStore();
