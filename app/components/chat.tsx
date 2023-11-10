@@ -142,7 +142,7 @@ const Basic: React.FC = () => {
     <section className="container">
       <div {...getRootProps({ className: 'dropzone' })}>
         <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
+        <p>click or drop images here</p>
       </div>
       <aside>
         <h4>Files</h4>
