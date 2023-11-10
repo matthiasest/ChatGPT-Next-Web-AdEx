@@ -98,9 +98,9 @@ const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
 function Basic(props: {}) {
   const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
   
-  const files = acceptedFiles.map(file => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
+  const files = acceptedFiles.map((file) => (
+    <li key={file.name}>
+      {file['path'] ? file['path'] : file.name} - {file.size} bytes
     </li>
   ));
 
