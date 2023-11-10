@@ -1042,11 +1042,6 @@ function _Chat() {
   // edit / insert message modal
   const [isEditingMessage, setIsEditingMessage] = useState(false);
 
-  // Inside your main chat component
-  const handleDrop = useCallback(acceptedFiles => {
-    // Handle the files, e.g., by converting them to base64 or uploading to a server
-  }, []);
-
   // remember unfinished input
   useEffect(() => {
     // try to load from local storage
