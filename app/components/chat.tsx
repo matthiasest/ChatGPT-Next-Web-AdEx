@@ -112,7 +112,10 @@ const Basic: React.FC = () => {
 
       setFiles(prevFiles => [...prevFiles, ...extendedFiles]);
     },
-    accept: 'image/*', // Optional: Accept images only
+    accept: {
+      'image/jpeg': [],
+      'image/png': []
+    }
   });
 
   // Clean up the previews when the component is unmounted
