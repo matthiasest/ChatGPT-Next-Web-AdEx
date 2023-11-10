@@ -95,7 +95,12 @@ const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
 });
 
-const ImageDropzone = ({ onDrop }) => {
+
+type ImageDropzoneProps = {
+  onDrop: (acceptedFiles: File[]) => void;
+};
+
+const ImageDropzone = ({ onDrop }: ImageDropzoneProps) => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: 'image/*', // Accept images only
