@@ -7,7 +7,8 @@ import React, {
   useCallback,
   Fragment,
 } from "react";
-import { FileInputButton, FileMosaic } from "@files-ui/react";
+import { FileInputButton, Dropzone, FileMosaic } from "@files-ui/react";
+
 
 
 import SendWhiteIcon from "../icons/send-white.svg";
@@ -36,6 +37,23 @@ import AutoIcon from "../icons/auto.svg";
 import BottomIcon from "../icons/bottom.svg";
 import StopIcon from "../icons/pause.svg";
 import RobotIcon from "../icons/robot.svg";
+
+
+
+
+function DropFiles() {
+  const [files, setFiles] = React.useState([]);
+  const updateFiles = (incommingFiles) => {
+    setFiles(incommingFiles);
+  };
+  return (
+    <Dropzone onChange={updateFiles} value={files}>
+      {files.map((file) => (
+        <FileMosaic {...file} preview />
+      ))}
+    </Dropzone>
+  );
+}
 
 import {
   ChatMessage,
@@ -1273,14 +1291,10 @@ function _Chat() {
               fontSize: config.fontSize,
             }}
           />
-          <>
-   {value ? (
-     <FileMosaic {...value} onDelete={removeFile} info preview/>
-   ) : (
-     <FileInputButton onChange={updateFile} accept="image/*"/>
-   )}
-   <FileMosaic {...sampleFileProps} info/>
-</>
+
+
+<DropFiles />
+
           <IconButton
             icon={<SendWhiteIcon />}
             text={Locale.Chat.Send}
