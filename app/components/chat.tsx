@@ -95,27 +95,28 @@ const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
 });
 
-
-type ImageDropzoneProps = {
-  onDrop: (acceptedFiles: File[]) => void;
-};
-
-const ImageDropzone = ({ onDrop }: ImageDropzoneProps) => {
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: {
-      'image/jpeg': [],
-      'image/png': []
-    }
-  });
+function Basic(props) {
+  const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
+  
+  const files = acceptedFiles.map(file => (
+    <li key={file.path}>
+      {file.path} - {file.size} bytes
+    </li>
+  ));
 
   return (
-    <div {...getRootProps()} className="dropzone">
-      <input {...getInputProps()} />
-      <p>Drag-drop some images here, or click to select images</p>
-    </div>
+    <section className="container">
+      <div {...getRootProps({className: 'dropzone'})}>
+        <input {...getInputProps()} />
+        <p>Drag 'n' drop some files here, or click to select files</p>
+      </div>
+      <aside>
+        <h4>Files</h4>
+        <ul>{files}</ul>
+      </aside>
+    </section>
   );
-};
+}
 
 export function SessionConfigModel(props: { onClose: () => void }) {
   const chatStore = useChatStore();
@@ -1298,11 +1299,7 @@ function _Chat() {
               fontSize: config.fontSize,
             }}
           />
-          <Fragment>
-            {/* Other chat components */}
-            <ImageDropzone onDrop={handleDrop} />
-            {/* Other chat components */}
-          </Fragment>
+          <Basic />
           <IconButton
             icon={<SendWhiteIcon />}
             text={Locale.Chat.Send}
