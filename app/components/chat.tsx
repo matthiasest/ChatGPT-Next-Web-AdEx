@@ -95,9 +95,6 @@ const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
 });
 
-import React, { useState } from 'react';
-import { useDropzone } from 'react-dropzone';
-
 interface ExtendedFile extends File {
   path: string;
   preview?: string;
