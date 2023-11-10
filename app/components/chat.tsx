@@ -43,8 +43,6 @@ interface FileWithBase64 {
   base64: string | ArrayBuffer | null;
 }
 
-const [filesWithBase64, setFilesWithBase64] = React.useState<FileWithBase64[]>([]);
-
 
 interface MyFile {
   name: string; // and any other properties that are on your file objects
@@ -53,8 +51,9 @@ interface MyFile {
 
 function DropFiles() {
   // Use an empty array of MyFile as the initial state
-  const [files, setFiles] = React.useState<MyFile[]>([]);
-  
+  const [files, setFiles] = useState<MyFile[]>([]);
+  const [filesWithBase64, setFilesWithBase64] = useState<FileWithBase64[]>([]);
+
   const updateFiles = (incomingFiles: File[]) => {
     // Initialize an array to hold the base64 strings
     const filesBase64Array: FileWithBase64[] = [];
