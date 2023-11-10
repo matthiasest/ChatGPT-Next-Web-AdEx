@@ -104,7 +104,7 @@ const ImageDropzone = ({ onDrop }) => {
   return (
     <div {...getRootProps()} className="dropzone">
       <input {...getInputProps()} />
-      <p>Drag 'n' drop some images here, or click to select images</p>
+      <p>Drag-drop some images here, or click to select images</p>
     </div>
   );
 };
