@@ -103,7 +103,10 @@ type ImageDropzoneProps = {
 const ImageDropzone = ({ onDrop }: ImageDropzoneProps) => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: 'image/*', // Accept images only
+    accept: {
+      'image/jpeg': [],
+      'image/png': []
+    }
   });
 
   return (
