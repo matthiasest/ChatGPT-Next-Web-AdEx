@@ -105,6 +105,7 @@ const Basic: React.FC = () => {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
+      console.log('Dropped files', acceptedFiles); // Debugging-Zeile hinzufügen
       const extendedFiles: ExtendedFile[] = acceptedFiles.map(file => Object.assign(file, {
         preview: URL.createObjectURL(file),
         path: (file as ExtendedFile).path || file.name // Use file path or name as fallback
