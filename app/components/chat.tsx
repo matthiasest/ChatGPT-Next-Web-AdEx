@@ -94,10 +94,15 @@ import { getClientConfig } from "../config/client";
 const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
 });
+import React, { useState, useEffect } from 'react';
+import { useDropzone } from 'react-dropzone';
 
-interface ExtendedFile extends File {
-  path: string;
-  preview?: string;
+// Ihre ExtendedFile Schnittstelle
+interface ExtendedFile {
+  preview: string;
+  name: string;
+  size: number;
+  type: string;
 }
 
 const Basic: React.FC = () => {
@@ -106,9 +111,10 @@ const Basic: React.FC = () => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
       const extendedFiles: ExtendedFile[] = acceptedFiles.map(file => ({
-        ...file,
         preview: URL.createObjectURL(file),
-        path: file.name
+        name: file.name,
+        size: file.size,
+        type: file.type
       }));
 
       setFiles(prevFiles => [...prevFiles, ...extendedFiles]);
@@ -119,26 +125,25 @@ const Basic: React.FC = () => {
     }
   });
 
-  useEffect(() => {
-    // Cleanup previews
-    return () => files.forEach(file => {
-      if (file.preview) {
-        URL.revokeObjectURL(file.preview);
-      }
-    });
-  }, [files]);
-  
+  // Erstellen Sie eine Ansicht der Dateiliste basierend auf dem lokalen Zustand
   const fileList = files.map((file, index) => (
-    <li key={file.path || file.name}>
-      {file.path} - {file.size} bytes
+    <li key={file.name}>
+      {file.name} - {file.size} bytes
     </li>
   ));
+
+  // Bereinigen Sie die preview URLs, wenn die Komponente nicht mehr eingehängt ist
+  useEffect(() => {
+    return () => {
+      files.forEach(file => URL.revokeObjectURL(file.preview));
+    };
+  }, [files]);
 
   return (
     <section className="container">
       <div {...getRootProps({ className: 'dropzone' })}>
         <input {...getInputProps()} />
-        <p>Drag n drop some files here, or click to select files</p>
+        <p>Drag 'n' drop some files here, or click to select files</p>
       </div>
       <aside>
         <h4>Files</h4>
