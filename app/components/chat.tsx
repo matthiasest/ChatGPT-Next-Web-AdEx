@@ -98,7 +98,7 @@ const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
 
 // Ihre ExtendedFile Schnittstelle
 interface ExtendedFile {
-  preview: string;
+//  preview: string;
   name: string;
   size: number;
   type: string;
@@ -109,12 +109,22 @@ const Basic: React.FC = () => {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
-      const extendedFiles: ExtendedFile[] = acceptedFiles.map(file => ({
-        preview: URL.createObjectURL(file),
-        name: file.name,
-        size: file.size,
-        type: file.type
-      }));
+      console.log('Accepted files:', acceptedFiles); // Fügen Sie diese Zeile hinzu, um die Dateien zu überprüfen
+      const extendedFiles: ExtendedFile[] = acceptedFiles.map(file => {
+        let previewUrl = '';
+        try {
+          previewUrl = URL.createObjectURL(file);
+        } catch (error) {
+          console.error('Error creating object URL:', error);
+        }
+        return {
+          preview: previewUrl,
+          name: file.name,
+          size: file.size,
+          type: file.type
+        };
+      });
+      
 
       setFiles(prevFiles => [...prevFiles, ...extendedFiles]);
     },
