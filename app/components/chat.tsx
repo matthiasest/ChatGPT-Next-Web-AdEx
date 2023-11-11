@@ -668,6 +668,71 @@ export function EditMessageModal(props: { onClose: () => void }) {
 }
 
 function _Chat() {
+
+    
+  interface FileWithBase64 {
+    file: ExtFile; // Ensure this matches the ExtFile type
+    base64: string | ArrayBuffer | null;
+  }
+
+  const [files, setFiles] = useState<ExtFile[]>([]);
+  const [filesWithBase64, setFilesWithBase64] = useState<FileWithBase64[]>([]);
+
+  function DropFiles() {
+    // Use an empty array of MyFile as the initial state
+
+
+    const removeFile = (fileId: string | number | undefined) => {
+      if (fileId === undefined) {
+        console.error('Attempted to remove a file without an id');
+        return;
+      }
+      setFiles(prevFiles => prevFiles.filter(file => file.id !== fileId));
+      setFilesWithBase64(prevFilesWithBase64 => prevFilesWithBase64.filter(fwb64 => fwb64.file.id !== fileId));
+    };
+    
+    const updateFiles = (incomingFiles: ExtFile[]) => {
+      incomingFiles.forEach(extFile => {
+        if (extFile.file) { // Guard clause to ensure file is defined
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            if (e.target) {
+              const base64String = e.target.result;
+              setFilesWithBase64(prevFiles => [...prevFiles, { file: extFile, base64: base64String }]);
+              console.log(base64String);
+            } else {
+              console.error('FileReader event target was null');
+            }
+          };
+          reader.onerror = (error) => {
+            console.error('Error reading file:', error);
+          };
+          reader.readAsDataURL(extFile.file); // extFile.file is guaranteed to be defined here
+        } else {
+          console.error('No file to read for ExtFile with id:', extFile.id);
+        }
+      });
+    
+      setFiles(incomingFiles);
+    };
+    
+
+    return (
+      <Dropzone
+        onChange={updateFiles}
+        value={files}
+        style={{ width: "100px", height: "50px" }}
+        label={"📷"}
+        maxFiles={2} 
+        accept="image/*">
+        
+        {files.map((file: ExtFile) => (
+            <FileMosaic key={file.id} {...file} onDelete={removeFile} info={true} preview />
+        ))}
+      </Dropzone>
+    );
+  }
+
   type RenderMessage = ChatMessage & { preview?: boolean };
 
   const chatStore = useChatStore();
