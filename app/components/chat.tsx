@@ -1340,7 +1340,7 @@ function _Chat() {
           />
 
 
-<DropFiles />
+          <DropFiles />
 
           <IconButton
             icon={<SendWhiteIcon />}

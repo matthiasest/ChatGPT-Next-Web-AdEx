@@ -291,18 +291,36 @@ export const useChatStore = createPersistStore(
         get().summarizeSession();
       },
 
-      async onUserInput(content: string) {
+      async onUserInput(content: string, files: FileWithBase64[] = []) {
+              
         const session = get().currentSession();
         const modelConfig = session.mask.modelConfig;
 
         const userContent = fillTemplateWith(content, modelConfig);
         console.log("[User Input] after template: ", userContent);
 
-        const userMessage: ChatMessage = createMessage({
-          role: "user",
-          content: userContent,
-        });
+        // Create a FormData object if there are files to upload
+        if (files.length > 0) {
+          console.log("[User Input] files: ", files);
+          const formData = new FormData();
+          formData.append('content', userContent);
 
+          files.forEach((fileWithBase64, index) => {
+            if (typeof fileWithBase64.base64 === 'string') {
+              const blob = dataURLtoBlob(fileWithBase64.base64);
+              formData.append(`files[${index}]`, blob, fileWithBase64.file.name);
+            }
+          });
+
+          // TODO: Send formData to the backend instead of just userContent
+          // You will need to modify the backend API endpoint to accept and process FormData
+        } else {
+            // If there are no files, proceed with the existing logic
+            const userMessage: ChatMessage = createMessage({
+            role: "user",
+            content: userContent,
+          });
+        }
         const botMessage: ChatMessage = createMessage({
           role: "assistant",
           streaming: true,
