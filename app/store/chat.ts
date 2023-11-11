@@ -315,8 +315,10 @@ export const useChatStore = createPersistStore(
 
           files.forEach((fileWithBase64, index) => {
             if (typeof fileWithBase64.base64 === 'string') {
-              const blob = dataURLtoBlob(fileWithBase64.base64);
-              formData.append(`files[${index}]`, blob, fileWithBase64.file.name);
+              console.log("[User Input] fileWithBase64: ", fileWithBase64);
+
+//              const blob = dataURLtoBlob(fileWithBase64.base64);
+//              formData.append(`files[${index}]`, blob, fileWithBase64.file.name);
             }
           });
 
