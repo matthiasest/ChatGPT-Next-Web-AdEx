@@ -304,7 +304,7 @@ export const useChatStore = createPersistStore(
         const session = get().currentSession();
         const modelConfig = session.mask.modelConfig;
 
-        const userContent = fillTemplateWith(content, modelConfig);
+        let userContent = fillTemplateWith(content, modelConfig);
         console.log("[User Input] after template: ", userContent);
 
         let userMessage: ChatMessage;
@@ -312,17 +312,50 @@ export const useChatStore = createPersistStore(
         // Create a FormData object if there are files to upload
         if (files.length > 0) {
           console.log("[User Input] files: ", files);
-          const formData = new FormData();
-          formData.append('content', userContent);
+         
+/*
+          model: "gpt-4-vision-preview",
+    messages: [
+      {
+        role: "user",
+        content: [
+          { type: "text", text: "What are in these images? Is there any difference between them?" },
+          {
+            type: "image_url",
+            image_url: {
+              "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+            },
+          },
+          {
+            type: "image_url",
+            image_url: {
+              "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+            },
+          }
+        ],
+      },
+*/
+          let userFilesArray = [];
 
-          files.forEach((fileWithBase64, index) => {
+          files.forEach((fileWithBase64) => {
             if (typeof fileWithBase64.base64 === 'string') {
               console.log("[User Input] fileWithBase64: ", fileWithBase64);
 
-//              const blob = dataURLtoBlob(fileWithBase64.base64);
-//              formData.append(`files[${index}]`, blob, fileWithBase64.file.name);
+              // Push the new object into the array
+              userFilesArray.push({
+                type: "image_url",
+                image_url: {
+                  url: fileWithBase64.base64
+                }
+              });
             }
           });
+
+          // Convert the array to a JSON string after the loop is done
+          const userFilesJson = JSON.stringify(userFilesArray);
+          console.log("[User Input] userFilesJson: ", userFilesJson);
+
+          userContent = `[{ type: "text", text: "${userContent}" },]` + userFilesJson;
 
           // TODO: Send formData to the backend instead of just userContent
           // You will need to modify the backend API endpoint to accept and process FormData
