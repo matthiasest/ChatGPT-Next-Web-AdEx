@@ -54,7 +54,7 @@ function DropFiles() {
   const [files, setFiles] = useState<MyFile[]>([]);
   const [filesWithBase64, setFilesWithBase64] = useState<FileWithBase64[]>([]);
 
-  const updateFiles = (incomingFiles: File[]) => {
+  const updateFiles = (incomingFiles: ExtFile[]) => {
     // Initialize an array to hold the base64 strings
     const filesBase64Array: FileWithBase64[] = [];
   
@@ -84,11 +84,15 @@ function DropFiles() {
 
 
   return (
-    <Dropzone style={{ width: "100px", height: "50px" }}
-    label={"📷"}
-    onChange={updateFiles} value={files} maxFiles={2} accept="image/*">
-      {files.map((file, index) => (
-        <FileMosaic key={file.name} {...file} preview />
+    <Dropzone
+      onChange={updateFiles}
+      value={files}
+      style={{ width: "100px", height: "50px" }}
+    > label={"📷"}
+      onChange={updateFiles} value={files} maxFiles={2} accept="image/*">
+      
+      {files.map((file: ExtFile) => (
+          <FileMosaic key={file.id} {...file} onDelete={removeFile} info={true} preview />
       ))}
     </Dropzone>
   );
