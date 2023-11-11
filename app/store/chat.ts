@@ -307,6 +307,8 @@ export const useChatStore = createPersistStore(
         const userContent = fillTemplateWith(content, modelConfig);
         console.log("[User Input] after template: ", userContent);
 
+        let userMessage: ChatMessage;
+
         // Create a FormData object if there are files to upload
         if (files.length > 0) {
           console.log("[User Input] files: ", files);
@@ -324,13 +326,13 @@ export const useChatStore = createPersistStore(
 
           // TODO: Send formData to the backend instead of just userContent
           // You will need to modify the backend API endpoint to accept and process FormData
-          const userMessage: ChatMessage = createMessage({
+          userMessage = createMessage({
             role: "user",
             content: userContent,
           });
         } else {
             // If there are no files, proceed with the existing logic
-          const userMessage: ChatMessage = createMessage({
+          userMessage = createMessage({
             role: "user",
             content: userContent,
           });
