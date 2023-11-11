@@ -324,6 +324,10 @@ export const useChatStore = createPersistStore(
 
           // TODO: Send formData to the backend instead of just userContent
           // You will need to modify the backend API endpoint to accept and process FormData
+          const userMessage: ChatMessage = createMessage({
+          role: "user",
+          content: userContent,
+        
         } else {
             // If there are no files, proceed with the existing logic
             const userMessage: ChatMessage = createMessage({
