@@ -89,7 +89,6 @@ function DropFiles() {
       value={files}
       style={{ width: "100px", height: "50px" }}
       label={"📷"}
-      onChange={updateFiles} 
       maxFiles={2} 
       accept="image/*">
       
