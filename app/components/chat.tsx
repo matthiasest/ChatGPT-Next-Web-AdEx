@@ -89,7 +89,9 @@ function DropFiles() {
       value={files}
       style={{ width: "100px", height: "50px" }}
       label={"📷"}
-      onChange={updateFiles} value={files} maxFiles={2} accept="image/*">
+      onChange={updateFiles} 
+      maxFiles={2} 
+      accept="image/*">
       
       {files.map((file: ExtFile) => (
           <FileMosaic key={file.id} {...file} onDelete={removeFile} info={true} preview />
