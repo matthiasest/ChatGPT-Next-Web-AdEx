@@ -71,6 +71,13 @@ function DropFiles() {
       }
     });
   
+    const removeFile = (fileId: string | number) => {
+      // Filter out the file with the given id from the files state
+      setFiles(prevFiles => prevFiles.filter(file => file.id !== fileId));
+      // Filter out the file with the given id from the filesWithBase64 state
+      setFilesWithBase64(prevFilesWithBase64 => prevFilesWithBase64.filter(fwb64 => fwb64.file.id !== fileId));
+    };
+    
     setFiles(incomingFiles);
   };
   
