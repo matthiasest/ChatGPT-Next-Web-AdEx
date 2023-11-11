@@ -51,25 +51,28 @@ function DropFiles() {
 
   const updateFiles = (incomingFiles: ExtFile[]) => {
     incomingFiles.forEach(extFile => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        if (e.target) {
-          const base64String = e.target.result;
-          setFilesWithBase64(prevFiles => [...prevFiles, { file: extFile, base64: base64String }]);
-          console.log(base64String);
-        } else {
-          console.error('FileReader event target was null');
-        }
-      };
-      reader.onerror = (error) => {
-        console.error('Error reading file:', error);
-      };
-      reader.readAsDataURL(extFile.file); // Use the file property from ExtFile
+      if (extFile.file) { // Guard clause to ensure file is defined
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if (e.target) {
+            const base64String = e.target.result;
+            setFilesWithBase64(prevFiles => [...prevFiles, { file: extFile, base64: base64String }]);
+            console.log(base64String);
+          } else {
+            console.error('FileReader event target was null');
+          }
+        };
+        reader.onerror = (error) => {
+          console.error('Error reading file:', error);
+        };
+        reader.readAsDataURL(extFile.file); // extFile.file is guaranteed to be defined here
+      } else {
+        console.error('No file to read for ExtFile with id:', extFile.id);
+      }
     });
   
     setFiles(incomingFiles);
   };
-  
   
 
   return (
