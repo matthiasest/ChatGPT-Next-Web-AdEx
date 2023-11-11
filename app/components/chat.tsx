@@ -677,7 +677,7 @@ function _Chat() {
 
   const [files, setFiles] = useState<ExtFile[]>([]);
   const [filesWithBase64, setFilesWithBase64] = useState<FileWithBase64[]>([]);
-
+  
   function DropFiles() {
     // Use an empty array of MyFile as the initial state
 
@@ -692,6 +692,8 @@ function _Chat() {
     };
     
     const updateFiles = (incomingFiles: ExtFile[]) => {
+      console.error('incomingFiles:', incomingFiles);
+
       incomingFiles.forEach(extFile => {
         if (extFile.file) { // Guard clause to ensure file is defined
           const reader = new FileReader();
