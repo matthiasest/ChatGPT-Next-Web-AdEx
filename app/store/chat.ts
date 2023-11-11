@@ -362,7 +362,7 @@ export const useChatStore = createPersistStore(
 
           // Convert the array to a JSON string after the loop is done
           const userFilesJson = JSON.stringify(userFilesArray);
-          console.log("[User Input] userFilesJson: ", userFilesJson);
+          console.log("[User Input] userFilesArray: ", userFilesArray);
 
           // userContent = `[{ type: "text", text: "${userContent}" },"${userFilesJson}"]`;
 
@@ -371,8 +371,11 @@ export const useChatStore = createPersistStore(
           userMessage = createMessage({
             role: "user",
             content: [
-              text: userContent,
-              userFilesJson
+              {
+                type: "text", 
+                text: userContent
+              },
+              userFilesArray
             ]
           });
           console.log("[userMessage] with files: ", userMessage);
