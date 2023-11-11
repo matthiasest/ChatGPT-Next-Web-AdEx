@@ -49,6 +49,13 @@ function DropFiles() {
   const [files, setFiles] = useState<ExtFile[]>([]);
   const [filesWithBase64, setFilesWithBase64] = useState<FileWithBase64[]>([]);
 
+  const removeFile = (fileId: string | number) => {
+    // Filter out the file with the given id from the files state
+    setFiles(prevFiles => prevFiles.filter(file => file.id !== fileId));
+    // Filter out the file with the given id from the filesWithBase64 state
+    setFilesWithBase64(prevFilesWithBase64 => prevFilesWithBase64.filter(fwb64 => fwb64.file.id !== fileId));
+  };
+  
   const updateFiles = (incomingFiles: ExtFile[]) => {
     incomingFiles.forEach(extFile => {
       if (extFile.file) { // Guard clause to ensure file is defined
@@ -71,13 +78,6 @@ function DropFiles() {
       }
     });
   
-    const removeFile = (fileId: string | number) => {
-      // Filter out the file with the given id from the files state
-      setFiles(prevFiles => prevFiles.filter(file => file.id !== fileId));
-      // Filter out the file with the given id from the filesWithBase64 state
-      setFilesWithBase64(prevFilesWithBase64 => prevFilesWithBase64.filter(fwb64 => fwb64.file.id !== fileId));
-    };
-    
     setFiles(incomingFiles);
   };
   
