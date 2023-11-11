@@ -59,8 +59,8 @@ function DropFiles() {
     setFilesWithBase64(prevFilesWithBase64 => prevFilesWithBase64.filter(fwb64 => fwb64.file.id !== fileId));
   };
   
-  const updateFiles = (incomingFiles: ExtFile[]) => {
-    incomingFiles.forEach(extFile => {
+  const updateFiles = (files: ExtFile[]) => {
+    files.forEach(extFile => {
       if (extFile.file) { // Guard clause to ensure file is defined
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -81,7 +81,7 @@ function DropFiles() {
       }
     });
   
-    setFiles(incomingFiles);
+    setFiles(files);
   };
   
 
@@ -692,7 +692,7 @@ function _Chat() {
     };
     
     const updateFiles = (incomingFiles: ExtFile[]) => {
-      console.error('incomingFiles:', incomingFiles);
+      console.log('incomingFiles:', incomingFiles);
 
       incomingFiles.forEach(extFile => {
         if (extFile.file) { // Guard clause to ensure file is defined
