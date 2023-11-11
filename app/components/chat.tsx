@@ -7,7 +7,7 @@ import React, {
   useCallback,
   Fragment,
 } from "react";
-import { FileInputButton, Dropzone, FileMosaic } from "@files-ui/react";
+import { FileInputButton, Dropzone, FileMosaic, ExtFile } from "@files-ui/react";
 
 
 
