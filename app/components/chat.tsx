@@ -615,7 +615,7 @@ function _Chat() {
   const [filesWithBase64, setFilesWithBase64] = useState<FileWithBase64[]>([]);
   const handleUserInput = async (userInput: string) => {
     // When the user submits the input, call onUserInput with the userInput and files
-    await onUserInput(userInput, filesWithBase64);
+    await chatStore.onUserInput(userInput, filesWithBase64);
     // Optionally clear the files after submitting
     setFilesWithBase64([]);
   };
