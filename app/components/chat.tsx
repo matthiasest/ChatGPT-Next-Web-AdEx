@@ -613,7 +613,13 @@ function _Chat() {
 
   const [files, setFiles] = useState<ExtFile[]>([]);
   const [filesWithBase64, setFilesWithBase64] = useState<FileWithBase64[]>([]);
-  
+  const handleUserInput = async (userInput: string) => {
+    // When the user submits the input, call onUserInput with the userInput and files
+    await onUserInput(userInput, filesWithBase64);
+    // Optionally clear the files after submitting
+    setFilesWithBase64([]);
+  };
+
   function DropFiles() {
     // Use an empty array of MyFile as the initial state
 
@@ -757,6 +763,7 @@ function _Chat() {
 
   const doSubmit = (userInput: string) => {
     if (userInput.trim() === "") return;
+    handleUserInput(userInput);
     const matchCommand = chatCommands.match(userInput);
     if (matchCommand.matched) {
       setUserInput("");
