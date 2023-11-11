@@ -39,9 +39,10 @@ import RobotIcon from "../icons/robot.svg";
 import { FileInputButton, Dropzone, FileMosaic, ExtFile } from "@files-ui/react";
 
 interface FileWithBase64 {
-  file: ExtFile; // Use ExtFile instead of File
+  file: ExtFile; // Ensure this matches the ExtFile type
   base64: string | ArrayBuffer | null;
 }
+
 
 function DropFiles() {
   // Use an empty array of MyFile as the initial state
@@ -49,13 +50,12 @@ function DropFiles() {
   const [filesWithBase64, setFilesWithBase64] = useState<FileWithBase64[]>([]);
 
   const updateFiles = (incomingFiles: ExtFile[]) => {
-    incomingFiles.forEach(file => {
+    incomingFiles.forEach(extFile => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        if (e.target) { // Check that e.target is not null
+        if (e.target) {
           const base64String = e.target.result;
-          setFilesWithBase64(prevFiles => [...prevFiles, { file: file, base64: base64String }]);
-          // Log the base64String if needed
+          setFilesWithBase64(prevFiles => [...prevFiles, { file: extFile, base64: base64String }]);
           console.log(base64String);
         } else {
           console.error('FileReader event target was null');
@@ -64,12 +64,12 @@ function DropFiles() {
       reader.onerror = (error) => {
         console.error('Error reading file:', error);
       };
-      reader.readAsDataURL(file); // Read the file as Data URL (base64)
+      reader.readAsDataURL(extFile.file); // Use the file property from ExtFile
     });
   
-    // Update the state that tracks the uploaded files
     setFiles(incomingFiles);
   };
+  
   
 
   return (
