@@ -20,6 +20,14 @@ import { estimateTokenLength } from "../utils/token";
 import { nanoid } from "nanoid";
 import { createPersistStore } from "../utils/store";
 
+import { ExtFile } from "@files-ui/react";
+
+interface FileWithBase64 {
+  file: ExtFile; // Ensure this matches the ExtFile type
+  base64: string | ArrayBuffer | null;
+}
+
+
 export type ChatMessage = RequestMessage & {
   date: string;
   streaming?: boolean;
