@@ -335,7 +335,16 @@ export const useChatStore = createPersistStore(
         ],
       },
 */
-          let userFilesArray = [];
+          
+          interface FileWithImageUrl {
+            type: string;
+            image_url: {
+              url: string;
+            };
+          }
+          
+          // Now declare userFilesArray with the type FileWithImageUrl[]
+          let userFilesArray: FileWithImageUrl[] = [];
 
           files.forEach((fileWithBase64) => {
             if (typeof fileWithBase64.base64 === 'string') {
