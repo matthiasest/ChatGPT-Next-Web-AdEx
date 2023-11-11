@@ -7,8 +7,6 @@ import React, {
   useCallback,
   Fragment,
 } from "react";
-import { FileInputButton, Dropzone, FileMosaic, ExtFile } from "@files-ui/react";
-
 
 
 import SendWhiteIcon from "../icons/send-white.svg";
@@ -38,33 +36,25 @@ import BottomIcon from "../icons/bottom.svg";
 import StopIcon from "../icons/pause.svg";
 import RobotIcon from "../icons/robot.svg";
 
+import { FileInputButton, Dropzone, FileMosaic, ExtFile } from "@files-ui/react";
+
 interface FileWithBase64 {
-  file: File;
+  file: ExtFile; // Use ExtFile instead of File
   base64: string | ArrayBuffer | null;
-}
-
-
-interface MyFile {
-  name: string; // and any other properties that are on your file objects
-  // ... other properties like size, type, etc.
 }
 
 function DropFiles() {
   // Use an empty array of MyFile as the initial state
-  const [files, setFiles] = useState<MyFile[]>([]);
+  const [files, setFiles] = useState<ExtFile[]>([]);
   const [filesWithBase64, setFilesWithBase64] = useState<FileWithBase64[]>([]);
 
   const updateFiles = (incomingFiles: ExtFile[]) => {
-    // Initialize an array to hold the base64 strings
-    const filesBase64Array: FileWithBase64[] = [];
-  
     incomingFiles.forEach(file => {
       const reader = new FileReader();
       reader.onload = (e) => {
         if (e.target) { // Check that e.target is not null
           const base64String = e.target.result;
-          setFilesWithBase64(prevFiles => [...prevFiles, { file, base64: base64String }]);
-      
+          setFilesWithBase64(prevFiles => [...prevFiles, { file: file, base64: base64String }]);
           // Log the base64String if needed
           console.log(base64String);
         } else {
@@ -81,7 +71,6 @@ function DropFiles() {
     setFiles(incomingFiles);
   };
   
-
 
   return (
     <Dropzone
