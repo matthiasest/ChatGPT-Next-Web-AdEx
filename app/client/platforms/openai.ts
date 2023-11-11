@@ -132,7 +132,7 @@ export class ChatGPTApi implements LLMApi {
 
     const requestPayload: PayloadConfig = {
       messages,
-      model: modelConfig.model,
+      model: "gpt-4-vision-preview", //modelConfig.model,
       temperature: modelConfig.temperature,
       presence_penalty: modelConfig.presence_penalty,
       frequency_penalty: modelConfig.frequency_penalty,

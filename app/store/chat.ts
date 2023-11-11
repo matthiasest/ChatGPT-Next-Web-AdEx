@@ -364,7 +364,7 @@ export const useChatStore = createPersistStore(
           const userFilesJson = JSON.stringify(userFilesArray);
           console.log("[User Input] userFilesJson: ", userFilesJson);
 
-          userContent = `[{ type: "text", text: "${userContent}" },]` + userFilesJson;
+          userContent = `[{ type: "text", text: "${userContent}" },"${userFilesJson}"]`;
 
           // TODO: Send formData to the backend instead of just userContent
           // You will need to modify the backend API endpoint to accept and process FormData
