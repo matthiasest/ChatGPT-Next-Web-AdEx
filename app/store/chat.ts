@@ -334,6 +334,86 @@ export const useChatStore = createPersistStore(
           }
         ],
       },
+
+      In TypeScript, you can define an interface that allows for optional properties using the `?` operator. This operator can be added after the property key to indicate that the property is not required.
+
+Here's an example of how you might define an interface for your payload where the second image is optional:
+
+```typescript
+interface ImageContent {
+  type: 'image_url';
+  image_url: {
+    url: string;
+  };
+}
+
+interface TextContent {
+  type: 'text';
+  text: string;
+}
+
+// Define a type that can be either TextContent or ImageContent
+type ContentItem = TextContent | ImageContent;
+
+interface Message {
+  role: 'user';
+  content: ContentItem[]; // An array of ContentItem, which can be text or image
+}
+
+interface Payload {
+  model: string;
+  messages: Message[];
+  max_tokens: number;
+  second_image?: ImageContent; // Optional second image
+}
+
+// Function to create a payload with an optional second image
+function createPayload(base64Image: string, secondBase64Image?: string): Payload {
+  let content: ContentItem[] = [
+    {
+      type: 'text',
+      text: "What’s in this image?"
+    },
+    {
+      type: 'image_url',
+      image_url: {
+        url: `data:image/jpeg;base64,${base64Image}`
+      }
+    }
+  ];
+
+  // If a second image is provided, add it to the content array
+  if (secondBase64Image) {
+    content.push({
+      type: 'image_url',
+      image_url: {
+        url: `data:image/jpeg;base64,${secondBase64Image}`
+      }
+    });
+  }
+
+  return {
+    model: 'gpt-4-vision-preview',
+    messages: [
+      {
+        role: 'user',
+        content: content
+      }
+    ],
+    max_tokens: 300
+  };
+}
+
+// Example usage
+const base64Image = 'first_base64_encoded_image_data';
+const secondBase64Image = 'second_base64_encoded_image_data'; // This is optional
+
+const payload = createPayload(base64Image, secondBase64Image);
+```
+
+In this example, the `createPayload` function takes a base64-encoded image string as a mandatory argument and a second base64-encoded image string as an optional argument. The `second_image` property in the `Payload` interface is marked optional with the `?` operator, meaning it does not need to be provided.
+
+When calling `createPayload`, you can either provide the second image or omit it, and the function will construct the payload accordingly. If the second image is not provided, the payload will only include the first image and the text content.
 */
           
           interface FileWithImageUrl {
@@ -342,23 +422,54 @@ export const useChatStore = createPersistStore(
               url: string;
             };
           }
+
+          interface ImageContent {
+  type: 'image_url';
+  image_url: {
+    url: string;
+  };
+}
+
+interface TextContent {
+  type: 'text';
+  text: string;
+}
+
+// Define a type that can be either TextContent or ImageContent
+type ContentItem = TextContent | ImageContent;
+
+interface Message {
+  role: 'user';
+  content: ContentItem[]; // An array of ContentItem, which can be text or image
+}
+
+          // Function to create a payload with an optional second image
+function createPayload(base64Image: string, secondBase64Image?: string): Payload {
+  let content: ContentItem[] = [
+    {
+      type: 'text',
+      text: "What’s in this image?"
+    },
+    {
+      type: 'image_url',
+      image_url: {
+        url: `data:image/jpeg;base64,${base64Image}`
+      }
+    }
+  ];
+
+  // If a second image is provided, add it to the content array
+  if (secondBase64Image) {
+    content.push({
+      type: 'image_url',
+      image_url: {
+        url: `data:image/jpeg;base64,${secondBase64Image}`
+      }
+    });
+  }
           
-          // Now declare userFilesArray with the type FileWithImageUrl[]
-          let userFilesArray: FileWithImageUrl[] = [];
 
-          files.forEach((fileWithBase64) => {
-            if (typeof fileWithBase64.base64 === 'string') {
-              console.log("[User Input] fileWithBase64: ", fileWithBase64);
-
-              // Push the new object into the array
-              userFilesArray.push({
-                type: "image_url",
-                image_url: {
-                  url: fileWithBase64.base64
-                }
-              });
-            }
-          });
+  
 
           // Convert the array to a JSON string after the loop is done
           const userFilesJson = JSON.stringify(userFilesArray);
@@ -375,6 +486,12 @@ export const useChatStore = createPersistStore(
               text: userContent
             }
           ];
+
+  // Example usage
+const base64Image = 'first_base64_encoded_image_data';
+const secondBase64Image = 'second_base64_encoded_image_data'; // This is optional
+
+const payload = createPayload(base64Image, secondBase64Image);
 
           userMessage = createMessage({
             role: "user",
