@@ -651,8 +651,10 @@ function _Chat() {
 
   const [droppedFiles, setDroppedFiles] = useState([]);
 
+  
+
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
+    accept: ['image/jpeg', 'image/png'], 
     onDrop: acceptedFiles => {
       // Erstellen Sie Objekt-URLs für die Vorschaubilder der abgelegten Dateien
       const filesWithPreview = acceptedFiles.map(file => Object.assign(file, {
