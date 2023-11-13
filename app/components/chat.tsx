@@ -659,7 +659,7 @@ function _Chat() {
       setDroppedFiles(acceptedFiles.map(file => Object.assign(file, {
         preview: URL.createObjectURL(file)
       })));
-      // You may want to do something with the files here, like uploading
+      // You may want to do something with the files here, like uploading.
     }
   });
 
