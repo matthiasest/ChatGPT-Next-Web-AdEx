@@ -651,17 +651,24 @@ function _Chat() {
 
   const [droppedFiles, setDroppedFiles] = useState([]);
 
-  // Set up the dropzone hook
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     onDrop: acceptedFiles => {
-      // Handle the dropped files
-      setDroppedFiles(acceptedFiles.map(file => Object.assign(file, {
+      // Erstellen Sie Objekt-URLs für die Vorschaubilder der abgelegten Dateien
+      const filesWithPreview = acceptedFiles.map(file => Object.assign(file, {
         preview: URL.createObjectURL(file)
-      })));
-      // You may want to do something with the files here, like uploading.
+      }));
+      // Aktualisieren Sie den Zustand mit den neuen Dateien und deren Vorschaubildern
+      setDroppedFiles(filesWithPreview);
     }
   });
+
+  // Stellen Sie sicher, dass Sie die Objekt-URLs bei Bereinigung widerrufen
+  useEffect(() => {
+    return () => {
+      droppedFiles.forEach(file => URL.revokeObjectURL(file.preview));
+    };
+  }, [droppedFiles]);
 
   const handlePaste = (e) => {
     const items = (e.clipboardData || e.originalEvent.clipboardData).items;
@@ -1300,6 +1307,7 @@ function _Chat() {
             className={styles["chat-input"]}
             placeholder={Locale.Chat.Input(submitKey)}
             onInput={(e) => onInput(e.currentTarget.value)}
+            onPaste={handlePaste}
             value={userInput}
             onKeyDown={onInputKeyDown}
             onFocus={scrollToBottom}
@@ -1318,6 +1326,29 @@ function _Chat() {
             onClick={() => doSubmit(userInput)}
           />
         </div>
+
+        <div {...getRootProps()} className={styles['dropzone']}>
+          <input {...getInputProps()} />
+          <p>Ziehen Sie Dateien hierher, um sie abzulegen, oder klicken Sie, um Dateien auszuwählen</p>
+          {/* Hier werden die Vorschaubilder der abgelegten Dateien angezeigt */}
+          <aside className={styles['thumbnails']}>
+            {droppedFiles.map(file => (
+              <div key={file.name} className={styles['thumbnail']}>
+                <div className={styles['thumbnail-inner']}>
+                  <img
+                    src={file.preview}
+                    alt={`Vorschau von ${file.name}`}
+                    className={styles['img']}
+                  />
+                </div>
+                <div className={styles['thumbnail-caption']}>
+                  {file.name} - {file.size} bytes
+                </div>
+              </div>
+            ))}
+          </aside>
+        </div>
+
       </div>
 
       {showExport && (
