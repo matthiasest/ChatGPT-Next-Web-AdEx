@@ -654,7 +654,7 @@ function _Chat() {
   
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: ['image/jpeg', 'image/png'], 
+    accept: 'image/jpeg' // Akzeptieren Sie nur Bild-Dateien
     onDrop: acceptedFiles => {
       // Erstellen Sie Objekt-URLs für die Vorschaubilder der abgelegten Dateien
       const filesWithPreview = acceptedFiles.map(file => Object.assign(file, {
