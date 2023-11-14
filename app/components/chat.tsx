@@ -650,11 +650,10 @@ function _Chat() {
   );
 
   const [droppedFiles, setDroppedFiles] = useState([]);
-
-  type Accept = 'image/jpeg' | 'image/png' | 'application/pdf'; 
+ 
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/jpeg' as Accept, // Akzeptieren Sie nur Bild-Dateien
+    accept: 'image*', // Akzeptieren Sie nur Bild-Dateien
     onDrop: acceptedFiles => {
       // Erstellen Sie Objekt-URLs für die Vorschaubilder der abgelegten Dateien
       const filesWithPreview = acceptedFiles.map(file => Object.assign(file, {
