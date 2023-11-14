@@ -7,7 +7,7 @@ import React, {
   useCallback,
   Fragment,
 } from "react";
-import { useDropzone, DropzoneOptions  } from 'react-dropzone';
+import { useDropzone, DropzoneOptions } from 'react-dropzone';
 
 import SendWhiteIcon from "../icons/send-white.svg";
 import BrainIcon from "../icons/brain.svg";
@@ -683,16 +683,18 @@ function _Chat() {
     };
   }, [droppedFiles]);
 
-  const handlePaste = (e) => {
-    const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+  const handlePaste = (e: React.ClipboardEvent) => {
+    const items = (e.clipboardData || e.clipboardData).items;
     for (const item of items) {
       if (item.kind === 'file') {
         const blob = item.getAsFile();
-        const file = new File([blob], "pasted-image.png", { type: blob.type });
-        setDroppedFiles([...droppedFiles, Object.assign(file, {
-          preview: URL.createObjectURL(file)
-        })]);
-        // You may want to do something with the file here, like uploading
+        if (blob !== null) {
+          const file = new File([blob], "pasted-image", { type: blob.type });
+          setDroppedFiles([...droppedFiles, Object.assign(file, {
+            preview: URL.createObjectURL(file)
+          })]);
+          // You may want to do something with the file here, like uploading
+        }
       }
     }
   };
