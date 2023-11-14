@@ -487,11 +487,20 @@ function createPayload(base64Image: string, secondBase64Image?: string): Payload
             }
           ];
 
-  // Example usage
-const base64Image = 'first_base64_encoded_image_data';
-const secondBase64Image = 'second_base64_encoded_image_data'; // This is optional
 
-const payload = createPayload(base64Image, secondBase64Image);
+          
+
+            // Example usage
+            const base64Image = 'first_base64_encoded_image_data';
+            const secondBase64Image = 'second_base64_encoded_image_data'; // This is optional
+
+            const payload = createPayload(base64Image, secondBase64Image);
+
+            let contentJsonnew = JSON.stringify(contentJson);
+            let userFilesJsonnew = JSON.stringify(userFilesArray);
+
+            console.log("[User Input] contentJsonnew: ", contentJsonnew);
+            console.log("[User Input] userFilesJsonnew: ", userFilesJsonnew);
 
           userMessage = createMessage({
             role: "user",
