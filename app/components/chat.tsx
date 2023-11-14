@@ -7,7 +7,7 @@ import React, {
   useCallback,
   Fragment,
 } from "react";
-import { useDropzone, Accept } from 'react-dropzone';
+import { useDropzone, DropzoneOptions  } from 'react-dropzone';
 
 import SendWhiteIcon from "../icons/send-white.svg";
 import BrainIcon from "../icons/brain.svg";
@@ -89,6 +89,11 @@ import { ChatCommandPrefix, useChatCommand, useCommand } from "../command";
 import { prettyObject } from "../utils/format";
 import { ExportMessageModal } from "./exporter";
 import { getClientConfig } from "../config/client";
+
+interface FileWithPreview extends File {
+  preview: string;
+}
+
 
 const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
@@ -649,14 +654,21 @@ function _Chat() {
     },
   );
 
-  const [droppedFiles, setDroppedFiles] = useState([]);
+  const accept: DropzoneOptions['accept'] = {
+    'image/jpeg': ['.jpeg', '.jpg'],
+    'image/png': ['.png'],
+    // Sie können auch einfach einen String verwenden, wenn Sie alle Bildtypen akzeptieren möchten
+    // 'image/*': []
+  };
+  
+  const [droppedFiles, setDroppedFiles] = useState<FileWithPreview[]>([]);
  
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image*' as unknown as Accept, // Akzeptieren Sie nur Bild-Dateien
+    accept,
     onDrop: acceptedFiles => {
       // Erstellen Sie Objekt-URLs für die Vorschaubilder der abgelegten Dateien
-      const filesWithPreview = acceptedFiles.map(file => Object.assign(file, {
+      const filesWithPreview: FileWithPreview[] = acceptedFiles.map(file => Object.assign(file, {
         preview: URL.createObjectURL(file)
       }));
       // Aktualisieren Sie den Zustand mit den neuen Dateien und deren Vorschaubildern
