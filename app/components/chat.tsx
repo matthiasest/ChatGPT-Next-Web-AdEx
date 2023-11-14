@@ -689,7 +689,7 @@ function _Chat() {
       if (item.kind === 'file') {
         const blob = item.getAsFile();
         if (blob !== null) {
-          const file = new File([blob], "pasted-image", { type: blob.type });
+          const file = new File([blob], "pasted-image.png", { type: blob.type });
           setDroppedFiles([...droppedFiles, Object.assign(file, {
             preview: URL.createObjectURL(file)
           })]);
@@ -1333,6 +1333,29 @@ function _Chat() {
               fontSize: config.fontSize,
             }}
           />
+
+          <div {...getRootProps()} className={styles['dropzone']}>
+            <input {...getInputProps()} />
+            <p>Ziehen Sie Dateien hierher, um sie abzulegen, oder klicken Sie, um Dateien auszuwählen</p>
+            {/* Hier werden die Vorschaubilder der abgelegten Dateien angezeigt */}
+            <aside className={styles['thumbnails']}>
+              {droppedFiles.map(file => (
+                <div key={file.name} className={styles['thumbnail']}>
+                  <div className={styles['thumbnail-inner']}>
+                    <img
+                      src={file.preview}
+                      alt={`Vorschau von ${file.name}`}
+                      className={styles['img']}
+                    />
+                  </div>
+                  <div className={styles['thumbnail-caption']}>
+                    {file.name} - {file.size} bytes
+                  </div>
+                </div>
+              ))}
+            </aside>
+          </div>
+
           <IconButton
             icon={<SendWhiteIcon />}
             text={Locale.Chat.Send}
@@ -1342,27 +1365,7 @@ function _Chat() {
           />
         </div>
 
-        <div {...getRootProps()} className={styles['dropzone']}>
-          <input {...getInputProps()} />
-          <p>Ziehen Sie Dateien hierher, um sie abzulegen, oder klicken Sie, um Dateien auszuwählen</p>
-          {/* Hier werden die Vorschaubilder der abgelegten Dateien angezeigt */}
-          <aside className={styles['thumbnails']}>
-            {droppedFiles.map(file => (
-              <div key={file.name} className={styles['thumbnail']}>
-                <div className={styles['thumbnail-inner']}>
-                  <img
-                    src={file.preview}
-                    alt={`Vorschau von ${file.name}`}
-                    className={styles['img']}
-                  />
-                </div>
-                <div className={styles['thumbnail-caption']}>
-                  {file.name} - {file.size} bytes
-                </div>
-              </div>
-            ))}
-          </aside>
-        </div>
+        
 
       </div>
 
