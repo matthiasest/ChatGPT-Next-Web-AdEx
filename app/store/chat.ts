@@ -502,9 +502,39 @@ function createPayload(base64Image: string, secondBase64Image?: string): Payload
             console.log("[User Input] contentJsonnew: ", contentJsonnew);
             console.log("[User Input] userFilesJsonnew: ", userFilesJsonnew);
 
+
+              const jsonString = JSON.stringify(contentJson)+","+JSON.stringify(userFilesArray);
+
+              const jsonObj = JSON.parse(jsonString);
+
+              const extractedText = jsonObj[0][0].text;
+
+              const extractedbase64Image = jsonObj[1][0].image_url.url.split("base64,")[1];
+
+              // Erstellen Sie das neue Format
+              const newFormat = [
+                {
+                  "type": "text",
+                  "text": extractedText
+                },
+                {
+                  "type": "image_url",
+                  "image_url": {
+                    "url": `data:image/jpeg;base64,${extractedbase64Image}`
+                  }
+                }
+              ];
+
+              // Konvertieren Sie das Objekt zurück in einen JSON-String
+              const newJsonString = JSON.stringify(newFormat, null, 2); // Der zweite Parameter sorgt für eine hübsche Formatierung
+
+              // newJsonString enthält jetzt das JSON im gewünschten Format
+              console.log(newJsonString);
+
+
           userMessage = createMessage({
             role: "user",
-            content: "["+JSON.stringify(contentJson)+","+JSON.stringify(userFilesArray)+"]"
+            content: newJsonString,
           });
           console.log("[userMessage] with files: ", userMessage);
 
