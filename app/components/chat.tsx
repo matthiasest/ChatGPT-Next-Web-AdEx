@@ -651,7 +651,7 @@ function _Chat() {
 
   const [droppedFiles, setDroppedFiles] = useState([]);
 
-  
+  type Accept = 'image/jpeg' | 'image/png' | 'application/pdf'; 
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/jpeg' as Accept, // Akzeptieren Sie nur Bild-Dateien
