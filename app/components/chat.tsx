@@ -1355,8 +1355,8 @@ function _Chat() {
                   src={file.preview}
                   alt={`Vorschau von ${file.name}`}
                   className={styles['img']}
-                  width={200} // replace with your desired width
-                  height={200} // replace with your desired height
+                  width={50} // replace with your desired width
+                  height={50} // replace with your desired height
                 />
                 </div>
                 <div className={styles['thumbnail-caption']}>
