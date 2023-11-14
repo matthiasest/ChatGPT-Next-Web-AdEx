@@ -653,7 +653,7 @@ function _Chat() {
  
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image*' as Accept, // Akzeptieren Sie nur Bild-Dateien
+    accept: 'image*' as unknown as Accept, // Akzeptieren Sie nur Bild-Dateien
     onDrop: acceptedFiles => {
       // Erstellen Sie Objekt-URLs für die Vorschaubilder der abgelegten Dateien
       const filesWithPreview = acceptedFiles.map(file => Object.assign(file, {
