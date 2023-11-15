@@ -423,7 +423,7 @@ export const useChatStore = createPersistStore(
               };
             }
 
-                    interface ImageContent {
+          interface ImageContent {
             type: 'image_url';
             image_url: {
               url: string;
@@ -491,8 +491,8 @@ export const useChatStore = createPersistStore(
           
 
             // Example usage
-            const base64Image = 'first_base64_encoded_image_data';
-            const secondBase64Image = 'second_base64_encoded_image_data'; // This is optional
+            let base64Image = 'first_base64_encoded_image_data';
+            let secondBase64Image = 'second_base64_encoded_image_data'; // This is optional
 
             const payload = createPayload(base64Image, secondBase64Image);
 
