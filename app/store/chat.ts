@@ -375,7 +375,7 @@ export const useChatStore = createPersistStore(
               text: userContent
             }
           ];
-
+          //hier ansetzen
           userMessage = createMessage({
             role: "user",
             content: "["+JSON.stringify(contentJson)+","+JSON.stringify(userFilesArray)+"]"
