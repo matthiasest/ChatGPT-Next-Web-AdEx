@@ -310,7 +310,7 @@ export const useChatStore = createPersistStore(
         let userMessage: ChatMessage;
 
         // Create a FormData object if there are files to upload
-        if (true) {
+        if (/*files.length > 0*/ true) {
           console.log("[User Input] files: ", files);
          
 /*
@@ -370,7 +370,9 @@ export const useChatStore = createPersistStore(
           // You will need to modify the backend API endpoint to accept and process FormData
 
           // Angenommen, `base64Image` ist immer definiert und enthält das erste Bild.
-          const base64Image = 'public\\android-chrome-192x192.png'; // Ihr Base64-kodierter String für das erste Bild
+           // Ihr Base64-kodierter String für das erste Bild
+           /*
+          let Base64Image: string = 'erstes Bild'; // Ihr Base64-kodierter String für das erste Bild
 
           // `secondBase64Image` kann definiert sein oder nicht. Wenn es nicht definiert ist, wird das zweite Bild nicht hinzugefügt.
           let secondBase64Image: string | undefined = 'zweites Bild'; // Ihr Base64-kodierter String für das zweite Bild oder undefined
@@ -385,12 +387,26 @@ export const useChatStore = createPersistStore(
           const imageContent = {
             type: 'image_url',
             image_url: {
-              url: base64Image
+              url: `data:image/jpeg;base64,${Base64Image}`
             }
           };
-
+          */
           // Content-Array initial mit dem Text-Content und dem ersten Bild-Content
-          const contentJson = [textContent, imageContent];
+          const contentJson = [
+            {
+              "type": "text",
+              "text": "What are in these images? Is there any difference between them?",
+            },
+            {
+              "type": "image_url",
+              "image_url": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+              },
+            },
+            
+          ];
+          
+          
 
           // Wenn das zweite Bild vorhanden ist, fügen Sie es zum Content-Array hinzu
           /*if (secondBase64Image) {
