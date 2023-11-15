@@ -313,163 +313,163 @@ export const useChatStore = createPersistStore(
         if (files.length > 0) {
           console.log("[User Input] files: ", files);
          
-/*
-          model: "gpt-4-vision-preview",
-    messages: [
-      {
-        role: "user",
-        content: [
-          { type: "text", text: "What are in these images? Is there any difference between them?" },
-          {
-            type: "image_url",
-            image_url: {
-              "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
-            },
-          },
-          {
-            type: "image_url",
-            image_url: {
-              "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
-            },
-          }
-        ],
-      },
+                /*
+                          model: "gpt-4-vision-preview",
+                    messages: [
+                      {
+                        role: "user",
+                        content: [
+                          { type: "text", text: "What are in these images? Is there any difference between them?" },
+                          {
+                            type: "image_url",
+                            image_url: {
+                              "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+                            },
+                          },
+                          {
+                            type: "image_url",
+                            image_url: {
+                              "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+                            },
+                          }
+                        ],
+                      },
 
-      In TypeScript, you can define an interface that allows for optional properties using the `?` operator. This operator can be added after the property key to indicate that the property is not required.
+                      In TypeScript, you can define an interface that allows for optional properties using the `?` operator. This operator can be added after the property key to indicate that the property is not required.
 
-Here's an example of how you might define an interface for your payload where the second image is optional:
+                Here's an example of how you might define an interface for your payload where the second image is optional:
 
-```typescript
-interface ImageContent {
-  type: 'image_url';
-  image_url: {
-    url: string;
-  };
-}
+                ```typescript
+                interface ImageContent {
+                  type: 'image_url';
+                  image_url: {
+                    url: string;
+                  };
+                }
 
-interface TextContent {
-  type: 'text';
-  text: string;
-}
+                interface TextContent {
+                  type: 'text';
+                  text: string;
+                }
 
-// Define a type that can be either TextContent or ImageContent
-type ContentItem = TextContent | ImageContent;
+                // Define a type that can be either TextContent or ImageContent
+                type ContentItem = TextContent | ImageContent;
 
-interface Message {
-  role: 'user';
-  content: ContentItem[]; // An array of ContentItem, which can be text or image
-}
+                interface Message {
+                  role: 'user';
+                  content: ContentItem[]; // An array of ContentItem, which can be text or image
+                }
 
-interface Payload {
-  model: string;
-  messages: Message[];
-  max_tokens: number;
-  second_image?: ImageContent; // Optional second image
-}
+                interface Payload {
+                  model: string;
+                  messages: Message[];
+                  max_tokens: number;
+                  second_image?: ImageContent; // Optional second image
+                }
 
-// Function to create a payload with an optional second image
-function createPayload(base64Image: string, secondBase64Image?: string): Payload {
-  let content: ContentItem[] = [
-    {
-      type: 'text',
-      text: "What’s in this image?"
-    },
-    {
-      type: 'image_url',
-      image_url: {
-        url: `data:image/jpeg;base64,${base64Image}`
-      }
-    }
-  ];
+                // Function to create a payload with an optional second image
+                function createPayload(base64Image: string, secondBase64Image?: string): Payload {
+                  let content: ContentItem[] = [
+                    {
+                      type: 'text',
+                      text: "What’s in this image?"
+                    },
+                    {
+                      type: 'image_url',
+                      image_url: {
+                        url: `data:image/jpeg;base64,${base64Image}`
+                      }
+                    }
+                  ];
 
-  // If a second image is provided, add it to the content array
-  if (secondBase64Image) {
-    content.push({
-      type: 'image_url',
-      image_url: {
-        url: `data:image/jpeg;base64,${secondBase64Image}`
-      }
-    });
-  }
+                  // If a second image is provided, add it to the content array
+                  if (secondBase64Image) {
+                    content.push({
+                      type: 'image_url',
+                      image_url: {
+                        url: `data:image/jpeg;base64,${secondBase64Image}`
+                      }
+                    });
+                  }
 
-  return {
-    model: 'gpt-4-vision-preview',
-    messages: [
-      {
-        role: 'user',
-        content: content
-      }
-    ],
-    max_tokens: 300
-  };
-}
+                  return {
+                    model: 'gpt-4-vision-preview',
+                    messages: [
+                      {
+                        role: 'user',
+                        content: content
+                      }
+                    ],
+                    max_tokens: 300
+                  };
+                }
 
-// Example usage
-const base64Image = 'first_base64_encoded_image_data';
-const secondBase64Image = 'second_base64_encoded_image_data'; // This is optional
+                // Example usage
+                const base64Image = 'first_base64_encoded_image_data';
+                const secondBase64Image = 'second_base64_encoded_image_data'; // This is optional
 
-const payload = createPayload(base64Image, secondBase64Image);
-```
+                const payload = createPayload(base64Image, secondBase64Image);
+                ```
 
-In this example, the `createPayload` function takes a base64-encoded image string as a mandatory argument and a second base64-encoded image string as an optional argument. The `second_image` property in the `Payload` interface is marked optional with the `?` operator, meaning it does not need to be provided.
+                In this example, the `createPayload` function takes a base64-encoded image string as a mandatory argument and a second base64-encoded image string as an optional argument. The `second_image` property in the `Payload` interface is marked optional with the `?` operator, meaning it does not need to be provided.
 
-When calling `createPayload`, you can either provide the second image or omit it, and the function will construct the payload accordingly. If the second image is not provided, the payload will only include the first image and the text content.
-*/
-          
-          interface FileWithImageUrl {
-            type: string;
+                When calling `createPayload`, you can either provide the second image or omit it, and the function will construct the payload accordingly. If the second image is not provided, the payload will only include the first image and the text content.
+                */
+                    
+            interface FileWithImageUrl {
+              type: string;
+              image_url: {
+                url: string;
+              };
+            }
+
+                    interface ImageContent {
+            type: 'image_url';
             image_url: {
               url: string;
             };
           }
 
-          interface ImageContent {
-  type: 'image_url';
-  image_url: {
-    url: string;
-  };
-}
+          interface TextContent {
+            type: 'text';
+            text: string;
+          }
 
-interface TextContent {
-  type: 'text';
-  text: string;
-}
+          // Define a type that can be either TextContent or ImageContent
+          type ContentItem = TextContent | ImageContent;
 
-// Define a type that can be either TextContent or ImageContent
-type ContentItem = TextContent | ImageContent;
-
-interface Message {
-  role: 'user';
-  content: ContentItem[]; // An array of ContentItem, which can be text or image
-}
+          interface Message {
+            role: 'user';
+            content: ContentItem[]; // An array of ContentItem, which can be text or image
+          }
 
           // Function to create a payload with an optional second image
-function createPayload(base64Image: string, secondBase64Image?: string): Payload {
-  let content: ContentItem[] = [
-    {
-      type: 'text',
-      text: "What’s in this image?"
-    },
-    {
-      type: 'image_url',
-      image_url: {
-        url: `data:image/jpeg;base64,${base64Image}`
-      }
-    }
-  ];
+          function createPayload(base64Image: string, secondBase64Image?: string): Payload {
+            let content: ContentItem[] = [
+              {
+                type: 'text',
+                text: "What’s in this image?"
+              },
+              {
+                type: 'image_url',
+                image_url: {
+                  url: `data:image/jpeg;base64,${base64Image}`
+                }
+              }
+            ];
 
-  // If a second image is provided, add it to the content array
-  if (secondBase64Image) {
-    content.push({
-      type: 'image_url',
-      image_url: {
-        url: `data:image/jpeg;base64,${secondBase64Image}`
-      }
-    });
-  }
-          
+          // If a second image is provided, add it to the content array
+          if (secondBase64Image) {
+            content.push({
+              type: 'image_url',
+              image_url: {
+                url: `data:image/jpeg;base64,${secondBase64Image}`
+              }
+            });
+          }
+                
 
-  
+        
 
           // Convert the array to a JSON string after the loop is done
           const userFilesJson = JSON.stringify(userFilesArray);
@@ -538,8 +538,9 @@ function createPayload(base64Image: string, secondBase64Image?: string): Payload
           });
           console.log("[userMessage] with files: ", userMessage);
 
+          }
         } else {
-            // If there are no files, proceed with the existing logic
+             //If there are no files, proceed with the existing logic
           userMessage = createMessage({
             role: "user",
             content: userContent,
