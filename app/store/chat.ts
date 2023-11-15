@@ -420,7 +420,7 @@ export const useChatStore = createPersistStore(
           const jsonString = JSON.stringify(contentJson);
 
           // Ausgabe des JSON-Strings
-          console.log(jsonString);
+          console.log("jsonString", jsonString);
           //hier ansetzen
           userMessage = createMessage({
             role: "user",
