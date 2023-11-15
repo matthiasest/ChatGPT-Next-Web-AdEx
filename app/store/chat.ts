@@ -433,6 +433,7 @@ export const useChatStore = createPersistStore(
             role: "user",
             content: userContent,
           });
+          console.log("[userMessage] without files: ", userMessage);
         }
         const botMessage: ChatMessage = createMessage({
           role: "assistant",
