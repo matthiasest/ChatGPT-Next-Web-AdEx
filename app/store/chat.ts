@@ -500,7 +500,7 @@ const payload = createPayload(base64Image, secondBase64Image);
           console.log("[userMessage] with files: ", userMessage);
 
         } else {
-            // If there are no files, proceed with the existing logic
+            // If there are no files, proceed with the existing logic.
           userMessage = createMessage({
             role: "user",
             content: userContent,
