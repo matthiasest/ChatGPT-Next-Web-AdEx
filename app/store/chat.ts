@@ -370,7 +370,7 @@ export const useChatStore = createPersistStore(
           // You will need to modify the backend API endpoint to accept and process FormData
 
           // Angenommen, `base64Image` ist immer definiert und enthält das erste Bild.
-          const base64Image = 'erstes Bild'; // Ihr Base64-kodierter String für das erste Bild
+          const base64Image = 'public\\android-chrome-192x192.png'; // Ihr Base64-kodierter String für das erste Bild
 
           // `secondBase64Image` kann definiert sein oder nicht. Wenn es nicht definiert ist, wird das zweite Bild nicht hinzugefügt.
           let secondBase64Image: string | undefined = 'zweites Bild'; // Ihr Base64-kodierter String für das zweite Bild oder undefined
@@ -385,7 +385,7 @@ export const useChatStore = createPersistStore(
           const imageContent = {
             type: 'image_url',
             image_url: {
-              url: `data:image/jpeg;base64,${base64Image}`
+              url: base64Image
             }
           };
 
@@ -393,7 +393,7 @@ export const useChatStore = createPersistStore(
           const contentJson = [textContent, imageContent];
 
           // Wenn das zweite Bild vorhanden ist, fügen Sie es zum Content-Array hinzu
-          if (secondBase64Image) {
+          /*if (secondBase64Image) {
             const secondImageContent = {
               type: 'image_url',
               image_url: {
@@ -401,7 +401,7 @@ export const useChatStore = createPersistStore(
               }
             };
             contentJson.push(secondImageContent);
-          }
+          }*/
 
           
           const jsonObject = {
