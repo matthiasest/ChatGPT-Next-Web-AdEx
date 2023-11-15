@@ -369,12 +369,58 @@ export const useChatStore = createPersistStore(
           // TODO: Send formData to the backend instead of just userContent
           // You will need to modify the backend API endpoint to accept and process FormData
 
-          const contentJson = [
-            {
-              type: "text", 
-              text: userContent
+          // Angenommen, `base64Image` ist immer definiert und enthält das erste Bild.
+          const base64Image = 'erstes Bild'; // Ihr Base64-kodierter String für das erste Bild
+
+          // `secondBase64Image` kann definiert sein oder nicht. Wenn es nicht definiert ist, wird das zweite Bild nicht hinzugefügt.
+          let secondBase64Image: string | undefined = 'zweites Bild'; // Ihr Base64-kodierter String für das zweite Bild oder undefined
+
+          // Text-Content
+          const textContent = {
+            type: 'text',
+            text: userContent
+          };
+
+          // Erstes Bild-Content
+          const imageContent = {
+            type: 'image_url',
+            image_url: {
+              url: `data:image/jpeg;base64,${base64Image}`
             }
-          ];
+          };
+
+          // Content-Array initial mit dem Text-Content und dem ersten Bild-Content
+          const contentJson = [textContent, imageContent];
+
+          // Wenn das zweite Bild vorhanden ist, fügen Sie es zum Content-Array hinzu
+          if (secondBase64Image) {
+            const secondImageContent = {
+              type: 'image_url',
+              image_url: {
+                url: `data:image/jpeg;base64,${secondBase64Image}`
+              }
+            };
+            contentJson.push(secondImageContent);
+          }
+
+          // Gesamtobjekt
+          /*
+          const jsonObject = {
+            model: "gpt-4-vision-preview",
+            messages: [
+              {
+                role: "user",
+                content: contentJson,
+              }
+            ],
+            max_tokens: 300
+          }; */
+
+          // Umwandlung des Objekts in einen String
+          const jsonString = JSON.stringify(contentJson);
+
+          // Ausgabe des JSON-Strings
+          console.log(jsonString);
           //hier ansetzen
           userMessage = createMessage({
             role: "user",
