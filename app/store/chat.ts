@@ -491,8 +491,8 @@ export const useChatStore = createPersistStore(
           
 
             // Example usage
-            let base64Image = 'first_base64_encoded_image_data';
-            let secondBase64Image = 'second_base64_encoded_image_data'; // This is optional
+            //let base64Image = 'first_base64_encoded_image_data';
+            //let secondBase64Image = 'second_base64_encoded_image_data'; // This is optional
 
             const payload = createPayload(base64Image, secondBase64Image);
 
