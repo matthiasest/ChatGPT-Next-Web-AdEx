@@ -403,8 +403,7 @@ export const useChatStore = createPersistStore(
             contentJson.push(secondImageContent);
           }
 
-          // Gesamtobjekt
-          /*
+          
           const jsonObject = {
             model: "gpt-4-vision-preview",
             messages: [
@@ -414,17 +413,17 @@ export const useChatStore = createPersistStore(
               }
             ],
             max_tokens: 300
-          }; */
+          }; 
 
-          // Umwandlung des Objekts in einen String
-          const jsonString = JSON.stringify(contentJson);
+          const jsonString = JSON.stringify(jsonObject, null, 2);
+          const jsonStringWithoutBraces = jsonString.substring(1, jsonString.length - 1).trim();
 
-          // Ausgabe des JSON-Strings
-          console.log("jsonString", jsonString);
+          console.log("jsonString", jsonStringWithoutBraces);
+
           //hier ansetzen
           userMessage = createMessage({
             role: "user",
-            content: "["+JSON.stringify(contentJson)+","+JSON.stringify(userFilesArray)+"]"
+            content: jsonStringWithoutBraces,
           });
           console.log("[userMessage] with files: ", userMessage);
 
