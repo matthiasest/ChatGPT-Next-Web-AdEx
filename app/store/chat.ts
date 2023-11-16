@@ -336,16 +336,39 @@ export const useChatStore = createPersistStore(
       },
 */
           
+          
+          
+          
+
+          
+
+
+
+          // Definieren der Schnittstelle für die Nachrichtenstruktur
+          interface MessageContent {
+            type: string;
+            text?: string;
+            image_url?: {
+              url: string;
+            };
+          }
+
+          // Definieren der Schnittstelle für die Gesamtnachrichtenstruktur
+          interface Message {
+            role: string;
+            content: MessageContent[];
+          }
+
+          // Ihre bestehende Schnittstelle und Logik
           interface FileWithImageUrl {
             type: string;
             image_url: {
               url: string;
             };
           }
-          
-          // Now declare userFilesArray with the type FileWithImageUrl[]
-          let userFilesArray: FileWithImageUrl[] = [];
 
+          let userFilesArray: FileWithImageUrl[] = [];
+          
           files.forEach((fileWithBase64) => {
             if (typeof fileWithBase64.base64 === 'string') {
               console.log("[User Input] fileWithBase64: ", fileWithBase64);
@@ -360,9 +383,32 @@ export const useChatStore = createPersistStore(
             }
           });
 
-          // Convert the array to a JSON string after the loop is done
-          const userFilesJson = JSON.stringify(userFilesArray);
-          console.log("[User Input] userFilesArray: ", userFilesJson);
+          // Anpassung von textContent an das Schema von MessageContent
+          const textContent: MessageContent = {
+            type: 'text',
+            text: userContent 
+          };
+
+          // Kombinieren von textContent und userFilesArray in einem messages-Array
+          const messages: Message[] = [
+            {
+              role: "user",
+              content: [
+                textContent,
+                ...userFilesArray.map(file => ({ type: file.type, image_url: { url: file.image_url.url }}))
+              ]
+            }
+          ];
+
+          // Erstellen des übergeordneten Objekts mit model und messages
+          const finalJson = {
+            model: "gpt-4-vision-preview",
+            messages: messages
+          };
+
+          // Konvertieren des gesamten Objekts in einen JSON-String
+          const jsonString = JSON.stringify(finalJson);
+          console.log(jsonString);
 
           // userContent = `[{ type: "text", text: "${userContent}" },"${userFilesJson}"]`;
 
@@ -378,11 +424,7 @@ export const useChatStore = createPersistStore(
           let secondBase64Image: string | undefined = 'zweites Bild'; // Ihr Base64-kodierter String für das zweite Bild oder undefined
 
           // Text-Content
-          const textContent = {
-            type: 'text',
-            text: userContent
-          };
-
+          
           // Erstes Bild-Content
           const imageContent = {
             type: 'image_url',
@@ -429,7 +471,7 @@ export const useChatStore = createPersistStore(
           //hier ansetzen
           userMessage = createMessage({
             role: "user",
-            content: "hi",
+            content: jsonString,
           });
           console.log("[userMessage] with files: ", userMessage);
 
