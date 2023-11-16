@@ -403,7 +403,8 @@ export const useChatStore = createPersistStore(
           // Erstellen des übergeordneten Objekts mit model und messages
           const finalJson = {
             model: "gpt-4-vision-preview",
-            messages: messages
+            messages: messages,
+            max_tokens: 3000
           };
 
           // Konvertieren des gesamten Objekts in einen JSON-String
