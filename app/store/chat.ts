@@ -310,7 +310,7 @@ export const useChatStore = createPersistStore(
         let userMessage: ChatMessage;
 
         // Create a FormData object if there are files to upload
-        if (/*files.length > 0*/ true) {
+        if (files.length > 0 ) {
           console.log("[User Input] files: ", files);
          
 /*
