@@ -362,7 +362,7 @@ export const useChatStore = createPersistStore(
 
           // Convert the array to a JSON string after the loop is done
           const userFilesJson = JSON.stringify(userFilesArray);
-          console.log("[User Input] userFilesArray: ", userFilesArray);
+          console.log("[User Input] userFilesArray: ", userFilesJson);
 
           // userContent = `[{ type: "text", text: "${userContent}" },"${userFilesJson}"]`;
 
@@ -392,19 +392,7 @@ export const useChatStore = createPersistStore(
           };
           */
           // Content-Array initial mit dem Text-Content und dem ersten Bild-Content
-          const contentJson = [
-            {
-              "type": "text",
-              "text": "What are in these images? Is there any difference between them?",
-            },
-            {
-              "type": "image_url",
-              "image_url": {
-                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
-              },
-            },
-            
-          ];
+          
           
           
 
@@ -418,7 +406,7 @@ export const useChatStore = createPersistStore(
             };
             contentJson.push(secondImageContent);
           }*/
-
+          /*
           
           const jsonObject = {
             model: "gpt-4-vision-preview",
@@ -430,16 +418,18 @@ export const useChatStore = createPersistStore(
             ],
             max_tokens: 300
           }; 
-
+          
           const jsonString = JSON.stringify(jsonObject, null, 2);
           const jsonStringWithoutBraces = jsonString.substring(1, jsonString.length - 1).trim();
 
           console.log("jsonString", jsonStringWithoutBraces);
 
+          */
+
           //hier ansetzen
           userMessage = createMessage({
             role: "user",
-            content: jsonStringWithoutBraces,
+            content: "hi",
           });
           console.log("[userMessage] with files: ", userMessage);
 
